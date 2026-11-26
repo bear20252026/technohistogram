@@ -1,0 +1,107 @@
+/* PLAY, Guess the year (play_year.css): the ruler. The slider is a ruler the width of the strip: an 8px black track, a
+   tick every decade, the half century taller, the century tallest with its numeral in poster mono; the thumb is your
+   mark in ink b with your year riding above it, the readout beside the ruler prints at 96px in the same ink while you
+   drag; Lock this year is a full-height black block at the right end. On lock the true year drops onto the ruler as a
+   black No. stamp (scale 1.3 to 1 over 220ms, a 2px second impression in the ink), a bracket draws from your mark to
+   the stamp with the distance over it, and the shared verdict stamp lands in the readout's place. Reduced motion:
+   every beat is a cut. */
+/* the control row: ruler, readout, lock */
+.gm-view .gm-ruler-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: 'ruler year lock'; align-items: stretch; gap: 0 26px; width: 100%; min-height: 168px; }
+.gm-view .gm-ruler { grid-area: ruler; position: relative; height: 168px; --at: 50%; }
+/* the ruler is the slider: the input spans the width, its track is the ruler's edge, its thumb is your mark */
+.gm-view .gm-ruler input[type='range'] { -webkit-appearance: none; appearance: none; background: transparent; position: absolute; left: 0; right: 0; top: 110px; transform: translateY(-50%); width: 100%; height: 52px; margin: 0; padding: 0; cursor: pointer; touch-action: pan-y; }
+.gm-view .gm-ruler input[type='range']::-webkit-slider-runnable-track { height: 8px; background: var(--play-stamp, #17171A); border: 0; }
+.gm-view .gm-ruler input[type='range']::-moz-range-track { height: 8px; background: var(--play-stamp, #17171A); border: 0; }
+.gm-view .gm-ruler input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 52px; margin-top: -22px; background: var(--ink-b); border: 0; border-radius: 0; box-shadow: 0 0 0 2px var(--play-ground, #FDFDFC); transition: transform 120ms linear; }
+.gm-view .gm-ruler input[type='range']::-moz-range-thumb { width: 10px; height: 52px; background: var(--ink-b); border: 0; border-radius: 0; box-shadow: 0 0 0 2px var(--play-ground, #FDFDFC); transition: transform 120ms linear; }
+.gm-view .gm-ruler input[type='range']:hover:not(:disabled)::-webkit-slider-thumb, .gm-view .gm-ruler input[type='range']:active:not(:disabled)::-webkit-slider-thumb { transform: scaleY(1.12); }
+.gm-view .gm-ruler input[type='range']:hover:not(:disabled)::-moz-range-thumb, .gm-view .gm-ruler input[type='range']:active:not(:disabled)::-moz-range-thumb { transform: scaleY(1.12); }
+.gm-view .gm-ruler input[type='range']:focus-visible { outline: 2px solid var(--play-stamp, #17171A); outline-offset: 6px; }
+/* after the lock the thumb stays at full strength: it is your mark on the ruler; the strip keeps its height (the verdict
+   here is the stamp on the ruler, not a band across the strip) */
+.gm-view [data-board='year'].is-answered .gm-strip { padding-top: 10px; }
+.gm-view .gm-ruler input[type='range']:disabled, .gm-view .gm-strip .gm-ruler input[type='range']:disabled { opacity: 1; cursor: default; }
+/* ticks hang from the track; the thumb's half width insets them so a tick sits under the thumb's centre */
+.gm-view .gm-ticks, .gm-view .gm-ruler-marks, .gm-view .gm-ruler-cur { position: absolute; left: 5px; right: 5px; top: 110px; height: 0; pointer-events: none; }
+/* the rider: your year printed above the thumb, where the hand is */
+.gm-view .gm-cur { position: absolute; left: clamp(30px, var(--at), calc(100% - 30px)); top: -64px; transform: translateX(-50%); font-family: var(--font-display); font-weight: 400; font-size: 32px; line-height: 1; color: var(--ink-b); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.gm-view .is-tight .gm-cur { opacity: 0; }
+.gm-view .gm-ticks i { position: absolute; top: 4px; width: 2px; height: 12px; background: var(--play-stamp, #17171A); transform: translateX(-50%); font-style: normal; }
+.gm-view .gm-ticks i.h { height: 20px; }
+.gm-view .gm-ticks i.c { height: 28px; width: 3px; }
+.gm-view .gm-ticks i b { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-style: normal; font-weight: 600; font-size: 24px; line-height: 1; letter-spacing: 0.02em; color: var(--play-stamp, #17171A); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .gm-ticks i b.s { top: 30px; font-size: 16px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-2); }
+.gm-view .gm-ticks em { position: absolute; top: 30px; font-style: normal; font-family: var(--font-mono); font-size: 16px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-2); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .is-locked .gm-ticks em.under { opacity: 0; }
+.gm-view .gm-ticks em.lo { transform: translateX(-4px); }
+.gm-view .gm-ticks em.hi { transform: translateX(calc(-100% + 4px)); }
+/* the readout: your year, live, in the thumb's ink */
+.gm-view .gm-yv-w { grid-area: year; width: 320px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; }
+.gm-view .gm-yl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-b-l, var(--ink-b)); }
+.gm-view .gm-strip .gm-yv, .gm-view .gm-yv { width: auto; min-width: 2.05em; font-family: var(--font-display); font-weight: 400; font-size: 96px; line-height: 0.86; text-align: right; color: var(--ink-b); font-variant-numeric: tabular-nums lining-nums; }
+/* after the lock the readout leaves (the thumb carries your year) and the ruler takes its width */
+.gm-view .is-answered .gm-yv-w { visibility: hidden; }
+/* the shared verdict stamp lands in the readout's column, between the ruler and Next, sized to it */
+.gm-view [data-board='year'] .gm-stage .gm-verdict-slot { width: max-content; max-width: none; }
+.gm-view [data-board='year'] .gm-big-stamp { white-space: nowrap; font-size: 68px; padding: 0 20px 8px; border-width: 5px; }
+/* the lock: a black block the height of the row */
+.gm-view .gm-lock { grid-area: lock; align-self: stretch; display: inline-flex; align-items: center; justify-content: center; min-width: 168px; min-height: 168px; padding: 0 24px; background: var(--play-stamp, #17171A); color: var(--play-ground, #FDFDFC); border: 0; border-radius: 0; font-family: var(--font-mono); font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; text-align: center; cursor: pointer; transition: background-color 120ms linear, transform 80ms linear; }
+@media (hover: hover) { .gm-view .gm-lock:hover { background: var(--ink-b); } .gm-view .gm-lock.next:hover { background: var(--play-stamp, #17171A); color: var(--play-ground, #FDFDFC); } }
+.gm-view .gm-lock:active { transform: translateY(2px); }
+.gm-view .gm-lock:focus-visible { outline: 2px solid var(--play-stamp, #17171A); outline-offset: 3px; }
+.gm-view .gm-lock.next { background: var(--play-ground, #FDFDFC); color: var(--play-stamp, #17171A); box-shadow: inset 0 0 0 2px var(--play-stamp, #17171A); }
+/* the stamp: the true year drops onto the ruler, black with paper letters, a 2px second impression in the ink */
+.gm-view .gm-ruler-stamp { position: absolute; top: 0; left: clamp(52px, var(--tp, 50%), calc(100% - 52px)); transform: translate(-50%, -64%) rotate(-4deg) scale(1.3); opacity: 0; transition: transform 220ms linear, opacity 0ms linear; }
+.gm-view .is-locked .gm-ruler-stamp { transform: translate(-50%, -64%) rotate(-4deg) scale(1); opacity: 1; }
+.gm-view .gm-ruler-stamp .gm-stamp { position: static; display: block; margin: 0; transform: none; animation: none; white-space: nowrap; font-family: var(--font-mono); font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; padding: 8px 11px 7px; color: var(--play-ground, #FDFDFC); background: var(--play-stamp, #17171A); border: 2px solid var(--play-stamp, #17171A); box-shadow: 2px 2px 0 var(--ink-b); }
+.gm-view .is-hit .gm-ruler-stamp .gm-stamp { box-shadow: 2px 2px 0 var(--ink-a); }
+/* the bracket: drawn from your mark to the stamp once it has landed; the distance over its middle */
+.gm-view .gm-bracket { position: absolute; top: -80px; height: 14px; border: 2px solid var(--play-stamp, #17171A); border-bottom: 0; transform: scaleX(0); transition: transform 200ms linear 220ms; }
+.gm-view .gm-bracket.from-l { transform-origin: left center; }
+.gm-view .gm-bracket.from-r { transform-origin: right center; }
+.gm-view .gm-bracket.zero { border-color: transparent; }
+.gm-view .is-tight .gm-off { top: -104px; }
+.gm-view .is-locked .gm-bracket { transform: scaleX(1); }
+.gm-view .gm-off { position: absolute; top: -92px; left: clamp(84px, var(--mid, 50%), calc(100% - 84px)); transform: translateX(-50%); white-space: nowrap; padding: 0 10px; background: var(--play-ground, #FDFDFC); font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: 0; line-height: 1; color: var(--play-stamp, #17171A); opacity: 0; transition: opacity 0ms linear 420ms; }
+.gm-view .is-locked .gm-off { opacity: 1; }
+/* the points rise off the corner numeral */
+.gm-view [data-board='year'] .gm-big { position: relative; }
+.gm-view .gm-plus { position: absolute; left: 0; bottom: 100%; margin-bottom: 4px; font-family: var(--font-mono); font-weight: 600; font-size: 16px; letter-spacing: 0.08em; line-height: 1; color: var(--ink-a); animation: gm-plus 1100ms linear both; }
+@keyframes gm-plus { 0% { opacity: 1; transform: translateY(0); } 60% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px); } }
+/* the phone: the ruler takes the full width with fewer ticks; the readout and the lock share the row beneath */
+@media (max-width: 760px) {
+  .gm-view .gm-ruler-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'ruler ruler' 'year lock'; gap: 8px 14px; min-height: 0; }
+  .gm-view .gm-ruler { height: 134px; }
+  .gm-view .gm-ruler input[type='range'] { top: 88px; height: 44px; }
+  .gm-view .gm-ruler input[type='range']::-webkit-slider-thumb { height: 44px; margin-top: -18px; }
+  .gm-view .gm-ruler input[type='range']::-moz-range-thumb { height: 44px; }
+  .gm-view .gm-ticks, .gm-view .gm-ruler-marks, .gm-view .gm-ruler-cur { top: 88px; }
+  .gm-view .gm-cur { top: -52px; font-size: 24px; left: clamp(22px, var(--at), calc(100% - 22px)); }
+  .gm-view .gm-ticks i { height: 10px; width: 1.5px; }
+  .gm-view .gm-ticks i.h { height: 16px; }
+  .gm-view .gm-ticks i.c { height: 20px; width: 2.5px; }
+  .gm-view .gm-ticks i b { top: 22px; font-size: 16px; }
+  .gm-view .gm-ticks i b.s { top: 22px; font-size: 12px; }
+  .gm-view [data-board='year'].is-answered .gm-strip { padding-top: 10px; }
+  .gm-view .gm-ticks em { top: 22px; font-size: 12px; }
+  .gm-view .gm-yv-w { align-items: flex-start; gap: 4px; }
+  .gm-view .gm-strip .gm-yv, .gm-view .gm-yv { font-size: clamp(44px, 14vw, 56px); text-align: left; }
+  .gm-view .gm-lock { min-width: 0; min-height: 56px; padding: 0 18px; font-size: 12px; }
+  .gm-view .gm-ruler-stamp { left: clamp(40px, var(--tp, 50%), calc(100% - 40px)); }
+  .gm-view .gm-ruler-stamp .gm-stamp { font-size: 11px; padding: 5px 8px 4px; letter-spacing: 0.1em; }
+  .gm-view .gm-bracket { top: -66px; height: 12px; }
+  .gm-view .gm-off { top: -74px; font-size: 16px; padding: 0 6px; left: clamp(64px, var(--mid, 50%), calc(100% - 64px)); }
+  .gm-view .is-tight .gm-off { top: -86px; }
+  .gm-view .gm-plus { font-size: 13px; }
+  .gm-view .is-answered .gm-yv-w { display: none; }
+  .gm-view .is-answered .gm-ruler-row { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'ruler' 'lock'; }
+  /* the phone stage gives the stamp its own band under the year, so the title stays readable */
+  .gm-view [data-board='year'] .gm-stage .gm-verdict-slot { left: 60%; top: calc(100% - 46px); max-width: 96%; }
+  .gm-view [data-board='year'] .gm-big-stamp { font-size: 56px; padding: 0 16px 6px; }
+  .gm-view [data-board='year'].is-answered .gm-one { padding-bottom: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-view .gm-ruler-stamp, .gm-view .gm-bracket, .gm-view .gm-off, .gm-view .gm-lock, .gm-view .gm-ruler input[type='range']::-webkit-slider-thumb, .gm-view .gm-ruler input[type='range']::-moz-range-thumb { transition: none; }
+  .gm-view .gm-plus { animation: none; }
+  .gm-view .gm-lock:active { transform: none; }
+}

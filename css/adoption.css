@@ -1,0 +1,78 @@
+/* Adoption (History): Blueprint Atlas drawn on History's pale ground (council round 4): the objects are line work in one
+   slate, unfilled; the single accent is the amber interval bar under each, whose length carries the speed. */
+.view.ad-view {
+  --ad-ground: var(--ground, #f7f7f5); --ad-obj: #395067; --ad-bar: #E09F24; --ad-line: var(--ink, #1c1a17); --ad-line-2: var(--ink-2, #4a4740);
+  background: var(--ad-ground); color: var(--ad-line); overflow: hidden; }
+.ad-root { position: relative; height: 100%; display: flex; flex-direction: column; padding: clamp(20px, 3.2vh, 36px) clamp(16px, 3.4vw, 56px) 18px; box-sizing: border-box; }
+.ad-head { flex: none; max-width: 980px; }
+.ad-kick { display: block; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ad-line-2); }
+.ad-title { margin: 10px 0 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 4.2vw, 56px); line-height: 1.02; color: var(--ad-line); text-wrap: balance; }
+.ad-lede { margin: 14px 0 0; font-family: var(--font-text); font-size: 20px; line-height: 1.35; color: var(--ad-line); }
+.ad-lede + .ad-dek { margin-top: 4px; }
+.ad-dek { margin: 14px 0 0; max-width: 56ch; font-family: var(--font-text); font-size: 18px; line-height: 1.4; color: var(--ad-line-2); }
+
+/* the plate: one svg, eight cells on one equal-interval axis */
+.ad-plate { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; margin: 12px 0 6px; }
+.ad-plate svg { display: block; overflow: visible; }
+.ad-plate .ad-hit { fill: transparent; }
+.ad-plate .ad-cell { cursor: pointer; outline: none; }
+.ad-plate .ad-obj { fill: none; stroke: var(--ad-obj); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ad-plate .ad-obj * { vector-effect: non-scaling-stroke; }
+.ad-plate .ad-ax, .ad-plate .ad-tk { stroke: var(--ad-line-2); stroke-width: 1; }
+.ad-plate .ad-bar { fill: var(--ad-bar); }
+.ad-plate .ad-cell { transition: opacity 0.18s; }
+.ad-plate .ad-y { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; fill: var(--ad-line-2); }
+.ad-plate .ad-nm { font-family: var(--font-text); fill: var(--ad-line); }
+.ad-plate .ad-yr { font-family: var(--font-mono); font-size: 14px; fill: var(--ad-line-2); }
+
+/* hover or focus: the object comes forward, the others step back */
+.ad-plate svg.has-hi .ad-cell:not(.hi) { opacity: 0.32; }
+.ad-plate .ad-cell.hi .ad-obj { stroke-width: 2.2; }
+.ad-plate .ad-cell.hi .ad-ax { stroke: var(--ad-obj); }
+.ad-plate .ad-cell:focus-visible .ad-nm { text-decoration: underline; }
+
+/* entrance: the objects draw on in reading order, then rest */
+.ad-plate.drawing .ad-obj * { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ad-draw 0.9s cubic-bezier(.3,.7,.3,1) forwards; animation-delay: calc(var(--i) * 110ms); }
+.ad-plate.drawing .ad-cell { --i: inherit; }
+@keyframes ad-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .ad-plate.drawing .ad-obj * { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; } }
+
+.ad-foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--rule, rgba(28, 26, 23, 0.16)); font-family: var(--font-mono); font-size: 14px; color: var(--ad-line-2); }
+.ad-foot a { color: var(--ad-line); text-underline-offset: 3px; }
+.ad-more { font: inherit; color: var(--ad-line); background: none; border: 1px solid var(--rule-strong, rgba(28, 26, 23, 0.4)); padding: 8px 14px; cursor: pointer; letter-spacing: 0.02em; }
+.ad-more:hover, .ad-more:focus-visible { border-color: var(--ad-line); background: var(--ad-line); color: var(--ad-ground); outline: none; }
+
+/* phone: two columns, the axis becomes each cell's own year rule; the tab may run to two screens */
+@media (max-width: 760px) {
+  .view.ad-view { overflow-y: auto; }
+  .ad-root { height: auto; min-height: 100%; padding: 22px 16px 18px; }
+  .ad-title { font-size: 34px; }
+  .ad-lede { font-size: 17px; }
+  .ad-dek { font-size: 16px; }
+  .ad-plate { flex: none; overflow: visible; margin-top: 22px; }
+  .ad-foot { margin-top: 18px; flex-direction: column; align-items: flex-start; }
+}
+
+/* evidence panel body */
+.ad-ev .ad-tab { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 13px; margin: 6px 0 14px; }
+.ad-ev .ad-tab th, .ad-ev .ad-tab td { text-align: right; padding: 4px 6px; border-bottom: 1px solid var(--rule, rgba(0,0,0,.12)); }
+.ad-ev .ad-tab th:first-child, .ad-ev .ad-tab td:first-child { text-align: left; font-family: var(--font-text); font-size: 15px; }
+.ad-ev .ad-tab tr.on td { font-weight: 600; }
+.ad-ev .ad-out { margin: 6px 0 14px; padding-left: 18px; font-size: 15px; line-height: 1.45; }
+.ad-ev .ad-host.scroll-y { overflow: visible; }
+.ad-ev .ad-host .view-head .atlas-loc-host { display: none; }
+
+/* the fallback sheet, used only when the shell has no evidence panel */
+.ad-sheet { position: absolute; top: 0; right: 0; bottom: 0; width: min(560px, 100%); z-index: 20; background: var(--page-ground, #FAF8F3); color: var(--ink, #1c1a17); box-shadow: -12px 0 32px rgba(0,0,0,.35); display: flex; flex-direction: column; }
+.ad-sheet[hidden] { display: none; }
+.ad-sh-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 18px 20px 10px; border-bottom: 1px solid var(--rule, rgba(0,0,0,.12)); }
+.ad-sh-top h3 { margin: 4px 0 2px; font-family: var(--font-display); font-weight: 400; font-size: 28px; }
+.ad-sh-sub { font-family: var(--font-mono); font-size: 13px; color: var(--ink-2); }
+.ad-x { font-size: 24px; line-height: 1; background: none; border: 1px solid var(--rule-strong, #999); width: 36px; height: 36px; cursor: pointer; color: inherit; }
+.ad-sh-body { overflow-y: auto; padding: 12px 20px 30px; }
+/* the diffusion module inside the panel: its own head repeats the panel, so only its controls and sections show */
+.ad-ev .ad-host { position: relative; }
+.ad-ev .ad-host > .view-head { display: none; }
+.ad-ev .ad-host > .view-ctl { position: static; margin: 4px 0 12px; }
+.ad-ev .ad-host .df-wrap { padding: 0; }
+.ad-ev .ad-host .df-foot { position: static; display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 12px; font-size: 13px; }

@@ -1,0 +1,78 @@
+/* ARCS: linked events as ticks on the warped year axis, links as arcs above and below. Correlated Atlas on the light ground. */
+.view[data-view='arcs'] { overflow: hidden; }
+.view[data-view='arcs'] .arc-head { left: 16px; right: 16px; top: 12px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: 28px auto auto; column-gap: 16px; row-gap: 12px; align-items: start; pointer-events: none; }
+.view[data-view='arcs'] .arc-head > * { pointer-events: auto; }
+.view[data-view='arcs'] .arc-head .sc { grid-column: 1 / 6; grid-row: 1; align-self: end; margin: 0; }
+.view[data-view='arcs'] .arc-head h2 { grid-column: 1 / 6; grid-row: 2; }
+.view[data-view='arcs'] .arc-head > p:not(.arc-contract) { grid-column: 7 / 12; grid-row: 2; padding: 10px 0 0; max-width: none; }
+.view[data-view='arcs'] .arc-head .atlas-loc-host { position: static; grid-column: 7 / 12; grid-row: 1; justify-self: end; align-self: end; width: auto; margin: 0; }
+.view[data-view='arcs'] .arc-head .arc-contract { grid-column: 1 / -1; grid-row: 3; margin: 0; max-width: none; }
+.view[data-view='arcs'] .arc-ctl { position: absolute; left: 16px; right: 16px; top: 184px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; z-index: 3; }
+.arc-kinds { display: flex; gap: 6px; flex-wrap: wrap; }
+.arc-kinds .arc-chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border: 1px solid var(--rule-strong); background: var(--ground); color: var(--ink-2); cursor: pointer; }
+.arc-kinds .arc-chip b { font-weight: 500; color: var(--ink); }
+.arc-kinds .arc-chip i { width: 10px; height: 6px; border: 1px solid var(--ink); border-bottom: 0; border-radius: 10px 10px 0 0; display: inline-block; }
+.arc-kinds .arc-chip i.down { border-radius: 0 0 10px 10px; border-top: 0; border-bottom: 1px solid var(--ink); }
+.arc-kinds .arc-chip[aria-pressed='false'] { color: var(--ink-3); border-color: var(--rule); }
+.arc-kinds .arc-chip[aria-pressed='false'] i { opacity: 0.35; }
+.arc-kinds .arc-chip[aria-pressed='false'] b { color: var(--ink-3); }
+.arc-kinds .arc-chip:hover, .arc-kinds .arc-chip:focus-visible { border-color: var(--ink); outline: none; }
+.view[data-view='arcs'] .arc-stage { position: absolute; left: 0; right: 0; bottom: 20px; }
+.arc-svg { display: block; }
+.arc-axis line { stroke: var(--ink); stroke-width: 1; }
+.arc-axis text { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-3); }
+.arc-axis .arc-brk { fill: none; stroke: var(--ink); stroke-width: 1; }
+.arc-axis .arc-side { letter-spacing: 0.08em; fill: var(--ink-3); }
+.arc-arc { fill: none; stroke: var(--ink); stroke-width: 0.5; stroke-opacity: var(--op, 0.6); transition: stroke-opacity 400ms linear, stroke 400ms linear; }
+.arc-arc.k-pt { stroke: var(--ink-3); }
+.arc-arc.k-dl { stroke: var(--ink-3); }
+.arc-arc.k-th { stroke: var(--ink-2); }
+.arc-arc.dim { stroke-opacity: calc(var(--op, 0.6) * 0.35); }
+.arc-arc.on { stroke: var(--accent); stroke-opacity: 1; stroke-width: 1.2; }
+.arc-note { position: absolute; left: 0; top: 0; max-width: 260px; background: var(--ground); border: 1px solid var(--rule-strong); padding: 6px 9px 7px; pointer-events: none; display: grid; gap: 3px; z-index: 5; }
+.arc-note[hidden] { display: none; }
+.arc-note .h, .arc-note .f { font-family: var(--font-mono); font-size: 10.5px; line-height: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.arc-note b { font-weight: 400; font-size: 13px; line-height: 1.25; color: var(--ink); }
+.arc-finding-2 { margin-top: 6px !important; font-size: 15px !important; color: var(--ink-2) !important; }
+.arc-tick line { stroke: var(--ink-2); stroke-width: 1; }
+.arc-tick .hit { fill: transparent; cursor: pointer; }
+.arc-tick.dim line { stroke-opacity: 0.35; }
+.arc-tick.bare line { stroke: var(--ink-3); stroke-opacity: 0.45; y1: -4px; y2: 4px; }
+.arc-ix .arc-g li.arc-off { display: block; font-family: var(--font-mono); font-size: 10.5px; line-height: 13px; color: var(--ink-3); padding: 8px 0; border-bottom: 0; }
+.arc-tick.on line { stroke: var(--accent); stroke-width: 2; }
+.arc-band rect { fill: var(--ground-2); }
+.arc-lab .arc-dec { font-family: var(--font-display); font-size: 28px; fill: var(--ink-3); }
+.arc-ix { position: absolute; right: 16px; top: 16px; bottom: 36px; width: 272px; border-left: 1px solid var(--rule-strong); padding-left: 12px; overflow: auto; font-size: 12.5px; line-height: 1.3; color: var(--ink); }
+.arc-ix .arc-ixh { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; border-bottom: 1px solid var(--rule-strong); padding: 2px 0 5px; }
+.arc-ix .arc-ixh .sc { color: var(--ink-3); }
+.arc-ix .arc-n { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); text-align: right; }
+.arc-ix .arc-finding { margin: 12px 0 0; font-family: var(--font-display); font-size: 17px; line-height: 1.25; color: var(--ink); }
+.arc-ix .arc-cue { margin: 14px 0 0; font-family: var(--font-display); font-size: 17px; color: var(--ink-2); }
+.arc-ix .arc-sel { padding: 8px 0 6px; border-bottom: 1px solid var(--rule); display: grid; gap: 2px; }
+.arc-ix .arc-sel b { font-family: var(--font-display); font-weight: 400; font-size: 17px; line-height: 1.15; color: var(--accent); }
+.arc-ix .arc-sel span { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); }
+.arc-ix .arc-g { list-style: none; margin: 0; padding: 0 0 8px; }
+.arc-ix .arc-grp { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 10px 0 3px; border-bottom: 1px solid var(--rule-strong); }
+.arc-ix .arc-grp b { font-weight: 500; color: var(--ink); }
+.arc-ix .arc-g li:not(.arc-grp) { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--rule); }
+.arc-ix .arc-g li .y { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+.arc-ix .arc-g li .why { grid-column: 1 / -1; font-size: 11.5px; color: var(--ink-3); }
+.arc-ix .arc-open { margin: 8px 0 0; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.arc-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 20px; line-height: 20px; display: flex; gap: 18px; padding: 0 16px; border-top: 1px solid var(--rule-strong); background: var(--ground); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-3); white-space: nowrap; overflow: hidden; }
+.arc-foot b { font-weight: 500; color: var(--ink); }
+@media (max-width: 1439px) and (min-width: 761px) { .arc-foot { white-space: normal; height: auto; min-height: 20px; flex-wrap: wrap; gap: 0 18px; } .view[data-view='arcs'] .arc-stage { bottom: 40px; } } /* under 1440 the footer wraps to a second line and the stage leaves room for it */
+@media (max-width: 1100px) { .arc-foot span:nth-child(3) { display: none; } }
+@media (prefers-reduced-motion: reduce) { .arc-arc { transition: none; } }
+@media (max-width: 760px) {
+  .view[data-view='arcs'] { overflow-y: auto; }
+  .view[data-view='arcs'] .arc-head { position: static; display: block; padding: 12px 12px 0; }
+  .view[data-view='arcs'] .arc-head h2 { font-size: 32px; }
+  .view[data-view='arcs'] .arc-head .arc-dek { display: block; font-family: var(--font-display); font-size: 16px; line-height: 1.3; color: var(--ink); margin: 6px 0 0; max-width: none; }
+  .view[data-view='arcs'] .arc-head .atlas-loc-host { display: block; width: 100%; margin: 10px 0 0; }
+  .view[data-view='arcs'] .arc-head .arc-contract { margin-top: 8px; }
+  .view[data-view='arcs'] .arc-ctl { position: static; padding: 10px 12px 0; }
+  .view[data-view='arcs'] .arc-stage { position: static; }
+  .arc-ix { position: static; width: auto; border-left: 0; border-top: 1px solid var(--rule-strong); padding: 8px 12px 24px; }
+  .arc-foot { position: static; white-space: normal; height: auto; line-height: 1.4; padding: 4px 12px; flex-wrap: wrap; gap: 4px 12px; }
+  .arc-foot span:nth-child(2), .arc-foot span:nth-child(3) { display: none; }
+}

@@ -1,0 +1,61 @@
+/* color.css: the one blend through the shell (spectrum.js ELECTRIC, from the design / color board). The helix paints its
+   own ground (views/helix.js: night running to a deep violet indigo); this sheet brings the bar, the search, the tip and
+   the record pane into the same material. A record's dot, the pane's head wash and its date take the blend at the record's
+   year (set as --rec by ui.js); a claim's pane takes its verdict instead, with the word beside it. Links and focus are the
+   blend's electric blue. Domains are named in plain ink. Loaded after shell.css; the map page's own sheet arrives later
+   and leaves these tokens alone. */
+:root { --g-night: #06081a; }
+html[data-tab='map'] {
+  --sp-ground: #06081a;
+  --ground: var(--sp-ground); --ground-2: #0b0f2e; --ground-3: #121840;
+  --paper: var(--sp-ground); --paper-2: #0b0f2e; --paper-3: #121840;
+  --glass: rgba(9, 12, 38, 0.78); --glass-2: rgba(8, 11, 34, 0.92);
+  --link: #7f98ff;
+  --rec: #fff8ec; --rec-wash: rgba(255, 248, 236, 0.08);
+}
+html[data-tab='map'] body, html[data-tab='map'] .app { background: var(--sp-ground); }
+/* the bar: night glass, the same rule under it */
+html[data-tab='map'] .topbar { background: var(--glass); }
+html[data-tab='map'] .search input { background: rgba(127, 152, 255, 0.12); }
+html[data-tab='map'] .search input:focus { background: rgba(127, 152, 255, 0.18); outline-color: rgba(127, 152, 255, 0.55); }
+/* the search: a dot before each record in the blend at its year, its domain named in soft ink */
+html[data-tab='map'] .search-results { background: var(--glass-2); }
+html[data-tab='map'] .search-results button .d { color: var(--ink-3); }
+html[data-tab='map'] .search-results button .t i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: 1px; }
+html[data-tab='map'] .search-results button:hover, html[data-tab='map'] .search-results button[aria-selected='true'] { background: rgba(127, 152, 255, 0.12); }
+html[data-tab='map'] .sr-tl .ax { stroke: rgba(238, 240, 250, 0.3); }
+html[data-tab='map'] .sr-tl .tk.hot, html[data-tab='map'] .sr-tl .tk.on:hover { stroke: #eef0fa; }
+/* the tip: the record's disc at the kit's size */
+html[data-tab='map'] .tip .k i { width: 9px; height: 9px; border-radius: 50%; }
+/* the record pane: night glass; the head washed in the record's colour (or a claim's verdict); the date in that colour */
+html[data-tab='map'] .drawer { background: var(--glass-2); }
+html[data-tab='map'] .drawer-head { background: var(--rec-wash); padding-bottom: var(--space-4); }
+html[data-tab='map'] .drawer-head .kicker i { width: 10px; height: 10px; border-radius: 50%; }
+html[data-tab='map'] .drawer-head .kicker .ki.rec { color: var(--rec); }
+html[data-tab='map'] .drawer-title .date > span:first-child { color: var(--rec); font-family: var(--font-display); font-size: 18px; }
+html[data-tab='map'] .drawer-title .date .scale-k { color: var(--ink-2); }
+html[data-tab='map'] .drawer-body .links li button .tt i, html[data-tab='map'] .drawer-body .links li button > i, html[data-tab='map'] .ls-list .ls-row i, html[data-tab='map'] .ls-words button i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: 1px; }
+html[data-tab='map'] .drawer .minigraph text { fill: var(--rec); }
+html[data-tab='map'] .drawer .pr-verdict { border-left: 3px solid var(--oc, var(--rec)); padding-left: var(--space-3); }
+html[data-tab='map'] .drawer .pr-verdict .sc { color: var(--oc, var(--rec)); }
+html[data-tab='map'] .drawer-foot { background: var(--rec-wash); border-top: 0; }
+html[data-tab='map'] .drawer .tagbtn { background: rgba(127, 152, 255, 0.12); }
+html[data-tab='map'] .drawer .tagbtn:hover { background: rgba(127, 152, 255, 0.2); }
+html[data-tab='map'] .drawer :focus-visible, html[data-tab='map'] .topbar :focus-visible { outline-color: var(--link); }
+/* the arrival's field, the same night as the helix */
+.arrival { background: var(--g-night, #06081a); }
+/* the forecast check in the drawer (ui.js fcCheckHtml): one sentence of counts, the bars, the field */
+html[data-tab='map'] .drawer-body .fc-check { margin: 0 0 var(--space-3); }
+html[data-tab='map'] .drawer-body .fc-words { font-family: var(--font-text); font-size: 14px; line-height: 1.45; color: var(--ink-2); margin: 0 0 var(--space-3); }
+html[data-tab='map'] .drawer-body .fc-words b { font-weight: 600; }
+html[data-tab='map'] .drawer-body .fc-bars, html[data-tab='map'] .drawer-body .fc-field { display: block; max-width: 100%; height: auto; margin: 0 0 var(--space-4); overflow: visible; }
+html[data-tab='map'] .drawer-body .fc-check text { font-family: var(--font-text); }
+html[data-tab='map'] .drawer-body .fc-check .t1 { font-size: 13px; font-weight: 600; fill: var(--ink); }
+html[data-tab='map'] .drawer-body .fc-check .t2 { font-size: 12px; font-weight: 600; fill: var(--ink); }
+html[data-tab='map'] .drawer-body .fc-check .t3 { font-size: 11px; fill: var(--ink-3); }
+html[data-tab='map'] .drawer-body .fc-check .zl { stroke: var(--ink-2); stroke-width: 1.5; }
+/* phone: every line of the check at 13 px; ui.js lays the rows and the year tiers out for that size */
+@media (max-width: 760px) {
+  html[data-tab='map'] .drawer-body .fc-check .t2, html[data-tab='map'] .drawer-body .fc-check .t3 { font-size: 13px; }
+  html[data-tab='map'] .drawer-body .fc-check .tk { stroke: var(--ink-3); stroke-width: 1; opacity: 0.6; }
+}

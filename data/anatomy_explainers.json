@@ -1,0 +1,135 @@
+{
+  "_note": "Plain-language explainers for the ten organs of the Anatomy of AI hero. Prose carries no figures: every number shown in the card is computed at view time from the series files (site/data/series/<id>.json), from policy.json or talent.json, and is cited to that file and its sources. Landmarks are event ids from anatomy_map.json. No em dashes.",
+  "layers": {
+    "compute": { "label": "Compute", "desc": "Power, chips, training and inference: the physical pipeline that turns electricity into model outputs." },
+    "money": { "label": "Money", "desc": "Funding into labs, capital spending on chips, and revenue flowing back from products." },
+    "data": { "label": "Data", "desc": "Text, images and code gathered for training, and the usage data that comes back from people." },
+    "rules": { "label": "Rules", "desc": "Laws, export controls and court rulings that constrain labs, chips and data." },
+    "people": { "label": "People", "desc": "Researchers and engineers moving into labs, and products reaching the public." }
+  },
+  "flows": {
+    "energy>chips": { "layer": "compute", "note": "Fabs and data centers draw grid power; new sites are planned around where power can be contracted.", "magnitude": "datacenter_electricity" },
+    "energy>labs": { "layer": "compute", "note": "Training clusters run for weeks at a time, so labs sign long power contracts, including nuclear restarts.", "magnitude": "datacenter_electricity" },
+    "chips>labs": { "layer": "compute", "note": "Accelerators, sold mostly to clouds and labs, are the scarce input that sets the size of a training run.", "magnitude": "nvidia_datacenter" },
+    "capital>labs": { "layer": "money", "note": "Venture rounds, strategic investments and cloud credits pay for compute and salaries.", "magnitude": "ai_private_investment" },
+    "capital>chips": { "layer": "money", "note": "Capital spending by clouds and labs lands as chip and data center orders.", "magnitude": "nvidia_datacenter" },
+    "data>labs": { "layer": "data", "note": "Web crawls, licensed archives, code and synthetic data are assembled into training corpora.", "magnitude": "arxiv_ai" },
+    "talent>labs": { "layer": "people", "note": "Researchers move between universities, big companies and start-ups; founding teams seed new labs.", "magnitude": "ai_publications" },
+    "labs>models": { "layer": "compute", "note": "Training runs produce model weights; a few runs per year set the record for compute used.", "magnitude": "training_compute" },
+    "models>products": { "layer": "compute", "note": "Models are served through chat apps, coding tools and APIs; serving cost falls as hardware and methods improve.", "magnitude": null },
+    "products>users": { "layer": "people", "note": "Products reach the public in months rather than years when distribution is already in place.", "magnitude": null },
+    "users>data": { "layer": "data", "note": "Conversations, ratings and corrections become feedback data for the next round of training.", "magnitude": null },
+    "products>capital": { "layer": "money", "note": "Subscriptions and API revenue flow back to labs and justify the next round of spending.", "magnitude": null },
+    "policy>labs": { "layer": "rules", "note": "Safety rules, disclosure duties and liability shape what labs release and how.", "magnitude": "policy_count" },
+    "policy>chips": { "layer": "rules", "note": "Export controls decide which countries and companies can buy the most capable accelerators.", "magnitude": null },
+    "policy>data": { "layer": "rules", "note": "Privacy law and copyright rulings decide what may be collected and trained on.", "magnitude": null }
+  },
+  "organs": {
+    "energy": {
+      "pipeline": "Grid power",
+      "what": [
+        "Training and serving models happens in data centers that run around the clock and draw power from the grid.",
+        "Because the largest clusters need steady supply for years, developers now sign long-term power contracts, including deals to restart nuclear plants and build new generation."
+      ],
+      "number": { "series": "datacenter_electricity", "how": "Latest IEA estimate at or before the scrubbed year, projections excluded. Estimates from different IEA reports use different scopes." },
+      "landmarks": ["microsoft-three-mile-island-2024", "google-kairos-nuclear-2024", "ai-data-center-power-iea-2025", "stargate-abilene-2025", "data-center-moratorium-2026"],
+      "read": "The ticks around the ring are the energy events in the record, colored by domain; the number is the measured electricity use for the year on the scrub."
+    },
+    "chips": {
+      "pipeline": "Accelerators",
+      "what": [
+        "Specialized accelerators, mostly GPUs and a few custom designs, do the arithmetic that training and inference require.",
+        "Few firms design them and fewer still can fabricate them at the leading edge, which is why supply, export rules and fab locations matter.",
+        "One company's data center sales are the clearest public gauge of this layer's growth."
+      ],
+      "number": { "series": "nvidia_datacenter", "how": "NVIDIA Data Center segment revenue, fiscal year matching the scrubbed year's label. Fiscal years end in late January, so FY2026 is mostly calendar 2025." },
+      "landmarks": ["nvidia-volta-v100-2017", "nvidia-a100-2020", "h100-launch-2022", "export-controls-oct-2022", "nvidia-blackwell-2024"],
+      "read": "Flows into Chips are power and capital spending; flows out are compute to the labs and the export controls that gate who can buy."
+    },
+    "data": {
+      "pipeline": "Training corpora",
+      "what": [
+        "Models learn from very large collections of text, images, code and audio, much of it gathered from the open web and from licensed archives.",
+        "What may be collected, and whether training on copyrighted work is lawful, is being settled in courts and legislatures.",
+        "The count of AI papers is one of the few measures of the field's output that runs back decades."
+      ],
+      "number": { "series": "arxiv_ai", "how": "arXiv papers listed in cs.AI, cs.LG, cs.CL or cs.CV, counted by first submission date, for the scrubbed year. The 2026 count is partial." },
+      "landmarks": ["cambridge-analytica-2018", "laion-5b-dataset-2022", "authors-guild-v-openai-2023", "bartz-v-anthropic-fair-use-2025", "anthropic-settlement-1-5b-2025"],
+      "read": "Data flows into the labs as corpora and comes back from users as feedback; the Rules layer shows where law cuts across it."
+    },
+    "talent": {
+      "pipeline": "Researchers",
+      "what": [
+        "A few thousand researchers and engineers carry the methods between universities, large companies and start-ups.",
+        "Moves of senior researchers, founding teams and public warnings from pioneers are events in this record; the Lineage strip below tracks who left where to found what.",
+        "Worldwide publication counts give a rough measure of how many people are working on the subject."
+      ],
+      "number": { "series": "ai_publications", "how": "Scholarly publications on AI worldwide, latest year at or before the scrubbed year, from CSET's corpus via Our World in Data. Recent years are incomplete." },
+      "landmarks": ["turing-award-deep-learning-2019", "timnit-gebru-google-2020", "hinton-leaves-google-2023", "nobel-physics-hinton-hopfield-2024", "meta-superintelligence-labs-2025"],
+      "read": "The single flow out of Talent goes to the labs; the lab count in the Labs card is one result of those moves."
+    },
+    "capital": {
+      "pipeline": "Investment",
+      "what": [
+        "Venture rounds, strategic investments by cloud providers and chipmakers, and the internal budgets of large companies pay for everything else.",
+        "Money enters at two points, as funding to labs and as capital spending on chips and data centers, and comes back as revenue from products.",
+        "The private investment series counts funding to AI companies and is reported in constant dollars, so it is lower than nominal headlines."
+      ],
+      "number": { "series": "ai_private_investment", "how": "Global private investment in AI companies for the scrubbed year, constant 2021 dollars, from the Stanford AI Index via Our World in Data." },
+      "landmarks": ["microsoft-openai-1b-2019", "nvidia-trillion-2023", "stargate-announcement-2025", "deepseek-nvidia-selloff-2025", "openai-852b-valuation-2026"],
+      "read": "Follow the Money layer: funding and capex leave this organ, revenue returns to it from Products."
+    },
+    "labs": {
+      "pipeline": "Training runs",
+      "what": [
+        "Labs combine compute, data, talent and capital into training runs and decide what to release.",
+        "They range from research groups inside large companies to start-ups founded by people who left those groups; their governance disputes and partnerships are part of the record."
+      ],
+      "number": { "series": "labs_count", "how": "Organizations in the Lineage data founded between 2010 and the scrubbed year." },
+      "landmarks": ["deepmind-founded-2010", "openai-founded-2015", "anthropic-founded-2021", "openai-board-crisis-2023", "deepseek-founded-2023"],
+      "read": "Every input layer converges here; the single output is Models. Click a neighbor in the list to follow a flow."
+    },
+    "models": {
+      "pipeline": "Model weights",
+      "what": [
+        "Models are the trained weights that turn compute and data into capabilities, released as closed services, gated research weights or open downloads.",
+        "Compute behind record training runs, this card's key number, has grown by orders of magnitude; it is the clearest single measure of frontier movement."
+      ],
+      "number": { "series": "training_compute", "how": "Largest training compute recorded for any model by the scrubbed year, from Epoch AI's notable models dataset. That series also draws this diagram's Labs to Models flow." },
+      "landmarks": ["attention-is-all-you-need-2017", "scaling-laws-2020", "gpt-4-2023", "llama-3-1-405b-2024", "deepseek-r1-2025"],
+      "read": "Training flows in from the labs; inference flows out to products. Ticks around the ring are the model events, the densest organ in the record."
+    },
+    "products": {
+      "pipeline": "Apps and APIs",
+      "what": [
+        "Chat assistants, coding tools, search features and APIs are how models reach people and earn revenue.",
+        "The cost of serving a fixed level of capability has fallen quickly, which is what lets products spread to hundreds of millions of people.",
+        "Incidents involving deployed systems, from robotaxis to chatbots, are recorded here too."
+      ],
+      "number": { "series": "llm_inference_price", "how": "Lowest price per million tokens for a model matching GPT-4 (March 2023) on MMLU, among points up to the scrubbed year, from Epoch AI." },
+      "landmarks": ["github-copilot-preview-2021", "chatgpt-launch-2022", "openai-devday-2023", "deep-research-openai-2025", "chatgpt-agent-2025"],
+      "read": "Inference flows in from Models; access flows out to Users and revenue flows back to Capital."
+    },
+    "users": {
+      "pipeline": "The public",
+      "what": [
+        "The public adopts, tests, misuses and reacts to the products, and its behavior feeds back as data and as politics.",
+        "Time to reach one hundred million people is a common adoption yardstick, though each count uses its own definition.",
+        "Public fears and hopes, films, open letters and scandals are recorded as events in this organ."
+      ],
+      "number": { "series": "time_to_100m_users", "how": "Shortest recorded time to a hundred million users among products launched by the scrubbed year; definitions vary by product." },
+      "landmarks": ["bostrom-superintelligence-2014", "deepfakes-reddit-2017", "chatgpt-100m-users-2023", "cais-extinction-statement-2023", "chatgpt-users-2026"],
+      "read": "Access arrives from Products; feedback leaves toward Data."
+    },
+    "policy": {
+      "pipeline": "Rules",
+      "what": [
+        "Policy covers laws, executive orders, export controls, court rulings and international declarations that bound the rest of this system.",
+        "Rules act at three points, on labs through safety and disclosure duties, on chips through export controls, and on data through privacy and copyright."
+      ],
+      "number": { "series": "policy_count", "how": "Measures in the Policy atlas enacted, in force or introduced by the scrubbed year." },
+      "landmarks": ["china-ai-development-plan-2017", "export-controls-oct-2022", "biden-ai-executive-order-2023", "eu-ai-act-in-force-2024", "colorado-ai-act-2024"],
+      "read": "Policy has no inputs in this diagram; its three outputs make up the Rules layer."
+    }
+  }
+}

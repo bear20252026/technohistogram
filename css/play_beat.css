@@ -1,0 +1,121 @@
+/* PLAY, Beat the forecasters (play_beat.css): the quote as the stage with its timeline, three poster buttons filling the
+   strip in tints of the round's pair, the Yours and Record stamps, the strip's printed line, the score card's data line.
+   Scoped to [data-board='call'] so the shared sheet (play_shared.css) keeps the board, tracker, corner and inks. */
+
+/* ---- zone 1: the quote is the stage ---- */
+.gm-view [data-board='call'] .gm-fc { justify-content: flex-start; gap: 0; padding: 22px 28px 18px; }
+.gm-view [data-board='call'] .gm-fc .gm-ct { order: 1; margin: 0 0 auto; padding: 0 0 22px; font-family: var(--font-display); font-size: clamp(34px, 4vw, 56px); line-height: 1.06; letter-spacing: -0.015em; color: var(--ink-a); text-wrap: balance; text-indent: -0.42em; max-width: 26ch; }
+.gm-view [data-board='call'] .gm-fc.long .gm-ct { font-size: clamp(30px, 3.2vw, 46px); max-width: 34ch; }
+.gm-view [data-board='call'] .gm-fc.short .gm-ct { font-size: clamp(40px, 5vw, 72px); max-width: 20ch; }
+.gm-view [data-board='call'] .gm-fc .gm-cd { order: 2; margin: 0 0 2px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.04em; text-transform: none; color: var(--ink-a-l, var(--ink-2)); }
+/* the timeline: a hairline from the decade before the forecast to 2026; the date as a tick in ink a, the year named as a
+   tick in ink b, the span between them in ink b (dashed and open when no year was named) */
+.gm-view [data-board='call'] .gm-tl { order: 3; position: relative; width: 100%; height: 84px; margin-top: 10px; }
+.gm-view [data-board='call'] .gm-tl-rule { position: absolute; left: 0; right: 0; top: 40px; height: 1.5px; background: color-mix(in srgb, var(--ink-a) 45%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-tl-span { position: absolute; top: 37px; height: 7px; background: var(--ink-b); transform-origin: left; transform: scaleX(0); transition: transform 320ms linear 180ms; }
+.gm-view [data-board='call'] .gm-tl-span.open { background: repeating-linear-gradient(90deg, var(--ink-b) 0 6px, transparent 6px 11px); height: 3px; top: 39px; }
+.gm-view [data-board='call'].is-in .gm-tl-span { transform: scaleX(1); }
+.gm-view [data-board='call'] .gm-tl-gap { position: absolute; top: 10px; text-align: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-b-l, var(--ink-b)); white-space: nowrap; opacity: 0; transition: opacity 0ms linear 500ms; }
+.gm-view [data-board='call'].is-in .gm-tl-gap { opacity: 1; }
+.gm-view [data-board='call'] .gm-tl-tick { position: absolute; top: 26px; width: 0; }
+.gm-view [data-board='call'] .gm-tl-tick > i { position: absolute; left: -1.5px; top: 0; width: 3px; height: 30px; background: var(--ink-a); }
+.gm-view [data-board='call'] .gm-tl-tick.for > i { background: var(--ink-b); }
+.gm-view [data-board='call'] .gm-tl-tick.now > i { width: 1.5px; left: -0.75px; height: 24px; top: 3px; background: color-mix(in srgb, var(--ink-a) 55%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-tl-tick > span { position: absolute; top: 32px; left: 0; padding-left: 7px; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1; letter-spacing: 0; color: var(--ink-a); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.gm-view [data-board='call'] .gm-tl-tick.for > span { top: -26px; color: var(--ink-b); }
+.gm-view [data-board='call'] .gm-tl-tick.now > span { top: 36px; font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); }
+.gm-view [data-board='call'] .gm-tl-tick.now.up > span { top: -16px; }
+.gm-view [data-board='call'] .gm-tl-tick.r > span { left: auto; right: 0; padding-left: 0; padding-right: 7px; }
+
+/* ---- zone 2: three poster buttons fill the strip; the line prints beside the tracker ---- */
+.gm-view [data-board='call'] .gm-bstrip { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'track line next' 'calls calls calls'; align-items: center; gap: 12px 18px; padding: 12px 2px 14px; }
+.gm-view [data-board='call'] .gm-bstrip .gm-track { grid-area: track; min-height: 44px; }
+.gm-view [data-board='call'] .gm-bline { grid-area: line; }
+.gm-view [data-board='call'] .gm-next { grid-area: next; }
+.gm-view [data-board='call'] .gm-bstrip .gm-ctl { grid-area: calls; }
+.gm-view [data-board='call'] .gm-bline.len-m { font-size: clamp(18px, 1.55vw, 22px); }
+.gm-view [data-board='call'] .gm-bline.len-l { font-size: clamp(17px, 1.35vw, 19px); }
+.gm-view [data-board='call'] .gm-bline { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); text-align: right; text-wrap: balance; }
+.gm-view [data-board='call'] .gm-next { display: inline-flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 0 20px; background: var(--play-stamp); color: var(--ground); border: 0; border-radius: 0; font-family: var(--font-mono); font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; cursor: pointer; transition: background-color 120ms linear, transform 80ms linear; }
+.gm-view [data-board='call'] .gm-next:hover { background: var(--ink-b); color: var(--ground); }
+.gm-view [data-board='call'] .gm-next:active { transform: translateY(2px); }
+.gm-view [data-board='call'] .gm-next:focus-visible { outline: 2px solid var(--play-stamp); outline-offset: 3px; }
+.gm-view [data-board='call'] .gm-calls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; }
+.gm-view [data-board='call'] .gm-call { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 104px; padding: 12px 18px; margin: 0; border: 0; outline: 2px solid transparent; outline-offset: -2px; font-family: var(--font-display); font-size: clamp(30px, 3vw, 46px); line-height: 0.95; letter-spacing: -0.015em; text-transform: none; text-align: left; cursor: pointer; transition: transform 120ms linear, outline-color 120ms linear, background-color 120ms linear, opacity 200ms linear; }
+.gm-view [data-board='call'] .gm-call.t0 { --tint: var(--ink-a); }
+.gm-view [data-board='call'] .gm-call.t1 { --tint: color-mix(in oklch, var(--ink-a) 50%, var(--ink-b)); }
+.gm-view [data-board='call'] .gm-call.t2 { --tint: var(--ink-b); }
+.gm-view [data-board='call'] .gm-call { background: color-mix(in srgb, var(--tint) 13%, #F7F5F0); color: var(--tint); }
+.gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: translateY(-4px); outline-color: var(--tint); background: color-mix(in srgb, var(--tint) 22%, #F7F5F0); color: var(--tint); box-shadow: 0 6px 0 -2px color-mix(in srgb, var(--tint) 30%, transparent); }
+.gm-view [data-board='call'] .gm-call:focus-visible { outline: 2px solid #17171A; }
+.gm-view [data-board='call'] .gm-call:disabled { cursor: default; opacity: 1; }
+.gm-view [data-board='call'] .gm-call[aria-pressed='true'], .gm-view [data-board='call'] .gm-call.is-pick { outline: 3px solid var(--tint); outline-offset: -3px; background: color-mix(in srgb, var(--tint) 18%, #F7F5F0); color: var(--tint); }
+.gm-view [data-board='call'] .gm-call.is-record:not(.is-pick) { background: color-mix(in srgb, var(--tint) 13%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-call.is-record.lit { background: var(--tint); color: #F7F5F0; outline-color: var(--tint); }
+.gm-view [data-board='call'] .gm-call:disabled:not(.is-pick):not(.is-record) { opacity: 0.3; }
+.gm-view [data-board='call'] .gm-call-w { flex: 1 1 auto; min-width: 0; }
+/* the stamps: Yours in black, Record in its Ledger verdict ink; each drops in over 220ms from 1.3 to 1 with a 2px
+   second pass offset in the ink (misregistration) */
+.gm-view [data-board='call'] .gm-call-stamps { position: static; display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
+.gm-view [data-board='call'] .gm-st { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; padding: 8px 12px 7px; border: 3px solid currentColor; background: #F7F5F0; transform-origin: center; animation: gm-drop 220ms linear both; }
+.gm-view [data-board='call'] .gm-st.yours { color: var(--play-stamp, #17171A); transform: rotate(-6deg); box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--tint) 55%, transparent); text-shadow: 2px 2px 0 color-mix(in srgb, var(--tint) 55%, transparent); }
+.gm-view [data-board='call'] .gm-st.rec { transform: rotate(-7deg); }
+.gm-view [data-board='call'] .gm-st.v-right { color: var(--led-right, #2E6E5C); box-shadow: 2px 2px 0 0 var(--led-right-pale, #9CC4B4); text-shadow: 2px 2px 0 var(--led-right-pale, #9CC4B4); }
+.gm-view [data-board='call'] .gm-st.v-late { color: var(--led-late, #2D7F8A); box-shadow: 2px 2px 0 0 var(--led-late-pale, #C2DACE); text-shadow: 2px 2px 0 var(--led-late-pale, #C2DACE); }
+.gm-view [data-board='call'] .gm-st.v-wrong { color: var(--led-wrong, #A13A29); box-shadow: 2px 2px 0 0 var(--led-wrong-pale, #E8A08C); text-shadow: 2px 2px 0 var(--led-wrong-pale, #E8A08C); }
+@keyframes gm-drop { from { opacity: 0; scale: 1.3; } 1% { opacity: 1; } to { opacity: 1; scale: 1; } }
+/* the shared stamp lands over the stage's right half, above the timeline; when the calls differ it carries the record's
+   verdict ink. The next-forecast button lives in the strip's head row, not the control row */
+.gm-view [data-board='call'] .gm-verdict-slot { left: 70%; top: 42%; transform: translate(-50%, -50%); }
+.gm-view [data-board='call'] .gm-big-stamp.v-right { color: var(--led-right, #2E6E5C); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-right-pale, #9CC4B4); }
+.gm-view [data-board='call'] .gm-big-stamp.v-late { color: var(--led-late, #2D7F8A); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-late-pale, #C2DACE); }
+.gm-view [data-board='call'] .gm-big-stamp.v-wrong { color: var(--led-wrong, #A13A29); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-wrong-pale, #E8A08C); }
+.gm-view [data-board='call'] .gm-ctl > .gm-start[data-start='call'] { display: none; }
+
+/* ---- zone 3: the docket's one line and the record link ---- */
+.gm-view [data-board='call'] .gm-result .gm-line { font-size: 16px; line-height: 1.4; max-width: 62ch; }
+
+/* ---- the score card's data line ---- */
+.gm-view [data-board='call'] .gm-set-sub { margin: -6px 0 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.5; letter-spacing: 0.02em; color: var(--ink-2); max-width: 60ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-view [data-board='call'] .gm-st { animation: none; }
+  .gm-view [data-board='call'] .gm-tl-span, .gm-view [data-board='call'] .gm-tl-gap, .gm-view [data-board='call'] .gm-call { transition: none; }
+  .gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: none; }
+}
+@media (max-width: 760px) {
+  .gm-view [data-board='call'] .gm-fc { min-height: 0; padding: 16px 16px 40px; }
+  .gm-view [data-board='call'] .gm-fc .gm-ct, .gm-view [data-board='call'] .gm-fc.long .gm-ct { font-size: 26px; line-height: 1.12; padding-bottom: 16px; max-width: none; }
+  .gm-view [data-board='call'] .gm-fc.short .gm-ct { font-size: 34px; line-height: 1.06; }
+  .gm-view [data-board='call'] .gm-tl { height: 56px; }
+  .gm-view [data-board='call'] .gm-tl-rule { top: 28px; }
+  .gm-view [data-board='call'] .gm-tl-span { top: 25px; }
+  .gm-view [data-board='call'] .gm-tl-span.open { top: 27px; }
+  .gm-view [data-board='call'] .gm-tl-tick { top: 16px; }
+  .gm-view [data-board='call'] .gm-tl-tick > i { height: 24px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > i { height: 20px; top: 2px; }
+  .gm-view [data-board='call'] .gm-tl-tick > span { top: -20px; }
+  .gm-view [data-board='call'] .gm-tl-tick.made > span { left: auto; right: 0; padding-left: 0; padding-right: 7px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > span, .gm-view [data-board='call'] .gm-tl-tick.now.up > span { top: -16px; }
+  .gm-view [data-board='call'] .gm-tl-gap { display: none; }
+  .gm-view [data-board='call'] .gm-bline.len-m, .gm-view [data-board='call'] .gm-bline.len-l { font-size: 17px; }
+  .gm-view [data-board='call'] .gm-verdict-slot { left: 50%; top: 50%; }
+  .gm-view [data-board='call'] .gm-verdict-slot .gm-note { display: none; }
+  .gm-view [data-board='call'] .gm-big-stamp { font-size: 44px; white-space: nowrap; padding: 0 16px 6px; border-width: 4px; }
+  .gm-view [data-board='call'] .gm-fc .gm-cd { font-size: 13px; }
+  .gm-view [data-board='call'] .gm-tl-tick > span { font-size: 18px; }
+  .gm-view [data-board='call'] .gm-tl-tick.for > span { top: -20px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > span, .gm-view [data-board='call'] .gm-tl-gap { font-size: 11px; }
+  .gm-view [data-board='call'] .is-answered .gm-strip { padding-top: 12px; }
+  .gm-view [data-board='call'] .gm-bstrip { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'track' 'line' 'calls' 'next'; gap: 10px 0; }
+  .gm-view [data-board='call'] .gm-bstrip .gm-track { min-height: 0; }
+  .gm-view [data-board='call'] .gm-bline { text-align: left; font-size: 18px; line-height: 1.2; }
+  .gm-view [data-board='call'] .gm-result { align-items: flex-start; }
+  .gm-view [data-board='call'] .gm-bline:empty { display: none; }
+  .gm-view [data-board='call'] .gm-next { margin-top: 4px; }
+  .gm-view [data-board='call'] .gm-calls { grid-template-columns: 1fr; gap: 8px; }
+  .gm-view [data-board='call'] .gm-call { min-height: 56px; padding: 6px 14px; font-size: 28px; background: color-mix(in srgb, var(--tint) 18%, #F7F5F0); }
+  .gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: none; box-shadow: none; }
+  .gm-view [data-board='call'] .gm-st { font-size: 13px; padding: 5px 8px 4px; border-width: 2px; letter-spacing: 0.1em; }
+  .gm-view [data-board='call'] .gm-set-sub { font-size: 12px; }
+}

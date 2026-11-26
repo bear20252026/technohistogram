@@ -1,0 +1,164 @@
+/* IMPACT, Zürich Data (VISION_4.md Addendum, main-session rules, color direction): off-white field (the site ground),
+   marks colored by subject family in stepped ranges (health greens, income golds, tools and prices blues, access teals,
+   shadows reds and plums; the --imp-* tokens override the printed fallbacks); big numbers, few marks; no gradients,
+   shadows or rounded corners.
+   Four tabs: Millennium, Last ten years, By region, Shadows. The evidence panel holds the tables and every number. */
+.iv-panel { padding: 0 24px; } /* the shell's side margin, as the other pages carry it; the headline no longer starts at x=0 */
+.iv-panel[hidden] { display: none; }
+@media (max-width: 760px) { .iv-panel { padding: 0 12px; } }
+
+/* the claim: lowercase display at leading 0.9, flush left, three lines at most; the last line carries the yellow */
+.iv-claim { font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 2.2rem + 2.6vw, 72px); line-height: 0.9; letter-spacing: -0.025em; margin: 0 0 22px; max-width: 14em; text-wrap: balance; }
+.iv-claim .ln { display: block; }
+.iv-claim .ln:last-child { color: var(--imp-income-label, #8E6A24); }
+.iv-light .iv-claim .ln:last-child { color: var(--imp-tools-label, #2B5FA8); }
+.iv-h { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 1.6rem + 2vw, 52px); line-height: 0.98; letter-spacing: -0.015em; margin: 0 0 14px; max-width: 24ch; text-wrap: balance; }
+.iv-mill .iv-h::first-letter { text-transform: lowercase; } /* the Millennium claims read as fragments; the other headlines are sentences */
+.iv-src { color: var(--ink-3); font-size: 12px; letter-spacing: 0.04em; text-transform: none; margin: 10px 0 0; }
+.iv-src a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.iv-link { font: inherit; background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; border-radius: 0; }
+.iv-link:hover { text-decoration-thickness: 2px; }
+.iv-btn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; background: none; border: 1px solid var(--ink); color: var(--ink); padding: 0 12px; min-height: 36px; cursor: pointer; border-radius: 0; }
+.iv-btn[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+.iv-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0 0 18px; }
+.iv-ctl label { display: inline-flex; align-items: center; gap: 8px; }
+.iv-ctl select { font-family: var(--font-mono); font-size: 12px; min-height: 36px; border: 1px solid var(--rule-strong); background: var(--ground); color: var(--ink); padding: 0 8px; border-radius: 0; }
+
+/* ---- Millennium: the poster and the price of light, two screens on the same field */
+.iv-poster, .iv-light { margin: 0; padding: 8px 0 28px; border-bottom: 1px solid var(--ink); }
+.iv-light { padding-top: 34px; border-bottom: 0; }
+.iv-poster-ch svg { display: block; width: 100%; height: auto; }
+.iv-rail { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 12px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-2); }
+.iv-rail b { font-weight: 500; margin-right: 6px; }
+.iv-rail .iv-src { margin: 0; }
+.iv-rail .iv-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; }
+.iv-rail [data-axis][aria-pressed="true"] { color: var(--imp-income-label, #8E6A24); }
+/* the rolling numeral: one big figure, tabular, the year under it */
+.iv-light-num { font-family: var(--font-display); font-size: clamp(88px, 6rem + 10vw, 240px); line-height: 0.9; letter-spacing: -0.03em; font-variant-numeric: tabular-nums lining-nums; margin: 8px 0 4px; color: var(--imp-tools-3, #2B5FA8); white-space: nowrap; }
+.iv-light-num .cur { font-size: 0.5em; vertical-align: 0.55em; margin-right: 0.04em; color: var(--ink-3); }
+.iv-light-year { color: var(--ink-3); margin-bottom: 30px; min-height: 16px; }
+/* the rail: 1300 to 2023, six milestones as ticks with their labels alternating above and below, one yellow marker */
+.iv-light-rail { position: relative; height: 112px; margin: 0 0 6px; }
+.iv-light-rail .line { position: absolute; left: 0; right: 0; top: 56px; height: 1px; background: var(--ink); }
+.iv-light-rail .mk { position: absolute; top: 50px; width: 13px; height: 13px; background: var(--imp-tools-3, #2B5FA8); border: 1px solid var(--ink); }
+.iv-light-rail .end { position: absolute; top: 62px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.iv-light-rail .end.l { left: 0; } .iv-light-rail .end.r { right: 0; }
+.iv-light-rail [data-ms] { position: absolute; top: 0; height: 112px; width: 1px; margin-left: -0.5px; background: none; border: 0; padding: 0; cursor: pointer; border-radius: 0; }
+.iv-light-rail [data-ms] i { position: absolute; left: 0; top: 46px; width: 1px; height: 21px; background: var(--ink); }
+.iv-light-rail [data-ms] span { position: absolute; left: 0; width: 170px; margin-left: calc(-170px * var(--p, 0.5)); text-align: center; font-family: var(--font-mono); font-size: 12px; line-height: 1.3; letter-spacing: 0.02em; color: var(--ink-2); }
+.iv-light-rail [data-ms] span b { font-weight: 500; display: block; color: var(--ink); }
+.iv-light-rail [data-ms].hi span { top: 4px; } .iv-light-rail [data-ms].lo span { top: 74px; }
+.iv-light-rail [data-ms][aria-pressed="true"] i { background: var(--imp-tools-3, #2B5FA8); width: 2px; }
+.iv-light-rail [data-ms][aria-pressed="true"] span { color: var(--ink); }
+.iv-light-rail [data-ms]:focus-visible i { outline: 2px solid var(--ink); }
+
+/* ---- Last ten years: headline, strip, controls, the LifeMap, the tools line */
+.iv-strip { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.iv-strip .mk { width: 18px; height: 18px; border: 1.5px solid var(--c, var(--ink)); background: var(--c, var(--ink)); padding: 0; cursor: pointer; border-radius: 0; }
+.iv-strip .mk.stalled, .iv-strip .mk.worsening { background: none; }
+.iv-strip .mk.worsening { background: repeating-linear-gradient(135deg, var(--c, var(--ink)) 0 1px, transparent 1px 4px); } /* hatch: a texture, not a gradient of colour */
+.iv-strip .mk.dim { opacity: 0.25; }
+.iv-strip .mk[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 1px; }
+.iv-strip .mk:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.iv-named { min-height: 18px; margin: 0 0 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); }
+.iv-map-row { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 0 28px; align-items: start; }
+.iv-lifemap svg { display: block; width: 100%; height: auto; }
+/* the one total beside the ribbons: a big figure, outside both counts */
+.iv-stat { display: grid; gap: 6px; padding-top: 6px; border-top: 1px solid var(--ink); }
+.iv-stat b { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-height: 0.95; letter-spacing: -0.02em; color: var(--imp-health-label, #2F7A4A); }
+.iv-stat span { font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+.iv-stat .iv-link { justify-self: start; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+@media (max-width: 900px) { .iv-map-row { grid-template-columns: 1fr; } .iv-stat { grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; margin-top: 14px; } .iv-stat b { font-size: 30px; } }
+.iv-tools { margin: 14px 0 0; font-size: 18px; line-height: 1.4; color: var(--ink); max-width: 60ch; }
+.iv-tools .sep { color: var(--ink-3); margin: 0 4px; }
+.iv-tools .iv-link { font-size: 15px; }
+
+/* ---- By region: one matrix, fixed layout so the columns fit the width without a scroll; rows sized to the viewport (--rh) */
+.iv-key i { display: inline-block; width: 9px; height: 9px; margin: 0 4px 0 12px; vertical-align: -1px; border: 1px solid var(--ink); }
+.iv-key i:first-child { margin-left: 0; }
+.iv-key .k-up { background: var(--ink); } .iv-key .k-flat { height: 1px; border: 0; background: var(--ink); vertical-align: 3px; } .iv-key .k-down { background: repeating-linear-gradient(135deg, var(--ink) 0 1px, transparent 1px 3px); }
+.iv-mx th.w, .iv-mx td.w { border-right: 1px solid var(--ink); } /* World stands apart */
+/* phones: one Place selector and a list, full names, a word for the verdict, 44px rows */
+.iv-place label { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.iv-place select { font-family: var(--font-mono); font-size: 12px; padding: 6px 8px; border: 1px solid var(--ink); background: var(--ground); color: var(--ink); border-radius: 0; min-height: 36px; }
+.iv-place-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.iv-place-list li { border-bottom: 1px solid var(--rule); }
+.iv-place-list button { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 2px; background: none; border: 0; border-radius: 0; text-align: left; font-family: var(--font-mono); font-size: 12px; color: var(--ink); cursor: pointer; }
+.iv-place-list button i { display: block; width: 9px; height: 9px; border: 1px solid var(--c, var(--ink)); }
+.iv-place-list button i.improving { background: var(--c, var(--ink)); }
+.iv-place-list button i.stalled { height: 1px; border: 0; background: var(--c, var(--ink)); }
+.iv-place-list button i.worsening { background: repeating-linear-gradient(135deg, var(--c, var(--ink)) 0 1px, transparent 1px 3px); }
+.iv-place-list .n { white-space: normal; line-height: 1.3; }
+.iv-place-list .v { color: var(--ink-2); letter-spacing: 0.04em; text-transform: uppercase; }
+.iv-mx-scroll { overflow: hidden; border-bottom: 1px solid var(--ink); }
+.iv-mx { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; font-family: var(--font-mono); font-size: 12px; }
+.iv-mx th.m { width: 208px; text-align: left; font-weight: 400; padding: 0 8px 0 0; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.iv-mx thead th { position: sticky; top: 0; background: var(--ground); vertical-align: bottom; padding: 0 2px 6px; border-bottom: 1px solid var(--ink); text-align: center; font-weight: 400; z-index: 1; }
+.iv-mx thead th .r { display: block; font-size: 12px; line-height: 1.2; letter-spacing: 0.01em; color: var(--ink-2); white-space: normal; overflow-wrap: normal; } /* two lines rather than an ellipsis */
+.iv-mx thead th .n { display: block; font-size: 12px; color: var(--ink-3); }
+.iv-mx thead th.w .r, .iv-mx thead th.w .n { color: var(--ink); }
+.iv-mx tbody th { height: 20px; font-size: 12px; }
+.iv-mx tbody td { text-align: center; padding: 0; height: 20px; border-bottom: 1px solid var(--rule); }
+.iv-mx tbody td button { width: 100%; height: 20px; background: none; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; border-radius: 0; }
+.iv-mx tbody td button i { display: block; width: 9px; height: 9px; border: 1px solid var(--c, var(--ink)); }
+.iv-mx td.improving i { background: var(--c, var(--ink)); }
+.iv-mx td.stalled i { height: 1px; border: 0; background: var(--c, var(--ink)); }
+.iv-mx td.worsening i { background: repeating-linear-gradient(135deg, var(--c, var(--ink)) 0 1px, transparent 1px 3px); }
+.iv-mx tbody td button:hover i, .iv-mx tbody td button:focus-visible i { outline: 2px solid var(--ink); outline-offset: 1px; }
+.iv-mx tbody td button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* ---- Shadows: six tiles, black line, one yellow point */
+.iv-tiles { display: grid; gap: 22px 24px; margin: 6px 0 0; }
+.iv-tile { display: grid; gap: 4px; text-align: left; background: none; border: 0; border-top: 1px solid var(--ink); padding: 10px 0 0; cursor: pointer; color: var(--ink); font: inherit; border-radius: 0; }
+.iv-tile:hover .t, .iv-tile:focus-visible .t { text-decoration: underline; text-underline-offset: 3px; }
+.iv-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.iv-tile .t { font-family: var(--font-display); font-size: 24px; line-height: 1.1; }
+.iv-tile .d { font-size: 15px; color: var(--ink-2); }
+.iv-tile .ch svg { display: block; width: 100%; height: auto; }
+.iv-tile .s { color: var(--ink-3); text-transform: none; letter-spacing: 0.03em; font-size: 12px; }
+
+/* ---- inside the shell's evidence panel (#drawer) */
+.iv-back { display: inline-block; margin-bottom: 12px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; }
+.iv-ev-h { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.05; margin: 0 0 6px; }
+.iv-ev-sub { margin: 0 0 12px; color: var(--ink-3); font-size: 13px; }
+.iv-ev-lead { font-size: 20px; line-height: 1.3; margin: 0 0 12px; }
+.iv-ev-ch svg { display: block; width: 100%; height: auto; }
+.iv-cmp { display: flex; align-items: center; gap: 8px; margin: 8px 0 14px; }
+.iv-cmp select { font-family: var(--font-mono); font-size: 12px; min-height: 32px; border: 1px solid var(--rule-strong); background: var(--ground); color: var(--ink); max-width: 260px; border-radius: 0; }
+.iv-ev-facts { display: grid; grid-template-columns: 104px 1fr; gap: 6px 12px; margin: 0; font-size: 13.5px; line-height: 1.4; border-top: 1px solid var(--rule-strong); padding-top: 10px; }
+.iv-ev-facts dt { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); padding-top: 3px; }
+.iv-ev-facts dd { margin: 0; }
+.iv-ev-facts a { color: inherit; }
+.iv-ev-t { width: 100%; border-collapse: collapse; font-size: 13px; }
+.iv-ev-t th, .iv-ev-t td { text-align: left; padding: 6px 6px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.iv-ev-t thead th { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 400; border-bottom-color: var(--ink); }
+.iv-ev-t tbody th { font-weight: 400; cursor: pointer; }
+.iv-ev-t tbody tr { cursor: pointer; }
+.iv-ev-t tbody tr:hover, .iv-ev-t tbody tr:focus-visible { background: rgba(18, 18, 18, 0.06); outline: 0; }
+.iv-ev-t td.sp { width: 120px; padding-right: 0; }
+.iv-ev-t td.sp svg { display: block; }
+.iv-ev-t .mk, .iv-ev-list .mk { display: inline-block; width: 9px; height: 9px; border: 1px solid var(--c, var(--ink)); margin-right: 8px; vertical-align: 0; }
+.iv-ev-t tr.improving .mk, .iv-ev-list li.improving .mk { background: var(--c, var(--ink)); }
+.iv-ev-t tr.stalled .mk, .iv-ev-list li.stalled .mk { height: 1px; border: 0; background: var(--c, var(--ink)); vertical-align: 4px; }
+.iv-ev-t tr.worsening .mk, .iv-ev-list li.worsening .mk { background: repeating-linear-gradient(135deg, var(--c, var(--ink)) 0 1px, transparent 1px 3px); }
+.iv-ev-list { list-style: none; margin: 0; padding: 0; }
+.iv-ev-list li { display: flex; align-items: baseline; gap: 2px; padding: 6px 0; border-bottom: 1px solid var(--rule); font-size: 13px; line-height: 1.35; }
+.iv-ev-list li[data-ev-series] { cursor: pointer; }
+.iv-ev-list li[data-ev-series]:hover { background: rgba(18, 18, 18, 0.06); }
+.iv-ev-list li .sub { display: block; color: var(--ink-3); font-size: 12px; }
+.iv-ev-list li small { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin-left: 6px; }
+.iv-ev-foot { margin: 14px 0 0; color: var(--ink-3); text-transform: none; letter-spacing: 0.03em; font-size: 12px; line-height: 1.5; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .iv-mx th.m { width: 130px; }
+}
+@media (max-width: 600px) {
+  .iv-light-rail [data-ms] span { display: none; } /* the year line under the numeral names the milestone in hand */
+  .iv-light-rail { height: 70px; }
+  .iv-light-rail .line { top: 30px; } .iv-light-rail .mk { top: 24px; } .iv-light-rail .end { top: 38px; }
+  .iv-light-rail [data-ms] { height: 70px; } .iv-light-rail [data-ms] i { top: 20px; }
+  .iv-mx th.m { width: 104px; }
+  .iv-ev-facts { grid-template-columns: 90px 1fr; }
+  .iv-tools { font-size: 16px; }
+}

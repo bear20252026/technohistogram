@@ -1,0 +1,191 @@
+/* Patterns lift (DESIGN_BRIEF.md, Oct 2026). Ground is --ground; rules, not cards; one dominant numeral per finding;
+   the numbers once more in the index rail, which shows one finding at a time; the method behind a toggle; contract and source under every chart. */
+
+.pt-wrap { padding-bottom: 140px; }
+.pt-top { max-width: 820px; margin-bottom: 0; }
+
+
+/* ---- screen 1, Zürich Data: a 3 by 3 poster grid, hairlines not cards, one number and one chart a cell, one accent ---- */
+.fd {
+  /* Color direction: History's five hue families and AI's crimson, five steps each (1 palest, 5 darkest), from palette.css */
+  --fd-signal-1: var(--h-signal-1); --fd-signal-2: var(--h-signal-2); --fd-signal-3: var(--h-signal-3); --fd-signal-4: var(--h-signal-4); --fd-signal-5: var(--h-signal-5);
+  --fd-know-1: var(--h-knowledge-1); --fd-know-2: var(--h-knowledge-2); --fd-know-3: var(--h-knowledge-3); --fd-know-4: var(--h-knowledge-4); --fd-know-5: var(--h-knowledge-5);
+  --fd-power-1: var(--h-power-1); --fd-power-2: var(--h-power-2); --fd-power-3: var(--h-power-3); --fd-power-4: var(--h-power-4); --fd-power-5: var(--h-power-5);
+  --fd-move-1: var(--h-movement-1); --fd-move-2: var(--h-movement-2); --fd-move-3: var(--h-movement-3); --fd-move-4: var(--h-movement-4); --fd-move-5: var(--h-movement-5);
+  --fd-life-1: var(--h-life-1); --fd-life-2: var(--h-life-2); --fd-life-3: var(--h-life-3); --fd-life-4: var(--h-life-4); --fd-life-5: var(--h-life-5);
+  --fd-ai-1: var(--h-ai-1); --fd-ai-2: var(--h-ai-2); --fd-ai-3: var(--h-ai-3); --fd-ai-4: var(--h-ai-4); --fd-ai-5: var(--h-ai-5);
+}
+/* the poster cell's own family: numeral and index in its deepest steps */
+[data-fam="signal"] { --fd-cell-5: var(--fd-signal-5); --fd-cell-4: var(--fd-signal-4); }
+[data-fam="know"] { --fd-cell-5: var(--fd-know-5); --fd-cell-4: var(--fd-know-4); }
+[data-fam="power"] { --fd-cell-5: var(--fd-power-5); --fd-cell-4: var(--fd-power-4); }
+[data-fam="move"] { --fd-cell-5: var(--fd-move-5); --fd-cell-4: var(--fd-move-4); }
+[data-fam="life"] { --fd-cell-5: var(--fd-life-5); --fd-cell-4: var(--fd-life-4); }
+[data-fam="ai"] { --fd-cell-5: var(--fd-ai-5); --fd-cell-4: var(--fd-ai-4); }
+.fd-top { max-width: none; display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin: 0 0 14px; }
+.fd-top h2 { font-family: var(--font-display); font-weight: 400; font-size: 32px; line-height: 1; letter-spacing: -0.02em; margin: 0; }
+.fd-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong); border-left: 1px solid var(--rule-strong); }
+.fd-grid li { min-width: 0; border-right: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); }
+.fd-cell { appearance: none; border: 0; background: none; font: inherit; text-align: left; cursor: pointer; color: var(--ink); width: 100%; height: 100%; min-height: 224px; padding: 14px 16px 16px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 8px; box-sizing: border-box; }
+.fd-cell:hover { background: var(--ground-2); }
+.fd-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.fd-ix { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; color: var(--fd-cell-4, var(--ink-3)); }
+.fd-num { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.fd-num b { font-family: var(--font-display); font-weight: 400; font-size: 56px; line-height: 0.9; letter-spacing: -0.02em; color: var(--fd-cell-5, var(--ink)); font-variant-numeric: tabular-nums lining-nums; }
+.fd-num small { font-family: var(--font-mono); font-size: 14px; color: var(--ink-3); }
+.fd-num small.pre:empty, .pt-big small.pre:empty { display: none; }
+.fd-num[data-u="%"] { gap: 0; }
+.fd-num[data-u="%"] small { font-size: 22px; color: var(--fd-cell-5, var(--ink)); }
+.pt-big[data-u="%"] small { margin-left: 0; font-size: 0.4em; color: inherit; }
+.fd-num[hidden], .pt-big[hidden] { display: none; }
+.pt-big small.pre { margin: 0 8px 0 0; }
+.fd-mini { display: block; width: 100%; height: 72px; min-height: 48px; overflow: visible; align-self: end; }
+.fd-say { font-size: 15px; line-height: 1.3; color: var(--ink-2); text-wrap: pretty; }
+.fd-cell:hover .fd-say { color: var(--ink); }
+/* ---- screen 2: the finding the cell grew into; one column, the evidence panel beside it ---- */
+.pt-say { font-family: var(--font-display); font-weight: 400; }
+.pt .pt-big { color: var(--fd-cell-5, var(--ink)); }
+.pt-all { appearance: none; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- a finding: dominant numeral (about 8x its label), title beside it, controls, chart with footer, reading column ---- */
+.pt-list { gap: 56px; }
+.pt { scroll-margin-top: 8px; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'beside' 'chart' 'foot' 'nav'; gap: 12px 0; padding-top: 10px; border-top: 0; }
+.pt-chart { grid-area: chart; }
+.pt-nav { grid-area: nav; }
+/* a line beside the chart, where the shape of the record needs saying (Findings 01: most links are rules of the 2020s) */
+.pt-beside { grid-area: beside; justify-self: end; margin: 0 0 -6px; max-width: 34ch; font-size: 14px; line-height: 1.35; color: var(--ink-2); text-align: right; }
+.pt-beside:empty { display: none; }
+.pt[hidden], .fd-grid[hidden] { display: none; }
+/* Breathing Page: the header band is mostly empty by decision; the caption cluster sits low left, the numeral at the right
+   third, a 24px red seal beside the finding number is the only color, a mono index line carries number and denominator,
+   and one hairline datum closes the band */
+.pt-head { grid-area: head; max-width: none; display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: 6px 36px; align-items: end; min-height: 150px; padding-bottom: 16px; border-bottom: 1px solid var(--rule-strong); }
+.pt-num { display: grid; gap: 3px; align-content: end; justify-self: start; }
+.pt-big { font-family: var(--font-display); font-weight: 400; font-size: clamp(72px, 6.4vw, 108px); line-height: 0.92; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.pt-big small { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0; color: var(--ink-3); margin-left: 6px; }
+.pt-numl { font-size: 14px; line-height: 1.3; color: var(--ink-2); max-width: 26ch; }
+.pt-cmp { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.pt-cmp:empty { display: none; }
+.pt-was { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); }
+.pt-tt { min-width: 0; max-width: 52ch; align-self: end; }
+.pt-index { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 11.5px; letter-spacing: 0.06em; color: var(--ink-3); }
+.pt-index b { color: var(--ink); font-weight: 400; }
+.pt-seal { display: inline-block; width: 24px; height: 24px; background: var(--accent); flex: none; transform-origin: center; }
+.pt-tt h3 { font-size: 32px; line-height: 1.08; margin: 10px 0 0; text-wrap: pretty; letter-spacing: -0.01em; }
+.pt-sub { line-height: 1.6; font-size: 14px; }
+.pt-head.pre .pt-seal, .pt-head.pre .pt-index, .pt-head.pre h3, .pt-head.pre .pt-sub, .pt-head.pre .pt-num { opacity: 0; }
+.pt-play { grid-area: play; }
+/* the sample behind the numeral, in the unit it counts */
+.pt-cutnote { font-size: 13px; color: var(--ink-2); border-left: 2px solid var(--accent); padding-left: 10px; margin: 10px 0 0; max-width: 60ch; }
+/* previous and next finding, at the end of the reading */
+.pt-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.pt-nav button.mid { text-align: center; }
+.pt-nav button { appearance: none; background: none; border: 0; font: inherit; cursor: pointer; display: grid; gap: 2px; text-align: left; color: var(--ink-2); padding: 6px 0; min-height: 44px; }
+.pt-nav button.next { text-align: right; }
+.pt-nav button:hover { color: var(--ink); }
+.pt-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pt-nav button span:last-child { font-size: 13px; }
+.pt-chart { grid-area: chart; }
+.pt-foot { grid-area: foot; }
+.pt-read { grid-area: read; }
+
+.pt-second-per { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-3); line-height: 1.5; }
+
+/* fixed footer band under every chart: the encoding contract, then source, date and denominator */
+.pt-foot { border-top: 1px solid var(--rule); padding-top: 8px; display: grid; gap: 5px; font-size: 14px; line-height: 1.45; }
+.pt-contract { color: var(--ink-2); }
+.pt-source { font-family: var(--font-mono); font-size: 14px; color: var(--ink-3); line-height: 1.5; margin: 0; }
+.pt-evb { appearance: none; border: 0; background: none; font: inherit; color: var(--ink); cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; min-height: 24px; }
+.pt-evb:hover { color: var(--fd-cell-5, var(--ink)); }
+/* the evidence panel: method, settings, copy and CSV, the reading and the encoding line, as a drawer at the right */
+.pt-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(520px, 92vw); background: var(--ground); border-left: 1px solid var(--rule-strong); box-shadow: -12px 0 40px rgba(0,0,0,0.08); z-index: 40; overflow: auto; padding: 18px 22px 40px; box-sizing: border-box; display: block; }
+.pt-panel > * { grid-area: auto; margin: 0 0 14px; max-width: none; }
+.pt-panel .pt-play, .pt-panel .pt-read { grid-area: auto; }
+.pt-panel[hidden] { display: none; }
+.pt-panel-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule-strong); padding-bottom: 8px; }
+.pt-panel-x { appearance: none; border: 1px solid var(--rule-strong); background: none; font: inherit; font-size: 20px; line-height: 1; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; color: var(--ink-2); }
+.pt-panel-x:hover { color: var(--ink); border-color: var(--ink); }
+.pt-mt { font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+.pt-panel .pt-sub { margin: 0; font-size: 14px; }
+.pt-panel .pt-cmp { font-size: 14px; }
+.pt-panel .pt-play { border-top: 1px solid var(--rule); padding-top: 10px; }
+.pt-panel .pt-contract { font-size: 14px; line-height: 1.5; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 10px; }
+.pt-panel .pt-contract .sc { display: block; margin-bottom: 4px; }
+.pt-panel .pt-read { border-top: 1px solid var(--rule); padding-top: 10px; }
+@media (prefers-reduced-motion: no-preference) { .pt-panel:not([hidden]) { animation: pt-panel-in 300ms cubic-bezier(.2,.7,.2,1); } }
+@keyframes pt-panel-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.pt-source a { color: inherit; }
+
+/* direct labels: short name on the chart, full sentence listed beneath, same leader hairline */
+.pt-legend { grid-template-columns: 1fr; gap: 3px; margin-top: 8px; }
+.pt-legend li { display: block; line-height: 1.4; }
+.pt-legend .n { font-family: var(--font-text); font-style: italic; font-size: 14px; color: var(--ink); }
+.pt-legend .n::after { content: ':'; margin-right: 6px; }
+.pt-legend li > span:not(.n) { display: inline; font-size: 14px; }
+.pt-panel .pt-legend { list-style: none; padding: 10px 0 0; margin: 0 0 14px; border-top: 1px solid var(--rule); }
+.pt-panel .pt-legend::before { content: 'Callouts in full'; display: block; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px; }
+.pt-legend .pt-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pt-legend li:has(.num) { display: grid; grid-template-columns: 16px minmax(0, 1fr); column-gap: 8px; align-items: start; }
+.pt-legend li:has(.num) .n.num { margin: 1px 0 0; }
+.pt-lead { shape-rendering: geometricPrecision; }
+
+/* ghost of the state before the current change: the same marks, desaturated, behind the live ones */
+.pt-ghost { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
+/* sliders: a 44px hit area on the track and thumb; a note on the ones that shape the chart but not the headline figure */
+.pt-play .pp-c { min-height: 44px; align-items: center; }
+.pt-play .pp-c input[type="range"] { height: 44px; min-height: 44px; margin: 0; padding: 0; touch-action: pan-y; cursor: pointer; }
+.pt-play .pp-c input[type="range"]::-webkit-slider-thumb { width: 18px; height: 18px; }
+.pt-play .pp-c .pp-l { display: grid; line-height: 1.25; }
+.pt-play .pp-note { display: block; text-transform: none; letter-spacing: 0.02em; font-size: 10.5px; color: var(--ink-3); white-space: normal; }
+/* a sentence or value that just changed holds a ground-3 wash for 900ms, then settles */
+@keyframes pt-flash { 0% { background-color: var(--ground-3); } 35% { background-color: var(--ground-3); } 100% { background-color: transparent; } }
+.pt-flash { animation: pt-flash 900ms ease-out; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* before the first reveal the marks wait; axes, grid and labels stand (stable shell, changing demonstration) */
+.pt-chart.pre .pt-mk, .pt-chart.pre .pt-line, .pt-chart.pre .pt-call, .pt-chart.pre .pt-legend, .pt-chart.pre .pt-ghost { opacity: 0; }
+
+@media (max-width: 1100px) {
+  .fd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fd-cell { min-height: 200px; }
+  .pt { scroll-margin-top: 58px; grid-template-columns: 1fr; grid-template-areas: 'head' 'beside' 'chart' 'foot' 'nav'; }
+  .pt-head { grid-template-columns: 1fr; gap: 10px; min-height: 0; padding-bottom: 14px; }
+  .pt-num { justify-self: end; text-align: right; }
+  .pt-numl { justify-self: end; }
+  .pt-tt h3 { font-size: 26px; }
+  .pt-big { font-size: 72px; }
+  .pt-play .pp-c { grid-template-columns: 120px minmax(0, 1fr) 44px; }
+}
+@media (max-width: 700px) {
+  /* phones: one column of posters, each a compact band; the panel is a sheet from the bottom */
+  .fd-top { display: grid; gap: 4px; }
+  .fd-grid { grid-template-columns: 1fr; }
+  .fd-cell { min-height: 0; grid-template-columns: minmax(0, 1fr) 132px; grid-template-rows: auto auto; grid-template-areas: 'ix mini' 'num mini' 'say mini'; gap: 4px 14px; padding: 12px 14px; }
+  .fd-ix { grid-area: ix; }
+  .fd-num { grid-area: num; }
+  .fd-num b { font-size: 44px; }
+  .fd-mini { grid-area: mini; height: 100%; min-height: 64px; align-self: stretch; }
+  .fd-say { grid-area: say; font-size: 14px; }
+  .pt-panel { top: auto; left: 0; right: 0; width: auto; max-height: 86vh; border-left: 0; border-top: 1px solid var(--rule-strong); box-shadow: 0 -12px 40px rgba(0,0,0,0.1); padding: 14px 16px 40px; }
+  .pt-nav button:not(.mid) span:last-child { display: none; }
+}
+@media (max-width: 480px) {
+  .pt-big { font-size: 64px; }
+  .pt-list { gap: 44px; }
+}
+.pt-legend .n.num { font-family: var(--font-mono); font-style: normal; font-size: 11px; display: inline-block; min-width: 16px; height: 16px; line-height: 15px; text-align: center; border: 1px solid var(--ink); border-radius: 50%; margin-right: 8px; }
+.pt-legend .n.num::after { content: none; }
+/* the finding heading takes focus after a jump so the next Tab lands in its controls; the ring is a hairline, not a box */
+.pt h3[tabindex]:focus { outline: none; }
+.pt h3[tabindex]:focus-visible { outline: 1px dashed var(--ink-3); outline-offset: 6px; }
+/* scale breaks on the warped time axis: the stride label sits under the tick row in the quietest ink */
+.pt-stride { fill: var(--ink-3); letter-spacing: 0.04em; }
+/* the type floor is 10.5px: axis ticks included */
+.pt-tk, .pt-ann-n { font-size: 10.5px; }
+/* regions: direct labels in the margin share the tick type; the example name under a column is a hairline smaller than a callout */
+.pt-dl text { paint-order: stroke; stroke: var(--ground); stroke-width: 2.5px; stroke-linejoin: round; }
+.pt-dl text[style*="--ground"] { stroke: none; }
+/* at phone width the section headline is 40 over a 13.5 body (3x), as the Ledger */
+@media (max-width: 560px) {
+  .pt-top h2 { font-size: 40px; line-height: 0.98; }
+  .pt-top p { font-size: 13.5px; line-height: 1.45; }
+}

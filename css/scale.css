@@ -1,0 +1,86 @@
+/* scale.css: one type scale and two text inks for every HTML surface of the map page.
+   Six sizes, shared with the coil in views/helix.js: display 112 (72 phone), head 32 (24 phone), quote 22, body 17, support 15, small 13.
+   Nothing under 13. Text inks: --kit-ink and --kit-soft only; hues color dots and marks. Loaded after kit.css so order wins. */
+html[data-tab='map'] {
+  --t-display: 112px; --t-head: 32px; --t-quote: 22px; --t-body: 17px; --t-support: 15px; --t-small: 13px;
+  --ink: var(--kit-ink); --ink-2: var(--kit-soft); --ink-3: var(--kit-soft);
+}
+@media (max-width: 720px) { html[data-tab='map'] { --t-display: 72px; --t-head: 24px; } }
+
+/* top bar */
+html[data-tab='map'] body .brand h1 { font-size: 26px; }
+html[data-tab='map'] body .views button, html[data-tab='map'] body .views button .lg { font-size: var(--t-support); }
+html[data-tab='map'] body .views button .n, html[data-tab='map'] body .views button .sub { font-size: var(--t-small); }
+@media (min-width: 1381px) { html[data-tab='map'] body .search { width: 304px; } }
+html[data-tab='map'] body .search input { font-size: var(--t-support); }
+html[data-tab='map'] body .search input::placeholder { color: var(--kit-soft); opacity: 1; }
+
+/* query results */
+html[data-tab='map'] body .search-results button { font-size: var(--t-support); }
+html[data-tab='map'] body .search-results .t { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .search-results .y, html[data-tab='map'] body .search-results .d, html[data-tab='map'] body .search-results button.sr-game .y { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .search-results .n { font-family: var(--font-text); font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .sr-tl .sr-n { font-family: var(--font-text); font-size: var(--t-small); letter-spacing: 0; color: var(--kit-soft); }
+html[data-tab='map'] body .sr-tl .yr { font-family: var(--font-text); font-size: var(--t-small); fill: var(--kit-soft); }
+
+/* record panel head */
+html[data-tab='map'] body .drawer-head .kicker, html[data-tab='map'] body .drawer-head .kicker .ki, html[data-tab='map'] body .drawer-body .kicker { font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-head .kicker .ki[style] { color: var(--kit-soft) !important; filter: none !important; }  /* inline hue failed contrast at 1.3:1; the dot carries the hue */
+html[data-tab='map'] body .drawer-title h3, html[data-tab='map'] body .drawer-body h3 { font-size: var(--t-head); line-height: 1.08; }
+html[data-tab='map'] body .drawer-title .date, html[data-tab='map'] body .drawer-body .date { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .date .scale-k { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .date .folio { font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body p.scales { font-size: var(--t-support); color: var(--kit-soft); }
+
+/* record panel body */
+html[data-tab='map'] body .drawer-body .summary { font-size: var(--t-body); line-height: 1.45; color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .dl dt { font-family: var(--font-text); font-style: normal; font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .dl dd { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .sect-h { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .sect-h span + span { color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .minigraph text { font-family: var(--font-text); font-size: var(--t-small); fill: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .ix-h, html[data-tab='map'] body .drawer-body .ix-h span { font-family: var(--font-text); font-size: var(--t-small); letter-spacing: 0; text-transform: none; color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .links button, html[data-tab='map'] body .drawer-body .links .tt, html[data-tab='map'] body .drawer-body .links li > span:not(.y) { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .links .y, html[data-tab='map'] body .ls-list .ls-row .y, html[data-tab='map'] body .ls-list .y { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .ls-list .ls-sub { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where-checked, html[data-tab='map'] body .drawer-body .where .k { font-family: var(--font-text); font-size: var(--t-small); font-style: normal; letter-spacing: 0; text-transform: none; color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where .tt { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .where .y { font-family: var(--font-text); font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where .why { font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where-none, html[data-tab='map'] body .drawer-body .ls-empty { font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .sources a { font-size: var(--t-body); }
+html[data-tab='map'] body .drawer-body .sources .n { font-family: var(--font-text); font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .sources .host { font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where-draw, html[data-tab='map'] body .drawer-foot .where-draw.cx-brush, html[data-tab='map'] body .drawer-foot .where-jump { font-size: var(--t-support); letter-spacing: 0; text-transform: none; }
+html[data-tab='map'] body .drawer-body .ab-small { font-size: var(--t-support) !important; color: var(--kit-soft) !important; }
+
+/* claim panel */
+html[data-tab='map'] body .drawer-body .pr-quote p, html[data-tab='map'] body .drawer-body blockquote p { font-size: var(--t-quote); line-height: 1.3; color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .pr-quote figcaption, html[data-tab='map'] body .drawer-body blockquote figcaption, html[data-tab='map'] body .drawer-body .pr-by { font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .pr-verdict .sc { font-size: var(--t-support); color: var(--kit-ink); }  /* verdict hue stays on the kicker dot; the word reads in ink */
+html[data-tab='map'] body .drawer-body .pr-verdict p { font-size: var(--t-support); color: var(--kit-ink); }
+
+/* hover read, toast */
+html[data-tab='map'] body .tip { font-size: var(--t-support); }
+html[data-tab='map'] body .tip .k { font-family: var(--font-text); font-size: var(--t-small); letter-spacing: 0; text-transform: none; opacity: 1; color: var(--kit-soft); }
+html[data-tab='map'] body .toast { font-size: var(--t-support); }
+
+/* pass two: panel pieces rewritten, top bar without a one-item tab row */
+html[data-tab='map'] body .topbar .views { display: none; }  /* one view, so no tab row; the brand names the page */
+html[data-tab='map'] body .drawer-foot { display: none; }  /* the footer duplicated section heads; sections carry themselves */
+html[data-tab='map'] body .drawer-body .sources, html[data-tab='map'] body .drawer-body ol.sources { list-style: none; padding-left: 0; }
+html[data-tab='map'] body .drawer-body .sources .n { display: none; }
+html[data-tab='map'] body .drawer-body .where li { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 0 12px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid rgba(238, 240, 250, 0.08); }
+html[data-tab='map'] body .drawer-body .where li .k { font-size: var(--t-small); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .where li .tt { font-size: var(--t-support); color: var(--kit-ink); }
+html[data-tab='map'] body .drawer-body .where li .y { font-size: var(--t-support); color: var(--kit-soft); }
+html[data-tab='map'] body .drawer-body .pr-verdict .sc { display: inline-flex; align-items: center; gap: 8px; }
+html[data-tab='map'] body .drawer-body .pr-verdict .sc i { width: 9px; height: 9px; border-radius: 50%; background: var(--oc); display: inline-block; flex: none; }
+html[data-tab='map'] body .search-results .n { display: none; }
+html[data-tab='map'] body .search-results .sr-ent .y { visibility: hidden; }
+html[data-tab='map'] body .sr-tl .yr { display: none; }  /* the strip below the coil already carries 1026 and 2026 */
+html[data-tab='map'] body .search-results button { grid-template-columns: 44px minmax(0, 1fr) 64px; }  /* year, record, domain; no numeral column */
+@media (max-width: 760px) { html[data-tab='map'] body .search-results button { grid-template-columns: 40px minmax(0, 1fr); } }
+html[data-tab='map'] body .drawer-body .sources.ix li { grid-template-columns: minmax(0, 1fr); }
+html[data-tab='map'] body .drawer-body .sources.ix .host { grid-column: 1; }
+html[data-tab='map'] body .drawer-body .sources li { margin: 0; padding: 6px 0; }

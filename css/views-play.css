@@ -1,0 +1,739 @@
+/* ==== css/play_shared.css ==== */
+/* PLAY, shared: the board, the stage, the strip and tracker, the docket and corner, stamps, the score card (play_shared.css) */
+/* PLAY, Brute Letter (VISION_4.md feel and colour direction): white ground, letters at poster size, each round dealt a
+   pair of printed inks (--ink-a for the first letter, --ink-b for the second), the answer as a black Archive Index stamp
+   landing on a beat, numerals that decode, a verdict revealed through a mask. The seven other games fold behind one link. */
+.td-sec[data-sec='play'] { --ground: #fff; --paper: #fff; background: #fff; }
+.gm { background: #F7F5F0; min-height: calc(100vh - 96px); }
+.gm-board { --ink-a: #1B365D; --ink-b: #B84326; }
+/* poster letters in the round's pair of inks */
+.gm-pair .gm-card:first-of-type .gm-ct, .gm-pair .gm-card:nth-of-type(1) .gm-ct, .gm-one .gm-ct { color: var(--ink-a); }
+.gm-pair .gm-card:first-of-type, .gm-one { border-top-color: var(--ink-a); }
+.gm-one .gm-cy b, .gm-yv { color: var(--ink-b); }
+/* the choice is the whole screen: poster letters sized to the viewport, the two titles filling the width */
+.gm .gm-ct { font-size: clamp(34px, 5.2vw, 84px); line-height: 0.98; letter-spacing: -0.02em; }
+.gm .gm-board { max-width: none; margin-top: 8px; padding-right: 150px; }
+.gm .gm-card, .gm .gm-one { border-top-width: 3px; padding-top: 14px; }
+.gm .gm-cd, .gm .gm-sl { color: var(--ink-a-l, var(--ink-2)); }
+/* the stamp: black, bordered, set in the mono, the year as a catalogue number; a hard cut after one beat */
+.gm-stamp { position: static; justify-self: start; margin: 2px 0 4px; display: inline-block; font-family: var(--font-mono); font-weight: 500; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); padding: 4px 8px 3px; transform: rotate(-4deg); transform-origin: left center; line-height: 1.1; background: #fff; animation: gm-land 280ms steps(1, end) both; white-space: nowrap; }
+.gm-one .gm-cy .gm-stamp { margin: 0 0 0 14px; align-self: center; }
+@keyframes gm-land { from { opacity: 0; } to { opacity: 1; } }
+/* the verdict sentence is revealed through a mask, left to right, after the stamp has landed */
+.gm-verdict { clip-path: inset(0 0 0 0); animation: gm-mask 320ms steps(8, end) 280ms both; }
+@keyframes gm-mask { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.gm-circ-w .gm-circ, .gm-yguess { border-color: var(--ink-b); }
+/* the page opens on the board, full width; the score is a bare numeral in the top right corner */
+.gm { padding: 14px 16px 56px; min-width: 0; position: relative; }
+.gm-games { min-width: 0; }
+.gm-score { position: absolute; top: 12px; right: 16px; display: grid; justify-items: end; gap: 2px; text-align: right; }
+.gm-score .gm-pts { font-size: inherit; font-family: inherit; font-weight: 600; color: var(--ink); line-height: inherit; }
+.gm-score-l { margin: 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); min-height: 14px; font-variant-numeric: tabular-nums; }
+/* the seven other games fold behind one small link */
+.gm-reset { margin-top: 4px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; background: transparent; border: 1px solid var(--rule-strong); color: var(--ink-2); padding: 4px 8px; margin-top: 6px; cursor: pointer; }
+.gm-reset:hover { border-color: var(--ink); color: var(--ink); }
+/* the index folds beneath the board under a hairline: plain rows, the row itself is the link */
+.gm-index { border-top: 1px solid var(--rule); }
+.gm-row { display: grid; grid-template-columns: 220px minmax(0, 1fr) auto 18px; gap: 0 18px; align-items: baseline; padding: 10px 0 9px; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.gm-row > b { font-family: var(--font-display); font-weight: 400; font-size: 20px; line-height: 1.05; }
+.gm-how { font-size: 13px; line-height: 1.4; color: var(--ink-2); max-width: 64ch; }
+.gm-n { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.gm-n b { font-weight: 500; color: var(--ink-2); }
+.gm-arrow { color: var(--ink-3); justify-self: end; }
+.gm-row:hover > b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.gm-row:hover .gm-arrow { color: var(--ink); }
+.gm-start, .gm-open { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); background: transparent; border: 1px solid var(--ink); padding: 6px 10px; text-decoration: none; cursor: pointer; white-space: nowrap; line-height: 1.2; }
+.gm-start:hover, .gm-open:hover { background: var(--ink); color: var(--ground); }
+.gm :focus-visible { outline: 2px solid #17171A; outline-offset: 2px; }
+/* the games played here: one at a time, a three-tab switcher above a single board on a shared baseline */
+.gm-games { padding-bottom: 8px; }
+.gm-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--rule-strong); border-top: 1px solid var(--rule-strong); }
+.gm-tab { display: inline-flex; align-items: baseline; gap: 10px; font: inherit; background: transparent; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 14px 0 10px; margin-right: 36px; cursor: pointer; color: var(--ink-2); }
+.gm-tab .gm-tab-t { font-family: var(--font-display); font-size: 28px; line-height: 1; }
+.gm-tab[aria-selected='true'] { color: var(--ink); border-bottom-color: var(--ink); }
+.gm-tab:hover { color: var(--ink); }
+.gm-game { min-width: 0; padding-top: 4px; min-height: 480px; }
+/* a fixed minimum so the index beneath holds still as rounds come and go */
+.gm-gh { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+.gm-board { margin: 16px 0 0; }
+.gm-board[aria-busy='true'] { opacity: 0.6; }
+.gm-q { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
+/* the result reads larger than the question: the verdict in display type, the points in mono beneath */
+.gm-result { margin: 0 0 14px; }
+.gm-verdict { margin: 0 0 14px; font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.12; color: var(--ink); letter-spacing: -0.01em; max-width: 30ch; text-wrap: pretty; }
+.gm-pt { margin: 6px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.gm-ct { font-family: var(--font-display); font-size: 22px; line-height: 1.1; text-wrap: pretty; }
+.gm-cd { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.gm-tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); }
+.gm-sum { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+.gm-open { justify-self: start; margin-top: 4px; }
+/* the one human mark: a red ring round the pick the player made */
+.gm-circ { position: absolute; left: -10px; top: 2px; width: calc(100% + 16px); height: 58px; border: 1.5px solid var(--accent); border-radius: 50% / 46%; transform: rotate(-1.5deg); pointer-events: none; }
+.gm-hint { margin: 10px 0 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.03em; color: var(--ink-3); }
+.gm-next { display: flex; align-items: center; gap: 14px; margin-top: 16px; flex-wrap: wrap; }
+.gm-next .gm-hint { margin: 0; }
+.gm-sl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.gm-axis { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); margin: 4px 0 0 74px; padding-right: 76px; }
+/* the locator: the thousand years as a hairline, the window as an ink segment on it */
+.gm-loc { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; margin: 14px 0 0; }
+.gm-loc-l { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.gm-loc-bar { position: relative; height: 10px; border-bottom: 1px solid var(--rule-strong); }
+.gm-loc-win { position: absolute; bottom: -1px; height: 5px; border-bottom: 3px solid var(--ink); min-width: 3px; }
+.gm-loc-k { grid-column: 2; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.03em; color: var(--ink-3); }
+.gm-yl-l, .gm-yl-r { position: absolute; bottom: -17px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.gm-yl-l { left: 0; }
+.gm-yl-r { right: 0; }
+.gm-yr { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+.gm-yr b { font-family: var(--font-display); font-weight: 400; font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.gm-dist { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); }
+.gm-yline { position: relative; height: 14px; border-bottom: 1px solid var(--rule-strong); margin: 4px 0 22px; }
+.gm-yline i { position: absolute; bottom: -1px; width: 0; height: 0; transform: translateX(-50%); }
+.gm-ymark { border-left: 2px solid var(--ink); height: 14px !important; }
+.gm-yguess { width: 10px !important; height: 10px !important; border: 1.5px solid var(--accent); border-radius: 50%; bottom: -5px !important; }
+.gm-rv { font-family: var(--font-display); font-weight: 400; font-size: 36px; line-height: 1; }
+.gm-you { margin: 2px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; color: var(--ink-2); }
+.gm-circ-w { position: relative; display: inline-block; padding: 0 2px; }
+.gm-circ-w .gm-circ { left: -8px; top: -4px; width: calc(100% + 16px); height: calc(100% + 8px); border-radius: 50% / 50%; }
+/* a line to close the section */
+.gm-foot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 24px; padding-top: 12px; font-size: 12px; line-height: 1.45; color: var(--ink-3); }
+.gm-foot b { font-family: var(--font-mono); font-weight: 500; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); display: block; margin-bottom: 2px; }
+@media (max-width: 1279px) {
+  .gm-row { grid-template-columns: 190px minmax(0, 1fr) auto 18px; }
+  .gm-tab .gm-tab-t { font-size: 24px; }
+}
+@media (max-width: 760px) {
+  .gm { padding: 12px 12px 40px; }
+  .gm-score { top: 10px; right: 12px; }
+  .gm-tabs { padding-right: 0; }
+  .gm-row { grid-template-columns: minmax(0, 1fr) 18px; gap: 3px 10px; padding: 10px 0; }
+  .gm-row > b { font-size: 19px; }
+  .gm-how, .gm-n { grid-column: 1; }
+  .gm-arrow { grid-row: 1; grid-column: 2; }
+  .gm-tabs { flex-wrap: wrap; }
+  .gm-game { min-height: 440px; }
+  .gm-tab { margin-right: 18px; padding: 12px 0 8px; gap: 6px; }
+  .gm-tab .gm-tab-t { font-size: 18px; }
+  .gm-verdict { font-size: 24px; }
+  .gm .gm-ct { font-size: clamp(30px, 9vw, 40px); }
+  .gm .gm-board { padding-right: 0; padding-top: 44px; }
+  .gm-sl { grid-column: 1 / -1; }
+  .gm-axis { margin-left: 0; padding-right: 68px; }
+  .gm-foot { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm * { transition: none !important; animation: none !important; }
+}
+/* ==== Council round 10: the composition. Three zones per game: the stage (the letters), the control strip (one ruled
+   row of the round's controls), the docket and ledger (what the record says, what the session stands at). ==== */
+.gm-view .gm { padding: 16px 24px 20px; min-height: calc(100vh - 96px); display: grid; grid-template-rows: minmax(0, 1fr); }
+.gm-view .gm-games, .gm-view .gm-game, .gm-view .gm-board { min-height: 0; padding: 0; margin: 0; max-width: none; }
+.gm-view .gm-games, .gm-view .gm-game:not([hidden]) { display: grid; grid-template-rows: minmax(0, 1fr); }
+.gm-view .gm-game[hidden] { display: none; }
+.gm-view .gm-board { display: grid; grid-template-rows: minmax(360px, 1fr) auto auto; gap: 18px; padding-right: 0; }
+.gm-view .gm-board > .gm-start[data-start] { align-self: start; justify-self: start; }
+/* zone 1: the stage */
+.gm-view .gm-stage { min-height: 360px; }
+.gm-view .gm-card, .gm-view .gm-one { position: relative; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 12px; min-height: 360px; padding: 20px 24px; margin: 0; border: 0; border-top: 4px solid var(--ink-a); border-radius: 0; background: color-mix(in srgb, var(--ink-a) 6%, #F7F5F0); text-align: left; font: inherit; color: var(--ink); cursor: pointer; }
+.gm-view .gm-cd { order: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-a-l, var(--ink-2)); margin: 0; }
+.gm-view .gm-ct { order: 1; font-family: var(--font-display); font-size: clamp(44px, 5.4vw, 76px); line-height: 0.98; letter-spacing: -0.02em; color: var(--ink-a); margin: auto 0; text-wrap: balance; }
+.gm-view .gm-one:not(.gm-fc) .gm-cy { justify-content: center; }
+.gm-view .gm-fc .gm-cy { order: 2; }
+.gm-view .gm-stamp { position: static; margin: 0; }
+/* zone 2: the control strip */
+.gm-view .gm-strip { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 84px; border-top: 1.5px solid #17171A; border-bottom: 1.5px solid #17171A; padding: 0 2px; }
+.gm-view .gm-strip .gm-q { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+.gm-view .gm-strip .gm-sl { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+.gm-view .gm-strip input[type='range']:disabled { opacity: 0.5; cursor: default; }
+.gm-view .gm-strip .gm-start { min-height: 44px; padding: 0 18px; }
+/* zone 3: docket and ledger */
+.gm-view .gm-dock { display: grid; grid-template-columns: 7fr 5fr; gap: 18px 32px; height: 180px; }
+.gm-view .gm-result { height: 180px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; gap: 6px; margin: 0; }
+.gm-view .gm-docket-rest { margin: 0; font-family: var(--font-serif, 'Newsreader', serif); font-size: 14px; line-height: 1.5; color: var(--ink-2); max-width: 54ch; }
+.gm-view .gm-docket-rest b { font-weight: 600; color: var(--ink); }
+.gm-view .gm-result .gm-verdict { margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 1.12; color: var(--ink); }
+.gm-view .gm-line { margin: 0; font-family: var(--font-serif, 'Newsreader', serif); font-size: 14px; line-height: 1.45; color: var(--ink-2); max-width: 64ch; }
+.gm-view .gm-result .gm-open { margin-top: auto; align-self: flex-start; }
+.gm-view .gm-ledger { display: flex; flex-direction: column; gap: 8px; height: 180px; overflow: hidden; }
+.gm-view .gm-ledger-n { margin: 0; font-family: var(--font-display); font-size: 28px; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .gm-ledger-n b { font-weight: 400; }
+.gm-view .gm-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-family: var(--font-mono); font-size: 12px; line-height: 1.4; color: var(--ink-2); }
+.gm-view .gm-log li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gm-view .gm-reset { align-self: flex-start; margin-top: auto; background: transparent; border: 0; padding: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); cursor: pointer; border-bottom: 1px solid var(--rule-strong); }
+.gm-view .gm-reset:hover { color: var(--ink); }
+@media (max-width: 760px) {
+  .gm-view .gm { padding: 12px 12px 24px; }
+  .gm-view .gm-board { grid-template-rows: auto auto auto; min-height: 0; gap: 14px; padding-top: 0; }
+  .gm-view .gm-stage, .gm-view .gm-pair, .gm-view .gm-card, .gm-view .gm-one { min-height: 0; }
+  .gm-view .gm-ct { font-size: 32px; }
+  .gm-view .gm-strip { flex-wrap: wrap; min-height: 0; padding: 12px 0; gap: 12px; }
+  .gm-view .gm-strip .gm-sl { grid-area: label; }
+  .gm-view .gm-strip input[type='range'] { grid-area: range; }
+  .gm-view .gm-strip .gm-start { grid-area: lock; justify-self: start; }
+  .gm-view .gm-dock { grid-template-columns: 1fr; height: auto; gap: 14px; }
+  .gm-view .gm-result { height: auto; min-height: 120px; }
+  .gm-view .gm-result .gm-verdict { font-size: 22px; }
+  .gm-view .gm-ledger { height: auto; }
+  .gm-view .gm-ledger-n { font-size: 22px; }
+}
+/* ==== Round 11, Elise: make it a game. The prompt is the headline in poster letters; ten rounds on a tracker; the deal
+   slides in on a beat; the reveal is the payoff (years at 96px, a FIRST band, a RIGHT or WRONG stamp across the strip,
+   the board flashing in the ink); the ruler; three poster buttons. Motion is CSS transitions and one decode loop. ==== */
+.gm-view .gm-board { grid-template-rows: minmax(360px, 1fr) auto 150px; position: relative; transition: background-color 400ms linear; }
+.gm-view .gm-board.flash-r { background-color: color-mix(in srgb, var(--ink-a) 10%, transparent); }
+.gm-view .gm-board.flash-w { background-color: color-mix(in srgb, var(--ink-b) 10%, transparent); }
+.gm-view .gm-stage { display: flex; flex-direction: column; gap: 14px; min-height: 360px; }
+.gm-view .gm-hl { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 5vw, 72px); line-height: 0.95; letter-spacing: -0.02em; color: var(--ink-a); }
+.gm-view .gm-hl.ink-b { color: var(--ink-b); }
+.gm-view .gm-stage .gm-pair, .gm-view .gm-stage .gm-one { flex: 1; min-height: 0; }
+/* the deal: letters slide in from opposite edges on a hard beat */
+.gm-view .from-l, .gm-view .from-r { opacity: 0; transition: transform 420ms cubic-bezier(.34, 1.56, .64, 1), opacity 240ms linear, box-shadow 120ms linear, outline-color 120ms linear; }
+.gm-view .from-l { transform: translateX(-120px) rotate(-2deg); }
+.gm-view .from-r { transform: translateX(120px) rotate(2deg); transition-delay: 120ms; }
+.gm-view .is-in .from-l, .gm-view .is-in .from-r { opacity: 1; transform: none; }
+/* the trading-card header: domain, region, a drawn glyph */
+.gm-view .gm-cd { display: flex; align-items: center; gap: 8px; }
+.gm-view .gm-gl { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; }
+/* the strip: the tracker above the controls, the big stamp across the centre */
+.gm-view .gm-strip { position: relative; flex-direction: column; align-items: stretch; justify-content: center; gap: 10px; min-height: 84px; padding: 10px 2px 12px; }
+.gm-view .gm-track { display: flex; align-items: center; gap: 14px; }
+.gm-view .gm-cells { display: inline-flex; gap: 4px; }
+.gm-view .gm-cells i { display: block; width: 14px; height: 14px; border: 1.5px solid #17171A; background: transparent; }
+.gm-view .gm-cells i.now { border-style: dashed; }
+.gm-view .gm-cells i.r { background: var(--ink-a); border-color: var(--ink-a); }
+.gm-view .gm-cells i.w { background: var(--ink-b); border-color: var(--ink-b); }
+.gm-view .gm-roundn { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+.gm-view .gm-ctl { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 48px; }
+.gm-view .gm-ctl > .gm-start[data-start] { margin-left: auto; }
+.gm-view .gm-verdict-slot { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; }
+.gm-view .gm-big-stamp { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #17171A; padding: 4px 18px 6px; border: 4px solid #17171A; background: #F7F5F0; text-shadow: 2px 2px 0 var(--ink-b); transform: scale(1.3) rotate(-3deg); opacity: 0; transition: transform 220ms linear, opacity 0ms linear; }
+.gm-view .gm-big-stamp.r { text-shadow: 2px 2px 0 var(--ink-a); }
+.gm-view .gm-verdict-slot.is-in .gm-big-stamp { transform: scale(1) rotate(-3deg); opacity: 1; }
+.gm-view .gm-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: #F7F5F0; padding: 2px 8px; opacity: 0; transition: opacity 0ms linear 220ms; }
+.gm-view .gm-verdict-slot.is-in .gm-note { opacity: 1; }
+/* zone 3: one line of fact and the link; the corner numeral and the streak */
+.gm-view .gm-dock { height: 150px; }
+.gm-view .gm-result { height: 150px; justify-content: flex-start; gap: 10px; }
+.gm-view .gm-line { font-size: 16px; line-height: 1.4; color: var(--ink); max-width: 68ch; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.gm-view .gm-line.rest { color: var(--ink-2); }
+.gm-view .gm-result .gm-open { margin-top: 0; }
+.gm-view .gm-ledger { height: 150px; display: flex; flex-direction: row; align-items: flex-start; gap: 16px; justify-content: flex-end; overflow: visible; }
+.gm-view .gm-big { font-family: var(--font-display); font-weight: 400; font-size: 64px; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .gm-streak { display: inline-flex; flex-wrap: wrap; gap: 4px; max-width: 76px; padding-top: 6px; }
+.gm-view .gm-streak i { display: block; width: 12px; height: 12px; background: var(--ink-a); }
+.gm-view .gm-ledger .gm-reset { margin: 0; align-self: flex-start; padding-top: 8px; }
+.gm-view .gm-ctl > .gm-start[data-start='call'] { position: absolute; right: 2px; top: 10px; }
+/* on Beat them the stamp sits at the top edge of the strip, so the three buttons stay readable */
+.gm-view [data-board='call'] .gm-verdict-slot, .gm-view [data-board='year'] .gm-verdict-slot { top: 0; transform: translate(-50%, -30%); }
+.gm-view .gm-set-k { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.gm-view .gm-set-n { font-family: var(--font-display); font-weight: 400; font-size: clamp(88px, 14vw, 200px); line-height: 0.9; letter-spacing: -0.03em; color: var(--ink-a); }
+.gm-view .gm-set-line { margin: 0; font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 48px); line-height: 1.05; color: var(--ink-b); }
+.gm-view .gm-cells.big i { width: 22px; height: 22px; }
+.gm-view .gm-set-act { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+.gm-view .gm-start.ghost { text-decoration: none; display: inline-flex; align-items: center; }
+@media (prefers-reduced-motion: reduce) {
+  .gm-view .from-l, .gm-view .from-r, .gm-view .gm-big-stamp, .gm-view .gm-band, .gm-view .gm-card, .gm-view .gm-call, .gm-view .gm-board, .gm-view .is-second .gm-cy b::after { transition: none; }
+  .gm-view .gm-card:hover:not(:disabled), .gm-view .gm-call:hover:not(:disabled) { transform: none; }
+}
+@media (max-width: 760px) {
+  .gm-view .gm-board { grid-template-rows: auto auto auto; }
+  .gm-view .gm-stage { min-height: 0; gap: 10px; }
+  .gm-view .gm-hl { font-size: 40px; }
+  .gm-view .gm-strip { padding: 10px 0; }
+  .gm-view .gm-cells i { width: 11px; height: 11px; }
+  .gm-view .gm-big-stamp { font-size: 32px; border-width: 3px; padding: 2px 10px 4px; }
+  /* on a phone the stamp gets its own band at the top of the strip */
+  .gm-view .is-answered .gm-strip { padding-top: 86px; }
+  .gm-view .gm-verdict-slot { top: 8px; transform: translate(-50%, 0); }
+  .gm-view [data-board='call'] .gm-verdict-slot, .gm-view [data-board='year'] .gm-verdict-slot { top: 8px; transform: translate(-50%, 0); }
+  .gm-view .gm-ctl { flex-wrap: wrap; }
+  .gm-view .gm-ctl > .gm-start[data-start='call'] { position: static; }
+  .gm-view .gm-dock, .gm-view .gm-result, .gm-view .gm-ledger { height: auto; }
+  .gm-view .gm-ledger { justify-content: flex-start; }
+  .gm-view .gm-big { font-size: 48px; }
+}
+
+/* ==== Feel critique 12:15 (shared): fill the screen, crop the headline like a poster, a deal people can see, one payoff
+   over the stage, bigger. ==== */
+.gm-view .gm-board { min-height: calc(100vh - 96px - 36px); grid-template-rows: minmax(0, 1fr) auto 150px; overflow: hidden; }
+.gm-view .gm-stage { position: relative; flex: 1; min-height: 0; gap: 18px; }
+.gm-view .gm-hl { font-size: clamp(72px, 9vw, 128px); line-height: 0.86; letter-spacing: -0.035em; margin: -0.08em 0 0 -0.04em; }
+.gm-view .gm-cells { gap: 2px; }
+.gm-view .gm-cells i { width: 24px; height: 24px; border-width: 2px; }
+.gm-view .gm-roundn { font-family: var(--font-display); font-size: 20px; letter-spacing: 0; text-transform: none; color: var(--ink); line-height: 1; }
+.gm-view .gm-roundn b { font-weight: 400; font-size: 28px; }
+/* the deal: 420ms with an overshoot, the second card 120ms after the first, a 2 degree tilt on the way in */
+.gm-view .from-l, .gm-view .from-r { transition: transform 420ms cubic-bezier(.34, 1.56, .64, 1), opacity 240ms linear, box-shadow 120ms linear, outline-color 120ms linear; }
+.gm-view .from-l { transform: translateX(-120px) rotate(-2deg); }
+.gm-view .from-r { transform: translateX(120px) rotate(2deg); transition-delay: 120ms; }
+.gm-view .is-in .from-r { transition-delay: 120ms; }
+.gm-view .is-in .from-l, .gm-view .is-in .from-r { transform: none; }
+/* the payoff: one stamp, over the stage, 96px, with the note as a 28px display line under it */
+.gm-view .gm-stage .gm-verdict-slot, .gm-view .gm-verdict-slot, .gm-view [data-board='call'] .gm-verdict-slot, .gm-view [data-board='year'] .gm-verdict-slot { position: absolute; left: 50%; top: 56%; transform: translate(-50%, -50%); gap: 10px; z-index: 3; }
+.gm-view .gm-big-stamp { font-size: 96px; letter-spacing: 0.1em; padding: 0 26px 8px; border-width: 6px; text-shadow: 3px 3px 0 var(--ink-b); transform: scale(1.3) rotate(-6deg); }
+.gm-view .gm-big-stamp.r { text-shadow: 3px 3px 0 var(--ink-a); }
+.gm-view .gm-verdict-slot.is-in .gm-big-stamp { transform: scale(1) rotate(-6deg); }
+.gm-view .gm-note { font-family: var(--font-display); font-size: 28px; letter-spacing: 0; text-transform: none; line-height: 1.1; padding: 4px 12px; color: var(--ink); }
+.gm-view .gm-board.flash-r { background-color: color-mix(in srgb, var(--ink-a) 22%, transparent); transition-duration: 600ms; }
+.gm-view .gm-board.flash-w { background-color: color-mix(in srgb, var(--ink-b) 22%, transparent); transition-duration: 600ms; }
+.gm-view .gm-board { transition: background-color 600ms linear; }
+.gm-view .is-answered .gm-strip { padding-top: 10px; }
+/* the score card: the numeral cropped at the top edge, the cells across the width, the line in the ink, a poster button */
+.gm-view .gm-card-set { justify-content: flex-start; gap: 22px; padding: 18px 24px 28px; overflow: hidden; }
+.gm-view .gm-set-k { order: 1; }
+.gm-view .gm-set-n { font-size: min(28vw, 320px); line-height: 0.82; margin: -0.1em 0 0 -0.03em; }
+.gm-view .gm-set-line { font-size: 64px; line-height: 0.95; letter-spacing: -0.02em; color: var(--ink-b); }
+.gm-view .gm-cells.big { width: 100%; justify-content: space-between; gap: 6px; }
+.gm-view .gm-cells.big i { flex: 1; height: 40px; width: auto; }
+.gm-view .gm-set-act { margin-top: auto; gap: 14px; }
+.gm-view .gm-set-act .gm-start { min-height: 56px; padding: 0 28px; font-family: var(--font-display); font-size: 28px; letter-spacing: -0.01em; text-transform: none; border: 2px solid #17171A; background: #17171A; color: #F7F5F0; }
+.gm-view .gm-set-act .gm-start.ghost { background: transparent; color: #17171A; }
+@media (prefers-reduced-motion: reduce) { .gm-view .from-l, .gm-view .from-r { transition: none; transition-delay: 0ms; } }
+@media (max-width: 760px) {
+  .gm-view .gm-board { min-height: 0; overflow: visible; grid-template-rows: auto auto auto; gap: 10px; }
+  .gm-view .gm-stage { gap: 10px; }
+  .gm-view .gm-hl { font-size: 56px; margin: -0.06em 0 0 -0.03em; }
+  .gm-view .gm-cells i { width: 18px; height: 18px; }
+  .gm-view .gm-roundn { font-size: 16px; } .gm-view .gm-roundn b { font-size: 22px; }
+  .gm-view .gm-track { position: relative; padding-right: 72px; }
+  .gm-view .gm-strip { min-height: 72px; padding: 8px 0; gap: 8px; }
+  .gm-view .is-answered .gm-strip { padding-top: 8px; }
+  .gm-view .gm-big-stamp { font-size: 56px; border-width: 4px; padding: 0 16px 6px; text-shadow: 2px 2px 0 var(--ink-b); }
+  .gm-view .gm-big-stamp.r { text-shadow: 2px 2px 0 var(--ink-a); }
+  .gm-view .gm-note { font-size: 20px; }
+  .gm-view .gm-verdict-slot, .gm-view [data-board='call'] .gm-verdict-slot, .gm-view [data-board='year'] .gm-verdict-slot { top: 50%; transform: translate(-50%, -50%); }
+  /* the corner rides in the tracker row on a phone: the board's dock shrinks to the docket */
+  .gm-view .gm-dock { grid-template-columns: 1fr; }
+  .gm-view .gm-ledger { position: absolute; right: 0; top: 4px; height: auto; gap: 8px; }
+  .gm-view .gm-board { position: relative; }
+  .gm-view .gm-big { font-size: 36px; }
+  .gm-view .gm-streak { max-width: 40px; padding-top: 2px; } .gm-view .gm-streak i { width: 8px; height: 8px; }
+  .gm-view .gm-ledger .gm-reset { display: none; }
+  .gm-view .gm-set-n { font-size: 112px; } .gm-view .gm-set-line { font-size: 36px; } .gm-view .gm-cells.big i { height: 28px; }
+  .gm-view .gm-set-act .gm-start { min-height: 48px; font-size: 22px; padding: 0 18px; }
+}
+
+/* ==== 12:20: the headline stays whole below the bar; the session log in the docket at rest ==== */
+.gm-view .gm-hl { font-size: clamp(72px, 7vw, 96px); line-height: 0.9; margin: 8px 0 0 -0.02em; }
+.gm-view .gm-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-family: var(--font-mono); font-size: 12px; line-height: 1.3; color: var(--ink-2); max-width: 64ch; }
+.gm-view .gm-log li { display: grid; grid-template-columns: 12px 24px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); padding-top: 6px; }
+.gm-view .gm-log li:first-child { border-top: 0; padding-top: 0; color: var(--ink); }
+.gm-view .gm-log i { display: block; width: 10px; height: 10px; align-self: center; }
+.gm-view .gm-log i.r { background: var(--ink-a); } .gm-view .gm-log i.w { background: var(--ink-b); }
+.gm-view .gm-log-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gm-view .gm-log-p { font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .gm-view .gm-hl { font-size: 48px; margin-top: 4px; } .gm-view .gm-log { font-size: 11px; } .gm-view .gm-log-t { white-space: normal; } }
+
+/* ==== 1:00 critique: the stamp lands over the stage's right half by default (over the picked card on Which came first);
+   the next-round poster button; the 390 board tightened by 30px ==== */
+.gm-view .gm-stage .gm-verdict-slot, .gm-view .gm-verdict-slot, .gm-view [data-board='call'] .gm-verdict-slot, .gm-view [data-board='year'] .gm-verdict-slot { left: 75%; top: 62%; transform: translate(-50%, -50%); max-width: 48%; }
+.gm-view .gm-ctl .gm-next { margin-left: auto; min-height: 56px; padding: 0 26px; border: 0; background: var(--ink-a); color: #F7F5F0; font-family: var(--font-display); font-size: 28px; letter-spacing: -0.01em; text-transform: none; cursor: pointer; }
+.gm-view .gm-ctl .gm-next:hover { background: #17171A; }
+.gm-view .gm-ctl .gm-next:focus-visible { outline: 2px solid #17171A; outline-offset: 3px; }
+.gm-view .gm-ctl:empty { display: none; }
+@media (max-width: 760px) {
+  .gm-view .gm-verdict-slot:not(.anchored), .gm-view [data-board='call'] .gm-verdict-slot:not(.anchored), .gm-view [data-board='year'] .gm-verdict-slot:not(.anchored) { left: 50%; top: 50%; max-width: 92%; }
+  .gm-view .gm-board { gap: 6px; }
+  .gm-view .gm-result { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
+  .gm-view .gm-result .gm-open { margin: 0; }
+  .gm-view .gm-ctl .gm-next { min-height: 48px; font-size: 22px; padding: 0 18px; }
+}
+@media (max-width: 760px) {
+  /* a phone board is as tall as its content: no forced screen height, so the dealt board fits above the fold */
+  .gm-view .gm { min-height: 0; padding-bottom: 16px; }
+  .gm-view .gm-result { min-height: 0; }
+  .gm-view .gm-strip { min-height: 56px; }
+}
+
+/* ==== 1:30 critique: the stamp anchors to the year row; one shared bracket for distance ==== */
+.gm-view .gm-verdict-slot.anchored { transform: translate(-50%, 0); max-width: none; }
+.gm-view .gm-verdict-slot.anchored .gm-big-stamp { transform: scale(1.3) rotate(-6deg); }
+.gm-view .gm-verdict-slot.anchored.is-in .gm-big-stamp { transform: scale(1) rotate(-6deg); }
+/* .gm-span: a bracket between two marks on the stage (left/width or top/height set inline), its measure on the middle */
+.gm-view .gm-span { position: absolute; z-index: 2; pointer-events: none; border: 2px solid #17171A; transform-origin: left center; transition: transform 200ms linear; }
+.gm-view .gm-span.h { height: 14px; border-bottom: 0; transform: scaleX(0); }
+.gm-view .gm-span.h b { top: 50%; transform: translate(-50%, -60%); }
+.gm-view .gm-span.v { width: 14px; border-right: 0; transform-origin: center top; transform: scaleY(0); }
+.gm-view .gm-span.is-in { transform: none; }
+.gm-view .gm-span b { position: absolute; left: 50%; top: -2px; transform: translate(-50%, -100%); padding: 0 8px; background: #F7F5F0; font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1; white-space: nowrap; color: var(--ink); opacity: 0; transition: opacity 0ms linear 200ms; }
+.gm-view .gm-span.v b { left: 14px; top: 50%; transform: translate(0, -50%); }
+.gm-view .gm-span.is-in b { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .gm-view .gm-span { transition: none; } }
+@media (max-width: 760px) { .gm-view .gm-span b { font-size: 20px; } }
+
+/* ==== 2:00 critique: the bracket under the numerals, the docket fact in the display face, a corner that reacts ==== */
+.gm-view .gm-verdict-slot.anchored { transform: translate(-50%, -100%); }
+.gm-view .gm-span.h { height: 12px; border-top: 0; border-bottom: 2px solid #17171A; transform: scaleX(0); }
+.gm-view .gm-span.h b { top: 100%; transform: translate(-50%, -50%); font-size: 20px; left: 50%; }
+.gm-view .gm-span.row { border: 0; height: 0; }
+.gm-view .gm-span.row::before { content: ''; position: absolute; left: 0; right: 0; top: 0; border-top: 2px solid #17171A; }
+.gm-view .gm-span.row b { top: 0; }
+.gm-view .gm-line { font-family: var(--font-display); font-size: 20px; line-height: 1.2; letter-spacing: -0.005em; max-width: none; display: inline; -webkit-line-clamp: unset; overflow: visible; }
+.gm-view .gm-result { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.gm-view .gm-result .gm-open { margin: 0; align-self: baseline; }
+.gm-view .gm-corner { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.gm-view .gm-big { display: inline-block; transform-origin: right center; transition: transform 300ms cubic-bezier(.34, 1.56, .64, 1); }
+.gm-view .gm-big.pop { transform: scale(1.25); transition: none; }
+.gm-view .gm-streak-t { font-family: var(--font-display); font-size: 20px; line-height: 1; color: var(--ink-a); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .gm-view .gm-big { transition: none; } }
+@media (max-width: 760px) {
+  .gm-view .gm-verdict-slot.anchored .gm-big-stamp { font-size: 44px; border-width: 3px; padding: 0 12px 4px; }
+  .gm-view .is-answered .gm-stage { padding-bottom: 36px; }
+  .gm-view .gm-span.h b { font-size: 18px; }
+  .gm-view .gm-line { font-size: 17px; }
+  .gm-view .gm-streak-t { font-size: 14px; }
+  .gm-view .gm-ledger { top: 0; }
+}
+.gm-view .gm-span.h.is-in, .gm-view .gm-span.row.is-in { transform: none; }
+
+/* ==== 2:30 critique: the score card's line carries the streak in the same display size; no kicker ==== */
+.gm-view .gm-set-line { font-size: 48px; line-height: 1; max-width: 22ch; }
+@media (max-width: 760px) { .gm-view .gm-set-line { font-size: 30px; } }
+.gm-view .gm-set-line { max-width: none; }
+.gm-view .gm-dock { grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; }
+
+/* ==== css/play_first.css ==== */
+/* PLAY, Which came first: the two cards, the years, the FIRST band, the strike (play_first.css) */
+.gm-pair .gm-card:last-of-type .gm-ct { color: var(--ink-b); }
+.gm-pair .gm-card:last-of-type { border-top-color: var(--ink-b); }
+.gm-pair .gm-card:first-of-type .gm-cy b { color: var(--ink-a); }
+.gm-pair .gm-card:last-of-type .gm-cy b { color: var(--ink-b); }
+/* room for the corner score */
+.gm .gm-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 40px; }
+.gm-pair .gm-card:last-of-type .gm-cd { color: var(--ink-b-l, var(--ink-2)); }
+/* the player's pick: a tag in the card's ink on the pair, the ring in ink-b on the call and the year line; no site red */
+.gm-pair .gm-card:first-of-type .gm-mine { color: var(--ink-a); }
+.gm-pair .gm-card:last-of-type .gm-mine { color: var(--ink-b); }
+.gm-pair { display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr); gap: 0 10px; align-items: stretch; }
+.gm-card { position: relative; padding-right: 0; display: grid; align-content: start; gap: 6px; text-align: left; font: inherit; color: var(--ink); background: transparent; border: 0; border-top: 2px solid var(--ink); padding: 10px 0 12px; cursor: pointer; min-width: 0; }
+.gm-card[data-pick]:hover .gm-ct { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.gm-card.is-answer { cursor: default; border-top-color: var(--rule-strong); }
+.gm-card.is-first { border-top-color: var(--ink); }
+.gm-cy { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; }
+.gm-cy b { font-family: var(--font-display); font-weight: 400; font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+@media (max-width: 760px) {
+  .gm-pair { grid-template-columns: 1fr; gap: 8px 0; }
+  .gm .gm-pair { grid-template-columns: 1fr; min-height: 0; gap: 10px 0; }
+}
+.gm-view .gm-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; min-height: 360px; }
+.gm-view .gm-pair .gm-card:last-of-type { border-top-color: var(--ink-b); background: color-mix(in srgb, var(--ink-b) 6%, #F7F5F0); }
+.gm-view .gm-card:hover:not(:disabled) { background: color-mix(in srgb, var(--ink-a) 12%, #F7F5F0); }
+.gm-view .gm-pair .gm-card:last-of-type:hover:not(:disabled) { background: color-mix(in srgb, var(--ink-b) 12%, #F7F5F0); }
+.gm-view .gm-card:disabled { cursor: default; }
+.gm-view .gm-pair .gm-card:last-of-type .gm-cd { color: var(--ink-b-l, var(--ink-2)); }
+.gm-view .gm-pair .gm-card:last-of-type .gm-ct { color: var(--ink-b); }
+.gm-view .gm-cy { order: 2; display: flex; align-items: baseline; gap: 12px; min-height: 36px; margin: 0; flex-wrap: wrap; }
+.gm-view .gm-cy b { font-family: var(--font-display); font-weight: 400; font-size: 36px; line-height: 1; color: var(--ink-a); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .gm-pair .gm-card:last-of-type .gm-cy b { color: var(--ink-b); }
+.gm-view .gm-card.is-second { opacity: 0.86; }
+@media (max-width: 760px) {
+  .gm-view .gm-pair { grid-template-columns: 1fr; gap: 10px; }
+  .gm-view .gm-card { min-height: 148px; padding: 14px 16px; }
+  .gm-view .gm-cy b { font-size: 28px; }
+}
+.gm-view .gm-stage .gm-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.gm-view .gm-card { cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; min-height: 0; }
+.gm-view .gm-card:hover:not(:disabled) { transform: translateY(-4px); outline-color: var(--ink-a); box-shadow: 0 6px 0 -2px color-mix(in srgb, var(--ink-a) 25%, transparent); }
+.gm-view .gm-pair .gm-card:last-of-type:hover:not(:disabled) { outline-color: var(--ink-b); box-shadow: 0 6px 0 -2px color-mix(in srgb, var(--ink-b) 25%, transparent); }
+.gm-view .gm-card:focus-visible { outline: 2px solid #17171A; }
+.gm-view .gm-card.is-pick { outline: 3px solid var(--ink-a); outline-offset: -3px; }
+.gm-view .gm-pair .gm-card:last-of-type.is-pick { outline-color: var(--ink-b); }
+.gm-view .gm-card.is-second { opacity: 1; }
+/* the reveal: the years print large on a beat, FIRST bands the earlier card, the later year is struck through */
+.gm-view .gm-cy { position: relative; min-height: 0; }
+.gm-view .gm-cy b { font-size: 96px; line-height: 0.9; opacity: 0; transition: opacity 0ms linear; }
+.gm-view .years-in .gm-cy b { opacity: 1; }
+.gm-view .is-second .gm-cy b { position: relative; }
+.gm-view .is-second .gm-cy b::after { content: ''; position: absolute; left: -4px; right: -4px; top: 44%; height: 4px; background: currentColor; transform: translateY(-50%) scaleX(0); transform-origin: left; transition: transform 160ms linear 120ms; }
+.gm-view .years-in .is-second .gm-cy b::after { transform: translateY(-50%) scaleX(1); }
+.gm-view .gm-band { position: absolute; top: 22px; right: 14px; width: 150px; padding: 6px 0; background: var(--ink-a); color: #F7F5F0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; transform: rotate(8deg) scale(0); transition: transform 160ms linear 200ms; }
+.gm-view .gm-pair .gm-card:last-of-type .gm-band { background: var(--ink-b); }
+.gm-view .years-in .gm-band { transform: rotate(8deg) scale(1); }
+.gm-view .gm-card { overflow: hidden; }
+/* the score card */
+.gm-view .gm-card-set { grid-row: 1 / -1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 18px; min-height: calc(100vh - 96px - 36px); padding: 24px; border-top: 4px solid var(--ink-a); background: color-mix(in srgb, var(--ink-a) 6%, #F7F5F0); }
+@media (max-width: 760px) {
+  .gm-view .gm-stage .gm-pair { grid-template-columns: 1fr; gap: 10px; }
+  .gm-view .gm-card { min-height: 148px; }
+  .gm-view .gm-cy b { font-size: 48px; }
+  .gm-view .gm-band { right: 10px; top: 10px; width: 130px; font-size: 11px; padding: 4px 0; }
+  .gm-view .gm-card-set { min-height: 0; padding: 18px 14px; }
+}
+
+/* the wrong pick: the card shakes 2px twice on the beat and its field goes to ink b at 12% for 400ms */
+@keyframes gm-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 50% { transform: translateX(2px); } 75% { transform: translateX(-2px); } }
+.gm-view .gm-card.shake { animation: gm-shake 160ms steps(4, end) 2; background: color-mix(in srgb, var(--ink-b) 12%, #F7F5F0) !important; }
+.gm-view .gm-card.is-answer { transition: background-color 200ms linear; }
+.gm-view .gm-pair .gm-card:first-of-type.is-wrong { outline-color: var(--ink-b); }
+@media (prefers-reduced-motion: reduce) { .gm-view .gm-card.shake { animation: none; } }
+
+/* ==== Feel critique 12:15 (Which came first): cards with a border and a cut corner, a bigger band, the loser's year dimmed ==== */
+.gm-view .gm-pair .gm-card { border: 2px solid var(--ink-a); border-top-width: 2px; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); padding: 18px 22px 22px; }
+.gm-view .gm-pair .gm-card:last-of-type { border-color: var(--ink-b); }
+.gm-view .gm-pair .gm-card .gm-cd { font-size: 14px; gap: 10px; }
+.gm-view .gm-pair .gm-card .gm-gl { width: 32px; height: 32px; stroke-width: 1.1; }
+.gm-view .gm-card:hover:not(:disabled) { transform: translateY(-8px); box-shadow: 0 10px 0 -2px var(--ink-a); outline-color: var(--ink-a); }
+.gm-view .gm-pair .gm-card:last-of-type:hover:not(:disabled) { box-shadow: 0 10px 0 -2px var(--ink-b); outline-color: var(--ink-b); }
+.gm-view .gm-pair .gm-card .gm-ct { margin-top: 6px; }
+.gm-view .gm-band { top: 30px; right: -12px; width: 220px; padding: 0; height: 64px; line-height: 64px; font-size: 20px; letter-spacing: 0.3em; transform: rotate(8deg) scale(0); transition: transform 420ms cubic-bezier(.34, 1.56, .64, 1); }
+.gm-view .years-in .gm-band { transform: rotate(8deg) scale(0); }
+.gm-view .band-in .gm-band { transform: rotate(8deg) scale(1); }
+.gm-view .is-second .gm-cy b { opacity: 0.5; }
+.gm-view .years-in .is-second .gm-cy b { opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) { .gm-view .gm-band { transition: none; } }
+@media (max-width: 760px) {
+  .gm-view .gm-pair .gm-card { min-height: 150px; padding: 12px 14px 14px; }
+  .gm-view .gm-pair .gm-card .gm-gl { width: 22px; height: 22px; }
+  .gm-view .gm-pair .gm-card .gm-cd { font-size: 12px; }
+  .gm-view .gm-band { top: 14px; right: -10px; width: 170px; height: 44px; line-height: 44px; font-size: 14px; }
+  .gm-view .gm-cy b { font-size: 44px; }
+}
+
+/* ==== 12:20: the title block sits at the card's centre until the year prints; the foot is reserved only on reveal ==== */
+.gm-view .gm-pair .gm-card { display: flex; flex-direction: column; justify-content: flex-start; }
+.gm-view .gm-pair .gm-card .gm-ct { margin: auto 0; align-self: stretch; }
+.gm-view .gm-pair .gm-card .gm-cy { min-height: 0; }
+.gm-view .is-answered .gm-pair .gm-card .gm-cy { min-height: 88px; }
+@media (max-width: 760px) { .gm-view .is-answered .gm-pair .gm-card .gm-cy { min-height: 44px; } }
+@media (max-width: 760px) {
+  .gm-view .gm-pair .gm-card { min-height: 140px; padding: 10px 14px 12px; }
+  .gm-view .gm-pair .gm-card .gm-ct { font-size: 28px; }
+}
+
+/* ==== 1:30 critique: on reveal the title pins to the card's top and the year to the foot ==== */
+.gm-view .is-answered .gm-pair .gm-card .gm-ct { margin: 10px 0 0; }
+.gm-view .is-answered .gm-pair .gm-card .gm-cy { margin-top: auto; align-self: stretch; }
+/* room under the numerals for the bracket */
+.gm-view .is-answered .gm-pair .gm-card .gm-cy { min-height: 112px; }
+@media (max-width: 760px) { .gm-view .is-answered .gm-pair .gm-card .gm-cy { min-height: 48px; } }
+
+/* ==== css/play_year.css ==== */
+/* PLAY, Guess the year (play_year.css): the ruler. The slider is a ruler the width of the strip: an 8px black track, a
+   tick every decade, the half century taller, the century tallest with its numeral in poster mono; the thumb is your
+   mark in ink b with your year riding above it, the readout beside the ruler prints at 96px in the same ink while you
+   drag; Lock this year is a full-height black block at the right end. On lock the true year drops onto the ruler as a
+   black No. stamp (scale 1.3 to 1 over 220ms, a 2px second impression in the ink), a bracket draws from your mark to
+   the stamp with the distance over it, and the shared verdict stamp lands in the readout's place. Reduced motion:
+   every beat is a cut. */
+/* the control row: ruler, readout, lock */
+.gm-view .gm-ruler-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: 'ruler year lock'; align-items: stretch; gap: 0 26px; width: 100%; min-height: 168px; }
+.gm-view .gm-ruler { grid-area: ruler; position: relative; height: 168px; --at: 50%; }
+/* the ruler is the slider: the input spans the width, its track is the ruler's edge, its thumb is your mark */
+.gm-view .gm-ruler input[type='range'] { -webkit-appearance: none; appearance: none; background: transparent; position: absolute; left: 0; right: 0; top: 110px; transform: translateY(-50%); width: 100%; height: 52px; margin: 0; padding: 0; cursor: pointer; touch-action: pan-y; }
+.gm-view .gm-ruler input[type='range']::-webkit-slider-runnable-track { height: 8px; background: var(--play-stamp, #17171A); border: 0; }
+.gm-view .gm-ruler input[type='range']::-moz-range-track { height: 8px; background: var(--play-stamp, #17171A); border: 0; }
+.gm-view .gm-ruler input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 10px; height: 52px; margin-top: -22px; background: var(--ink-b); border: 0; border-radius: 0; box-shadow: 0 0 0 2px var(--play-ground, #FDFDFC); transition: transform 120ms linear; }
+.gm-view .gm-ruler input[type='range']::-moz-range-thumb { width: 10px; height: 52px; background: var(--ink-b); border: 0; border-radius: 0; box-shadow: 0 0 0 2px var(--play-ground, #FDFDFC); transition: transform 120ms linear; }
+.gm-view .gm-ruler input[type='range']:hover:not(:disabled)::-webkit-slider-thumb, .gm-view .gm-ruler input[type='range']:active:not(:disabled)::-webkit-slider-thumb { transform: scaleY(1.12); }
+.gm-view .gm-ruler input[type='range']:hover:not(:disabled)::-moz-range-thumb, .gm-view .gm-ruler input[type='range']:active:not(:disabled)::-moz-range-thumb { transform: scaleY(1.12); }
+.gm-view .gm-ruler input[type='range']:focus-visible { outline: 2px solid var(--play-stamp, #17171A); outline-offset: 6px; }
+/* after the lock the thumb stays at full strength: it is your mark on the ruler; the strip keeps its height (the verdict
+   here is the stamp on the ruler, not a band across the strip) */
+.gm-view [data-board='year'].is-answered .gm-strip { padding-top: 10px; }
+.gm-view .gm-ruler input[type='range']:disabled, .gm-view .gm-strip .gm-ruler input[type='range']:disabled { opacity: 1; cursor: default; }
+/* ticks hang from the track; the thumb's half width insets them so a tick sits under the thumb's centre */
+.gm-view .gm-ticks, .gm-view .gm-ruler-marks, .gm-view .gm-ruler-cur { position: absolute; left: 5px; right: 5px; top: 110px; height: 0; pointer-events: none; }
+/* the rider: your year printed above the thumb, where the hand is */
+.gm-view .gm-cur { position: absolute; left: clamp(30px, var(--at), calc(100% - 30px)); top: -64px; transform: translateX(-50%); font-family: var(--font-display); font-weight: 400; font-size: 32px; line-height: 1; color: var(--ink-b); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.gm-view .is-tight .gm-cur { opacity: 0; }
+.gm-view .gm-ticks i { position: absolute; top: 4px; width: 2px; height: 12px; background: var(--play-stamp, #17171A); transform: translateX(-50%); font-style: normal; }
+.gm-view .gm-ticks i.h { height: 20px; }
+.gm-view .gm-ticks i.c { height: 28px; width: 3px; }
+.gm-view .gm-ticks i b { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-style: normal; font-weight: 600; font-size: 24px; line-height: 1; letter-spacing: 0.02em; color: var(--play-stamp, #17171A); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .gm-ticks i b.s { top: 30px; font-size: 16px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-2); }
+.gm-view .gm-ticks em { position: absolute; top: 30px; font-style: normal; font-family: var(--font-mono); font-size: 16px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-2); font-variant-numeric: tabular-nums lining-nums; }
+.gm-view .is-locked .gm-ticks em.under { opacity: 0; }
+.gm-view .gm-ticks em.lo { transform: translateX(-4px); }
+.gm-view .gm-ticks em.hi { transform: translateX(calc(-100% + 4px)); }
+/* the readout: your year, live, in the thumb's ink */
+.gm-view .gm-yv-w { grid-area: year; width: 320px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; }
+.gm-view .gm-yl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-b-l, var(--ink-b)); }
+.gm-view .gm-strip .gm-yv, .gm-view .gm-yv { width: auto; min-width: 2.05em; font-family: var(--font-display); font-weight: 400; font-size: 96px; line-height: 0.86; text-align: right; color: var(--ink-b); font-variant-numeric: tabular-nums lining-nums; }
+/* after the lock the readout leaves (the thumb carries your year) and the ruler takes its width */
+.gm-view .is-answered .gm-yv-w { visibility: hidden; }
+/* the shared verdict stamp lands in the readout's column, between the ruler and Next, sized to it */
+.gm-view [data-board='year'] .gm-stage .gm-verdict-slot { width: max-content; max-width: none; }
+.gm-view [data-board='year'] .gm-big-stamp { white-space: nowrap; font-size: 68px; padding: 0 20px 8px; border-width: 5px; }
+/* the lock: a black block the height of the row */
+.gm-view .gm-lock { grid-area: lock; align-self: stretch; display: inline-flex; align-items: center; justify-content: center; min-width: 168px; min-height: 168px; padding: 0 24px; background: var(--play-stamp, #17171A); color: var(--play-ground, #FDFDFC); border: 0; border-radius: 0; font-family: var(--font-mono); font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; text-align: center; cursor: pointer; transition: background-color 120ms linear, transform 80ms linear; }
+@media (hover: hover) { .gm-view .gm-lock:hover { background: var(--ink-b); } .gm-view .gm-lock.next:hover { background: var(--play-stamp, #17171A); color: var(--play-ground, #FDFDFC); } }
+.gm-view .gm-lock:active { transform: translateY(2px); }
+.gm-view .gm-lock:focus-visible { outline: 2px solid var(--play-stamp, #17171A); outline-offset: 3px; }
+.gm-view .gm-lock.next { background: var(--play-ground, #FDFDFC); color: var(--play-stamp, #17171A); box-shadow: inset 0 0 0 2px var(--play-stamp, #17171A); }
+/* the stamp: the true year drops onto the ruler, black with paper letters, a 2px second impression in the ink */
+.gm-view .gm-ruler-stamp { position: absolute; top: 0; left: clamp(52px, var(--tp, 50%), calc(100% - 52px)); transform: translate(-50%, -64%) rotate(-4deg) scale(1.3); opacity: 0; transition: transform 220ms linear, opacity 0ms linear; }
+.gm-view .is-locked .gm-ruler-stamp { transform: translate(-50%, -64%) rotate(-4deg) scale(1); opacity: 1; }
+.gm-view .gm-ruler-stamp .gm-stamp { position: static; display: block; margin: 0; transform: none; animation: none; white-space: nowrap; font-family: var(--font-mono); font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; padding: 8px 11px 7px; color: var(--play-ground, #FDFDFC); background: var(--play-stamp, #17171A); border: 2px solid var(--play-stamp, #17171A); box-shadow: 2px 2px 0 var(--ink-b); }
+.gm-view .is-hit .gm-ruler-stamp .gm-stamp { box-shadow: 2px 2px 0 var(--ink-a); }
+/* the bracket: drawn from your mark to the stamp once it has landed; the distance over its middle */
+.gm-view .gm-bracket { position: absolute; top: -80px; height: 14px; border: 2px solid var(--play-stamp, #17171A); border-bottom: 0; transform: scaleX(0); transition: transform 200ms linear 220ms; }
+.gm-view .gm-bracket.from-l { transform-origin: left center; }
+.gm-view .gm-bracket.from-r { transform-origin: right center; }
+.gm-view .gm-bracket.zero { border-color: transparent; }
+.gm-view .is-tight .gm-off { top: -104px; }
+.gm-view .is-locked .gm-bracket { transform: scaleX(1); }
+.gm-view .gm-off { position: absolute; top: -92px; left: clamp(84px, var(--mid, 50%), calc(100% - 84px)); transform: translateX(-50%); white-space: nowrap; padding: 0 10px; background: var(--play-ground, #FDFDFC); font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: 0; line-height: 1; color: var(--play-stamp, #17171A); opacity: 0; transition: opacity 0ms linear 420ms; }
+.gm-view .is-locked .gm-off { opacity: 1; }
+/* the points rise off the corner numeral */
+.gm-view [data-board='year'] .gm-big { position: relative; }
+.gm-view .gm-plus { position: absolute; left: 0; bottom: 100%; margin-bottom: 4px; font-family: var(--font-mono); font-weight: 600; font-size: 16px; letter-spacing: 0.08em; line-height: 1; color: var(--ink-a); animation: gm-plus 1100ms linear both; }
+@keyframes gm-plus { 0% { opacity: 1; transform: translateY(0); } 60% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px); } }
+/* the phone: the ruler takes the full width with fewer ticks; the readout and the lock share the row beneath */
+@media (max-width: 760px) {
+  .gm-view .gm-ruler-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'ruler ruler' 'year lock'; gap: 8px 14px; min-height: 0; }
+  .gm-view .gm-ruler { height: 134px; }
+  .gm-view .gm-ruler input[type='range'] { top: 88px; height: 44px; }
+  .gm-view .gm-ruler input[type='range']::-webkit-slider-thumb { height: 44px; margin-top: -18px; }
+  .gm-view .gm-ruler input[type='range']::-moz-range-thumb { height: 44px; }
+  .gm-view .gm-ticks, .gm-view .gm-ruler-marks, .gm-view .gm-ruler-cur { top: 88px; }
+  .gm-view .gm-cur { top: -52px; font-size: 24px; left: clamp(22px, var(--at), calc(100% - 22px)); }
+  .gm-view .gm-ticks i { height: 10px; width: 1.5px; }
+  .gm-view .gm-ticks i.h { height: 16px; }
+  .gm-view .gm-ticks i.c { height: 20px; width: 2.5px; }
+  .gm-view .gm-ticks i b { top: 22px; font-size: 16px; }
+  .gm-view .gm-ticks i b.s { top: 22px; font-size: 12px; }
+  .gm-view [data-board='year'].is-answered .gm-strip { padding-top: 10px; }
+  .gm-view .gm-ticks em { top: 22px; font-size: 12px; }
+  .gm-view .gm-yv-w { align-items: flex-start; gap: 4px; }
+  .gm-view .gm-strip .gm-yv, .gm-view .gm-yv { font-size: clamp(44px, 14vw, 56px); text-align: left; }
+  .gm-view .gm-lock { min-width: 0; min-height: 56px; padding: 0 18px; font-size: 12px; }
+  .gm-view .gm-ruler-stamp { left: clamp(40px, var(--tp, 50%), calc(100% - 40px)); }
+  .gm-view .gm-ruler-stamp .gm-stamp { font-size: 11px; padding: 5px 8px 4px; letter-spacing: 0.1em; }
+  .gm-view .gm-bracket { top: -66px; height: 12px; }
+  .gm-view .gm-off { top: -74px; font-size: 16px; padding: 0 6px; left: clamp(64px, var(--mid, 50%), calc(100% - 64px)); }
+  .gm-view .is-tight .gm-off { top: -86px; }
+  .gm-view .gm-plus { font-size: 13px; }
+  .gm-view .is-answered .gm-yv-w { display: none; }
+  .gm-view .is-answered .gm-ruler-row { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'ruler' 'lock'; }
+  /* the phone stage gives the stamp its own band under the year, so the title stays readable */
+  .gm-view [data-board='year'] .gm-stage .gm-verdict-slot { left: 60%; top: calc(100% - 46px); max-width: 96%; }
+  .gm-view [data-board='year'] .gm-big-stamp { font-size: 56px; padding: 0 16px 6px; }
+  .gm-view [data-board='year'].is-answered .gm-one { padding-bottom: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-view .gm-ruler-stamp, .gm-view .gm-bracket, .gm-view .gm-off, .gm-view .gm-lock, .gm-view .gm-ruler input[type='range']::-webkit-slider-thumb, .gm-view .gm-ruler input[type='range']::-moz-range-thumb { transition: none; }
+  .gm-view .gm-plus { animation: none; }
+  .gm-view .gm-lock:active { transform: none; }
+}
+
+/* ==== css/play_beat.css ==== */
+/* PLAY, Beat the forecasters (play_beat.css): the quote as the stage with its timeline, three poster buttons filling the
+   strip in tints of the round's pair, the Yours and Record stamps, the strip's printed line, the score card's data line.
+   Scoped to [data-board='call'] so the shared sheet (play_shared.css) keeps the board, tracker, corner and inks. */
+
+/* ---- zone 1: the quote is the stage ---- */
+.gm-view [data-board='call'] .gm-fc { justify-content: flex-start; gap: 0; padding: 22px 28px 18px; }
+.gm-view [data-board='call'] .gm-fc .gm-ct { order: 1; margin: 0 0 auto; padding: 0 0 22px; font-family: var(--font-display); font-size: clamp(34px, 4vw, 56px); line-height: 1.06; letter-spacing: -0.015em; color: var(--ink-a); text-wrap: balance; text-indent: -0.42em; max-width: 26ch; }
+.gm-view [data-board='call'] .gm-fc.long .gm-ct { font-size: clamp(30px, 3.2vw, 46px); max-width: 34ch; }
+.gm-view [data-board='call'] .gm-fc.short .gm-ct { font-size: clamp(40px, 5vw, 72px); max-width: 20ch; }
+.gm-view [data-board='call'] .gm-fc .gm-cd { order: 2; margin: 0 0 2px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.04em; text-transform: none; color: var(--ink-a-l, var(--ink-2)); }
+/* the timeline: a hairline from the decade before the forecast to 2026; the date as a tick in ink a, the year named as a
+   tick in ink b, the span between them in ink b (dashed and open when no year was named) */
+.gm-view [data-board='call'] .gm-tl { order: 3; position: relative; width: 100%; height: 84px; margin-top: 10px; }
+.gm-view [data-board='call'] .gm-tl-rule { position: absolute; left: 0; right: 0; top: 40px; height: 1.5px; background: color-mix(in srgb, var(--ink-a) 45%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-tl-span { position: absolute; top: 37px; height: 7px; background: var(--ink-b); transform-origin: left; transform: scaleX(0); transition: transform 320ms linear 180ms; }
+.gm-view [data-board='call'] .gm-tl-span.open { background: repeating-linear-gradient(90deg, var(--ink-b) 0 6px, transparent 6px 11px); height: 3px; top: 39px; }
+.gm-view [data-board='call'].is-in .gm-tl-span { transform: scaleX(1); }
+.gm-view [data-board='call'] .gm-tl-gap { position: absolute; top: 10px; text-align: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-b-l, var(--ink-b)); white-space: nowrap; opacity: 0; transition: opacity 0ms linear 500ms; }
+.gm-view [data-board='call'].is-in .gm-tl-gap { opacity: 1; }
+.gm-view [data-board='call'] .gm-tl-tick { position: absolute; top: 26px; width: 0; }
+.gm-view [data-board='call'] .gm-tl-tick > i { position: absolute; left: -1.5px; top: 0; width: 3px; height: 30px; background: var(--ink-a); }
+.gm-view [data-board='call'] .gm-tl-tick.for > i { background: var(--ink-b); }
+.gm-view [data-board='call'] .gm-tl-tick.now > i { width: 1.5px; left: -0.75px; height: 24px; top: 3px; background: color-mix(in srgb, var(--ink-a) 55%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-tl-tick > span { position: absolute; top: 32px; left: 0; padding-left: 7px; font-family: var(--font-display); font-weight: 400; font-size: 24px; line-height: 1; letter-spacing: 0; color: var(--ink-a); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.gm-view [data-board='call'] .gm-tl-tick.for > span { top: -26px; color: var(--ink-b); }
+.gm-view [data-board='call'] .gm-tl-tick.now > span { top: 36px; font-family: var(--font-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); }
+.gm-view [data-board='call'] .gm-tl-tick.now.up > span { top: -16px; }
+.gm-view [data-board='call'] .gm-tl-tick.r > span { left: auto; right: 0; padding-left: 0; padding-right: 7px; }
+
+/* ---- zone 2: three poster buttons fill the strip; the line prints beside the tracker ---- */
+.gm-view [data-board='call'] .gm-bstrip { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'track line next' 'calls calls calls'; align-items: center; gap: 12px 18px; padding: 12px 2px 14px; }
+.gm-view [data-board='call'] .gm-bstrip .gm-track { grid-area: track; min-height: 44px; }
+.gm-view [data-board='call'] .gm-bline { grid-area: line; }
+.gm-view [data-board='call'] .gm-next { grid-area: next; }
+.gm-view [data-board='call'] .gm-bstrip .gm-ctl { grid-area: calls; }
+.gm-view [data-board='call'] .gm-bline.len-m { font-size: clamp(18px, 1.55vw, 22px); }
+.gm-view [data-board='call'] .gm-bline.len-l { font-size: clamp(17px, 1.35vw, 19px); }
+.gm-view [data-board='call'] .gm-bline { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); text-align: right; text-wrap: balance; }
+.gm-view [data-board='call'] .gm-next { display: inline-flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 0 20px; background: var(--play-stamp); color: var(--ground); border: 0; border-radius: 0; font-family: var(--font-mono); font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.2; cursor: pointer; transition: background-color 120ms linear, transform 80ms linear; }
+.gm-view [data-board='call'] .gm-next:hover { background: var(--ink-b); color: var(--ground); }
+.gm-view [data-board='call'] .gm-next:active { transform: translateY(2px); }
+.gm-view [data-board='call'] .gm-next:focus-visible { outline: 2px solid var(--play-stamp); outline-offset: 3px; }
+.gm-view [data-board='call'] .gm-calls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: 100%; }
+.gm-view [data-board='call'] .gm-call { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 104px; padding: 12px 18px; margin: 0; border: 0; outline: 2px solid transparent; outline-offset: -2px; font-family: var(--font-display); font-size: clamp(30px, 3vw, 46px); line-height: 0.95; letter-spacing: -0.015em; text-transform: none; text-align: left; cursor: pointer; transition: transform 120ms linear, outline-color 120ms linear, background-color 120ms linear, opacity 200ms linear; }
+.gm-view [data-board='call'] .gm-call.t0 { --tint: var(--ink-a); }
+.gm-view [data-board='call'] .gm-call.t1 { --tint: color-mix(in oklch, var(--ink-a) 50%, var(--ink-b)); }
+.gm-view [data-board='call'] .gm-call.t2 { --tint: var(--ink-b); }
+.gm-view [data-board='call'] .gm-call { background: color-mix(in srgb, var(--tint) 13%, #F7F5F0); color: var(--tint); }
+.gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: translateY(-4px); outline-color: var(--tint); background: color-mix(in srgb, var(--tint) 22%, #F7F5F0); color: var(--tint); box-shadow: 0 6px 0 -2px color-mix(in srgb, var(--tint) 30%, transparent); }
+.gm-view [data-board='call'] .gm-call:focus-visible { outline: 2px solid #17171A; }
+.gm-view [data-board='call'] .gm-call:disabled { cursor: default; opacity: 1; }
+.gm-view [data-board='call'] .gm-call[aria-pressed='true'], .gm-view [data-board='call'] .gm-call.is-pick { outline: 3px solid var(--tint); outline-offset: -3px; background: color-mix(in srgb, var(--tint) 18%, #F7F5F0); color: var(--tint); }
+.gm-view [data-board='call'] .gm-call.is-record:not(.is-pick) { background: color-mix(in srgb, var(--tint) 13%, #F7F5F0); }
+.gm-view [data-board='call'] .gm-call.is-record.lit { background: var(--tint); color: #F7F5F0; outline-color: var(--tint); }
+.gm-view [data-board='call'] .gm-call:disabled:not(.is-pick):not(.is-record) { opacity: 0.3; }
+.gm-view [data-board='call'] .gm-call-w { flex: 1 1 auto; min-width: 0; }
+/* the stamps: Yours in black, Record in its Ledger verdict ink; each drops in over 220ms from 1.3 to 1 with a 2px
+   second pass offset in the ink (misregistration) */
+.gm-view [data-board='call'] .gm-call-stamps { position: static; display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
+.gm-view [data-board='call'] .gm-st { margin: 0; font-family: var(--font-mono); font-weight: 600; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1; padding: 8px 12px 7px; border: 3px solid currentColor; background: #F7F5F0; transform-origin: center; animation: gm-drop 220ms linear both; }
+.gm-view [data-board='call'] .gm-st.yours { color: var(--play-stamp, #17171A); transform: rotate(-6deg); box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--tint) 55%, transparent); text-shadow: 2px 2px 0 color-mix(in srgb, var(--tint) 55%, transparent); }
+.gm-view [data-board='call'] .gm-st.rec { transform: rotate(-7deg); }
+.gm-view [data-board='call'] .gm-st.v-right { color: var(--led-right, #2E6E5C); box-shadow: 2px 2px 0 0 var(--led-right-pale, #9CC4B4); text-shadow: 2px 2px 0 var(--led-right-pale, #9CC4B4); }
+.gm-view [data-board='call'] .gm-st.v-late { color: var(--led-late, #2D7F8A); box-shadow: 2px 2px 0 0 var(--led-late-pale, #C2DACE); text-shadow: 2px 2px 0 var(--led-late-pale, #C2DACE); }
+.gm-view [data-board='call'] .gm-st.v-wrong { color: var(--led-wrong, #A13A29); box-shadow: 2px 2px 0 0 var(--led-wrong-pale, #E8A08C); text-shadow: 2px 2px 0 var(--led-wrong-pale, #E8A08C); }
+@keyframes gm-drop { from { opacity: 0; scale: 1.3; } 1% { opacity: 1; } to { opacity: 1; scale: 1; } }
+/* the shared stamp lands over the stage's right half, above the timeline; when the calls differ it carries the record's
+   verdict ink. The next-forecast button lives in the strip's head row, not the control row */
+.gm-view [data-board='call'] .gm-verdict-slot { left: 70%; top: 42%; transform: translate(-50%, -50%); }
+.gm-view [data-board='call'] .gm-big-stamp.v-right { color: var(--led-right, #2E6E5C); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-right-pale, #9CC4B4); }
+.gm-view [data-board='call'] .gm-big-stamp.v-late { color: var(--led-late, #2D7F8A); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-late-pale, #C2DACE); }
+.gm-view [data-board='call'] .gm-big-stamp.v-wrong { color: var(--led-wrong, #A13A29); border-color: currentColor; text-shadow: 3px 3px 0 var(--led-wrong-pale, #E8A08C); }
+.gm-view [data-board='call'] .gm-ctl > .gm-start[data-start='call'] { display: none; }
+
+/* ---- zone 3: the docket's one line and the record link ---- */
+.gm-view [data-board='call'] .gm-result .gm-line { font-size: 16px; line-height: 1.4; max-width: 62ch; }
+
+/* ---- the score card's data line ---- */
+.gm-view [data-board='call'] .gm-set-sub { margin: -6px 0 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.5; letter-spacing: 0.02em; color: var(--ink-2); max-width: 60ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-view [data-board='call'] .gm-st { animation: none; }
+  .gm-view [data-board='call'] .gm-tl-span, .gm-view [data-board='call'] .gm-tl-gap, .gm-view [data-board='call'] .gm-call { transition: none; }
+  .gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: none; }
+}
+@media (max-width: 760px) {
+  .gm-view [data-board='call'] .gm-fc { min-height: 0; padding: 16px 16px 40px; }
+  .gm-view [data-board='call'] .gm-fc .gm-ct, .gm-view [data-board='call'] .gm-fc.long .gm-ct { font-size: 26px; line-height: 1.12; padding-bottom: 16px; max-width: none; }
+  .gm-view [data-board='call'] .gm-fc.short .gm-ct { font-size: 34px; line-height: 1.06; }
+  .gm-view [data-board='call'] .gm-tl { height: 56px; }
+  .gm-view [data-board='call'] .gm-tl-rule { top: 28px; }
+  .gm-view [data-board='call'] .gm-tl-span { top: 25px; }
+  .gm-view [data-board='call'] .gm-tl-span.open { top: 27px; }
+  .gm-view [data-board='call'] .gm-tl-tick { top: 16px; }
+  .gm-view [data-board='call'] .gm-tl-tick > i { height: 24px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > i { height: 20px; top: 2px; }
+  .gm-view [data-board='call'] .gm-tl-tick > span { top: -20px; }
+  .gm-view [data-board='call'] .gm-tl-tick.made > span { left: auto; right: 0; padding-left: 0; padding-right: 7px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > span, .gm-view [data-board='call'] .gm-tl-tick.now.up > span { top: -16px; }
+  .gm-view [data-board='call'] .gm-tl-gap { display: none; }
+  .gm-view [data-board='call'] .gm-bline.len-m, .gm-view [data-board='call'] .gm-bline.len-l { font-size: 17px; }
+  .gm-view [data-board='call'] .gm-verdict-slot { left: 50%; top: 50%; }
+  .gm-view [data-board='call'] .gm-verdict-slot .gm-note { display: none; }
+  .gm-view [data-board='call'] .gm-big-stamp { font-size: 44px; white-space: nowrap; padding: 0 16px 6px; border-width: 4px; }
+  .gm-view [data-board='call'] .gm-fc .gm-cd { font-size: 13px; }
+  .gm-view [data-board='call'] .gm-tl-tick > span { font-size: 18px; }
+  .gm-view [data-board='call'] .gm-tl-tick.for > span { top: -20px; }
+  .gm-view [data-board='call'] .gm-tl-tick.now > span, .gm-view [data-board='call'] .gm-tl-gap { font-size: 11px; }
+  .gm-view [data-board='call'] .is-answered .gm-strip { padding-top: 12px; }
+  .gm-view [data-board='call'] .gm-bstrip { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'track' 'line' 'calls' 'next'; gap: 10px 0; }
+  .gm-view [data-board='call'] .gm-bstrip .gm-track { min-height: 0; }
+  .gm-view [data-board='call'] .gm-bline { text-align: left; font-size: 18px; line-height: 1.2; }
+  .gm-view [data-board='call'] .gm-result { align-items: flex-start; }
+  .gm-view [data-board='call'] .gm-bline:empty { display: none; }
+  .gm-view [data-board='call'] .gm-next { margin-top: 4px; }
+  .gm-view [data-board='call'] .gm-calls { grid-template-columns: 1fr; gap: 8px; }
+  .gm-view [data-board='call'] .gm-call { min-height: 56px; padding: 6px 14px; font-size: 28px; background: color-mix(in srgb, var(--tint) 18%, #F7F5F0); }
+  .gm-view [data-board='call'] .gm-call:hover:not(:disabled) { transform: none; box-shadow: none; }
+  .gm-view [data-board='call'] .gm-st { font-size: 13px; padding: 5px 8px 4px; border-width: 2px; letter-spacing: 0.1em; }
+  .gm-view [data-board='call'] .gm-set-sub { font-size: 12px; }
+}

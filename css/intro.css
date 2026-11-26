@@ -1,0 +1,7 @@
+/* After the intro the shell is already on screen behind the overlay: no first-load reveal when the overlay cuts away */
+body.intro-done .brand, body.intro-done .views, body.intro-done .subnav, body.intro-done .about-btn, body.intro-done .scrubber, body.intro-done .stage { animation: none; }
+.ar-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ar-tabkey { list-style: none; margin: 0; padding: 0; }
+
+/* The intro sheet and its drawn objects are styled inline in index.html (style#intro-critical), so the whole intro
+   paints before any stylesheet loads; this file keeps only what applies after it. */

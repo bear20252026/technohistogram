@@ -1,0 +1,157 @@
+/* History lift, burst 1: Diffusion, Wheel, Threads. Ground is --ground; motion is data-driven and reduced-motion safe. */
+
+/* ---- Diffusion: straight comparison under the small multiples ---- */
+.df-table { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--rule-strong); }
+.df-table:empty { display: none; }
+.df-th4 { margin: 0 0 4px; font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: -0.01em; }
+.df-contract { margin: 0 0 6px; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: var(--ink-3); max-width: 900px; }
+.df-table svg [data-t] { transition: opacity 0.25s var(--ease); }
+.df-table svg [data-t].dim { opacity: 0.18; }
+.df-table svg [data-t]:focus { outline: none; }
+.df-table svg [data-t]:focus-visible .df-trow { fill: var(--ground-2); stroke: var(--ink); stroke-width: 1; }
+.df-tfoot { margin-top: 4px; }
+.df-clock { font-variant-numeric: tabular-nums lining-nums; }
+.df-card { border-radius: 0; background: none; }
+
+/* ---- Wheel: straight bar inset paired with the radial overview (right column, under the regions list) ---- */
+.wh-inset { position: absolute; z-index: 3; right: 16px; width: 236px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.wh-inset .sc { display: block; color: var(--ink-3); font-size: 10.5px; margin-bottom: 4px; }
+.wh-inset svg { display: block; overflow: visible; }
+.wh-inset text { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-3); }
+.wh-inset text.n { fill: var(--ink); }
+.wh-inset .ax { stroke: var(--rule-strong); }
+.wh-inset .how { margin: 4px 0 0; font-size: 10.5px; line-height: 1.4; color: var(--ink-3); }
+@media (min-width: 1100px) { .wh-regions { top: 58px; } }
+/* short stages: the region rows close up so the list, the compare row and the inset share the column with the wheel's footer in view */
+@media (min-width: 1100px) and (max-height: 920px) { .wh-regions button { padding-top: 2px; padding-bottom: 2px; line-height: 1.25; min-height: 0; } .wh-regions .sc { margin-bottom: 4px; } .wh-regions .note { margin-top: 6px; font-size: 11px; line-height: 1.3; } .wh-inset .how { line-height: 1.3; } }
+@media (max-width: 1099px) { .wh-inset { position: static; width: auto; margin: 0 16px 14px; } .wh-inset svg { width: 100%; height: auto; } }
+@media (max-width: 760px) { .wh-inset { margin: 0 12px 14px; } }
+.wh-stage { position: relative; }
+.wh-leader { fill: none; stroke: var(--ink-2); stroke-width: 0.8; pointer-events: none; }
+.wh-leader-pt { fill: var(--ink); stroke: var(--ground); stroke-width: 1; pointer-events: none; }
+.wt-cirrus text[data-term] { cursor: pointer; }
+.wt-cirrus text[data-term]:focus-visible { outline: none; fill: var(--accent) !important; }
+.wh-cmp-card svg { overflow: visible; }
+
+/* ---- Threads: cards, story counter, builder timeline ---- */
+.tc .th-strip span { transition: height 0.3s var(--ease), opacity 0.3s var(--ease); }
+.tc .th-mini { position: relative; height: 38px; margin-top: -38px; pointer-events: none; }
+.tc .th-mini svg { display: block; width: 100%; height: 38px; overflow: visible; }
+.tc .th-mini .base { stroke: var(--rule-strong); }
+.tc .th-mini .path { fill: none; stroke: var(--tc); stroke-width: 1.4; }
+.tc .th-mini .pt { fill: var(--ground); stroke: var(--tc); stroke-width: 1.4; }
+.tc .th-mini text { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-3); }
+.tc .th-mini .lab { fill: var(--ink-2); }
+.tc .th-mini .path, .tc .th-mini .pt, .tc .th-mini .lab { opacity: 0; transition: opacity 0.25s var(--ease); }
+.tc:hover .th-mini .path, .tc:focus-within .th-mini .path, .tc:hover .th-mini .pt, .tc:focus-within .th-mini .pt, .tc:hover .th-mini .lab, .tc:focus-within .th-mini .lab { opacity: 1; }
+.tc:hover .th-mini .path, .tc:focus-within .th-mini .path { animation: tc-draw 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.tc .th-mini .pt { transition: opacity 0.2s var(--ease); transition-delay: var(--d, 0s); }
+@keyframes tc-draw { from { stroke-dashoffset: var(--L, 600); } to { stroke-dashoffset: 0; } }
+.st-yr { font-variant-numeric: tabular-nums lining-nums; }
+.tb-line { position: relative; height: 56px; margin-top: 10px; }
+.tb-line svg { display: block; width: 100%; height: 56px; overflow: visible; }
+.tb-line .base { stroke: var(--rule-strong); }
+.tb-line .path { fill: none; stroke: #b8282e; stroke-width: 1.4; stroke-dasharray: 3 3; }
+.tb-line .pt { fill: #b8282e; stroke: var(--ground); stroke-width: 1.5; }
+.tb-line .pt.new { stroke: #b8282e; }
+.tb-line .n { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-3); }
+.tb-line .stem { stroke-width: 1; }
+.tb-line .yr { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-2); }
+.tb-build .th-strip { display: none; }
+.walk-lit .lit-thread { stroke-width: 1.3; stroke-dasharray: 3 4; }
+.walk-lit .lit-thread.reveal { stroke-dasharray: 3 4; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tc:hover .th-mini .path, .tc:focus-within .th-mini .path { animation: none; stroke-dashoffset: 0 !important; }
+  .tc .th-mini .path, .tc .th-mini .pt, .tc .th-mini .lab, .tc .th-strip span, .df-table svg [data-t] { transition: none; }
+  .tb-line .pt { transition: none; }
+}
+
+/* ---- Burst 2 ---- */
+
+/* History headlines at three times the body: Diffusion and Wheel 45px over 15px; the wheel's title wraps inside its column */
+.view[data-view='diffusion'] .view-head h2 { font-size: 45px; line-height: 1; }
+.wh-stage .view-head h2 { font-size: 44px; line-height: 0.98; white-space: normal; max-width: 270px; }
+@media (max-width: 760px) { .view[data-view='diffusion'] .view-head h2, .wh-stage .view-head h2 { font-size: 34px; } }
+
+/* Wheel: encoding contract and source footer, a fixed band under the wheel between the two columns */
+.wh-contract { position: absolute; left: 300px; right: 286px; bottom: 4px; margin: 0; z-index: 2; font-family: var(--font-mono); font-size: 10.5px; line-height: 1.3; letter-spacing: 0.02em; color: var(--ink-3); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; text-align: left; }
+.wh-contract span + span::before { content: '\00b7'; margin: 0 8px; }
+@media (max-width: 1099px) { .wh-contract { right: 16px; } }
+@media (max-width: 759px) { .wh-contract { position: static; display: block; padding: 10px 12px 14px; right: auto; left: auto; border-top: 1px solid var(--rule); margin: 8px 12px 0; } }
+
+/* Threads: six ruled rows on the plain ground instead of six tinted cards; the thread hue survives as a 2px left rule and the mini timeline */
+.th-head h2 { font-size: clamp(32px, 2.2vw + 16px, 46px); line-height: 1; }
+.tc-grid { display: block; border-top: 1px solid var(--rule-strong); }
+.tc { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 4fr) minmax(170px, 1fr); column-gap: 24px; align-items: start; padding: 18px 0 18px 18px; border: 0; border-bottom: 1px solid var(--rule-strong); background: none; }
+.tc-bar { position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; height: auto; margin: 0; background: var(--tc); }
+.tc h3 { grid-column: 1; grid-row: 1; font-size: 27px; margin: -3px 0 0; }
+.tc-top { grid-column: 1; grid-row: 2; margin-top: 10px; justify-content: flex-start; gap: 14px; }
+.tc > p { grid-column: 2; grid-row: 1; margin: 0; }
+.tc .tc-steps { grid-column: 2; grid-row: 2; margin: 10px 0 0; }
+.tc .th-strip, .tc .th-mini { grid-column: 3; grid-row: 1; align-self: end; margin-top: 0; }
+.tc .th-ax { grid-column: 3; grid-row: 2; margin: 2px 0 0; }
+.tc .tc-ctl { grid-column: 4; grid-row: 1 / 3; flex-direction: column; align-items: stretch; gap: 6px; }
+.tc .tc-ctl button { white-space: nowrap; }
+@media (max-width: 1100px) {
+  .tc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .tc > p { grid-column: 2; grid-row: 1; }
+  .tc .tc-steps { grid-column: 2; grid-row: 2 / 4; }
+  .tc .th-strip, .tc .th-mini { grid-column: 1; grid-row: 3; align-self: start; margin-top: 16px; }
+  .tc .th-ax { grid-column: 1; grid-row: 4; }
+  .tc .tc-ctl { grid-column: 1 / 3; grid-row: 5; flex-direction: row; margin-top: 14px; }
+}
+@media (max-width: 760px) {
+  .tc { display: flex; flex-direction: column; align-items: stretch; padding: 16px 0 16px 14px; }
+  .tc h3 { order: 1; margin: 0; }
+  .tc-top { order: 2; margin: 6px 0 0; }
+  .tc > p { order: 3; margin: 8px 0 12px; }
+  .tc .th-strip { order: 4; } .tc .th-mini { order: 5; } .tc .th-ax { order: 6; } .tc .tc-steps { order: 7; } .tc .tc-ctl { order: 8; }
+  .tc .th-mini { margin-top: -38px; }
+  .tc .th-ax { margin: 2px 0 10px; }
+  .tc .tc-steps { margin: 0 0 12px; }
+  .tc .tc-ctl { margin-top: 0; }
+}
+
+/* a step number that the placer could not seat */
+.tb-line text.n.hid { opacity: 0 !important; }
+
+/* Story on the night ground: secondary text clears the 70 percent brightness floor. Steps that are not current step
+   back through color (chalk-3, 73 percent) rather than opacity, so the dimmed copy still reads */
+.st-title .sc, .st-end .sc { color: var(--chalk-3); }
+.st-step { opacity: 1; transition: border-color 0.4s, transform 0.4s; }
+.st-step:not(.on) h4, .st-step:not(.on) p, .st-step:not(.on) .st-arg, .st-step:not(.on) .st-n, .st-step:not(.on) .st-sy, .st-step:not(.on) .ghost { color: var(--chalk-3); }
+.st-step:not(.on) .st-arg { border-left-color: rgba(241, 241, 238, 0.25); }
+.st-step:not(.on) .ghost { border-color: rgba(241, 241, 238, 0.25); }
+.st-step.on .st-n { color: var(--chalk); }
+.st-step.on .st-sy { color: var(--chalk-2); }
+
+/* burst 3: the straight reading of a compared pair, under the two small wheels (one scale, one set of periods) */
+.wh-cmp-straight { margin: 14px 0 4px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.wh-cmp-straight .sc { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.wh-cmp-straight svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wh-cmp-straight text { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-3); }
+.wh-cmp-straight text.k { font-size: 10.5px; letter-spacing: 0.08em; }
+.wh-cmp-straight .ax { stroke: var(--rule-strong); }
+.wh-cmp-straight rect { cursor: default; }
+.wh-cmp-straight .how { margin: 6px 0 0; font-family: var(--font-mono); font-size: 10.5px; line-height: 1.4; color: var(--ink-3); max-width: 70ch; }
+/* the hovered year in the hub: numeral at six times its label, counts beneath; nothing in it takes the pointer */
+.wh-hub-year { pointer-events: none; }
+
+/* ---- Burst 5: rim callouts, three at rest (one primary, two secondary); the rest while the pointer or focus is on the wheel */
+.wh-labels .wh-call-more { opacity: 0; transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1); pointer-events: none; }
+.wh-stage svg.wh-all .wh-labels .wh-call-more { opacity: 1; pointer-events: auto; }
+.wh-labels .wh-call-2 { opacity: 0.82; }
+.wh-stage svg .wh-labels .wh-yield { opacity: 0 !important; transition: none; } /* a resting callout on the hovered ray stands down for the hover label */
+@media (prefers-reduced-motion: reduce) { .wh-labels .wh-call-more { transition: none; } }
+
+/* Critique 4: the inset keeps 220px; on a short wide stage the region note yields (its count lives in the contract footer) */
+@media (min-width: 1100px) { .wh-regions.wh-short .note { display: none; } }
+.wh-inset .how { line-height: 13px; }
+.wh-regions button .n, .wh-regions .thin, .wh-regions .note { font-size: 10.5px; }
+.wt-trend .ax, .wt-trend .nm .n, .wt-ctx button .r, .wt-panel h3 small, .th-ax { font-size: 10.5px; line-height: 13px; }
+
+/* the picked thread's head in the Wheel legend: its step count and Draw the links, which opens Arcs on the thread */
+.wh-thread-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0 6px 24px; border-bottom: 1px solid var(--rule); font-size: 10.5px; color: var(--ink-3); }
+.wh-thread-head .wh-draw { white-space: nowrap; border: 0; background: none; padding: 2px 0; font-family: var(--font-mono); font-size: 11px; color: var(--ink); border-bottom: 1px solid var(--ink); cursor: pointer; min-height: 24px; }
+.wh-thread-head .wh-draw:hover, .wh-thread-head .wh-draw:focus-visible { color: var(--accent); border-bottom-color: var(--accent); outline: none; }

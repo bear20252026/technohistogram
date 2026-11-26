@@ -1,0 +1,50 @@
+/* Centuries: nine regions side by side in eleven century columns, on History's ground (set by the shell). Each region
+   its own hue family, the step set in the script by how dense the record is in the cell; slate for travelling techniques.
+   The region in hand keeps its colour and the others step back. */
+.view.cy { overflow: hidden; --cy-slate: #34495a; }
+.cy-wrap { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 14px 24px 10px; box-sizing: border-box; }
+.cy-hl { margin: 0 0 12px; font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em; color: var(--ink); }
+.cy-chart { position: relative; min-height: 0; }
+.cy-chart svg { display: block; overflow: visible; }
+.cy-foot { margin: 8px 0 0; font-family: var(--font-mono); font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.cy-hatch-key { display: inline-block; width: 14px; height: 10px; vertical-align: -1px; margin: 0 2px 0 4px; border: 1px solid var(--rule-strong); background: repeating-linear-gradient(45deg, rgba(28,26,23,.42) 0 1.2px, transparent 1.2px 4.2px); }
+
+.cy-numt { font-weight: 900; fill: var(--ink); letter-spacing: -0.04em; font-variant-numeric: tabular-nums lining-nums; }
+.cy-numn { font-family: var(--font-mono); font-size: 12px; fill: var(--ink-3); }
+.cy-num { cursor: pointer; outline: none; }
+.cy-num:hover .cy-numt, .cy-num:focus-visible .cy-numt { fill: var(--cy-slate); }
+.cy-num:focus-visible rect { stroke: var(--ink); stroke-width: 1.5; }
+.cy-rule { stroke: var(--ink); stroke-width: 2; }
+
+.cy-band { cursor: pointer; outline: none; }
+.cy-band { transition: opacity 0.2s; }
+.cy-thin { fill: url(#cy-h); pointer-events: none; }
+.cy-name { font-family: var(--font-text); font-weight: 600; font-size: 14px; fill: var(--cy-ink, #1f1d1a); pointer-events: none; }
+.cy-spine { font-family: var(--font-text); font-size: 14px; fill: var(--cy-ink, #1f1d1a); cursor: pointer; }
+.cy-spine:hover { text-decoration: underline; }
+.cy-n { font-family: var(--font-mono); font-size: 13px; fill: var(--cy-ink, #1f1d1a); opacity: 0.8; pointer-events: none; }
+/* focus: the region in hand, in every century at once; the other eight step back */
+.cy-chart.has-hot .cy-band:not(.hot) { opacity: 0.32; }
+.cy-chart.has-hot .cy-band.hot .cy-fill { stroke: var(--cy-deep); stroke-width: 1.5; }
+.cy-band:focus-visible .cy-fill { stroke: #1f1d1a; stroke-width: 2; }
+.cy-row { font-family: var(--font-text); font-size: 14px; fill: var(--ink); cursor: pointer; }
+.cy-arr { fill: var(--cy-slate); font-style: italic; }
+.cy-trails { pointer-events: none; }
+.cy-trail { fill: none; stroke: var(--cy-slate); stroke-width: 1.4; stroke-dasharray: 4 3; opacity: 0.75; }
+.cy-tdot { fill: var(--cy-slate); stroke: #faf8f3; stroke-width: 1.5; }
+.cy-tdot.from { fill: #faf8f3; stroke: var(--cy-slate); stroke-width: 1.6; }
+.cy-lead { pointer-events: all; cursor: pointer; outline: none; }
+.cy-leadln { stroke: var(--cy-slate); stroke-width: 1; }
+.cy-chip { fill: #faf8f3; stroke: var(--cy-slate); stroke-width: 1; }
+.cy-leadt { font-family: var(--font-text); font-style: italic; font-size: 14px; fill: var(--cy-slate); }
+.cy-lead:hover .cy-chip, .cy-lead:focus-visible .cy-chip { fill: var(--cy-slate); }
+.cy-lead:hover .cy-leadt, .cy-lead:focus-visible .cy-leadt { fill: #faf8f3; }
+.cy-trail-key { display: inline-block; width: 18px; height: 0; vertical-align: 3px; border-top: 1.5px dashed #3f5466; margin: 0 2px 0 4px; }
+
+@media (max-width: 699px) {
+  .view.cy { overflow-y: auto; }
+  .cy-wrap { height: auto; display: block; padding: 12px 14px 120px; }
+  .cy-hl { font-size: 26px; }
+  .cy-foot { margin-top: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .cy-fill { transition: none; } }

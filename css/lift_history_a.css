@@ -1,0 +1,393 @@
+/* History lift, part A: the Stream and the Columns (DESIGN_BRIEF.md, Oct 20 2026).
+   Ground is --ground; red is annotation or selection only; motion encodes change and stops under reduced motion. */
+
+/* ---------- Stream ---------- */
+/* first view: the front of the draw, a hairline that crosses the plot with the record */
+.st-front { stroke: var(--ink); stroke-width: 1; opacity: 0.55; }
+/* hover: one crisp edge on the map (sharpness as hierarchy), name and value at the band's end */
+.st-crisp { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.st-endlab .nm { font-family: var(--font-display); font-size: 19px; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 4px; stroke-linejoin: round; }
+.st-endlab .vl { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; fill: var(--ink-2); paint-order: stroke; stroke: var(--ground); stroke-width: 3px; stroke-linejoin: round; }
+.st-endlab .tick { stroke: var(--ink); stroke-width: 1.2; }
+/* persistent year rail: the millennium as a pale bar, the window in ink, scale breaks as double slashes */
+.st-rail-win { fill: var(--ink); }
+.st-rail .st-break { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; }
+.st-rail .st-funnel { fill: none; stroke: var(--ink); stroke-width: 0.7; opacity: 0.3; stroke-dasharray: 2 3; }
+.st-rail .st-scale-lab { fill: var(--ink-3); }
+/* isolate: the single area chart's callouts and the straight-bar inset */
+.st-solo .st-peak { fill: var(--accent); stroke: var(--ground); stroke-width: 1.5; }
+.st-solo .st-ev { stroke: var(--ground); stroke-width: 1; }
+.st-solo .st-leader { stroke: var(--ink); stroke-width: 0.7; opacity: 0.45; }
+.st-solo .st-dec { fill: var(--ink); opacity: 0.06; }
+.st-inset g.r { pointer-events: all; cursor: pointer; outline: none; }
+.st-inset g.r .hitr { fill: transparent; }
+.st-inset g.r:hover .hitr, .st-inset g.r:focus-visible .hitr { fill: var(--ground-2); }
+.st-inset g.r:focus-visible .hitr { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 2 2; }
+.st-inset g.r:hover .bar { stroke: var(--ink); stroke-width: 0.8; }
+/* encoding contract and denominator: a fixed footer band, flush left, clear of the prompt on the right */
+.st-contract { position: absolute; left: 16px; bottom: 6px; right: 440px; margin: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-3); line-height: 1.3; z-index: 2; }
+.st-contract span + span::before { content: '\00b7'; margin: 0 8px; color: var(--ink-3); }
+/* lasso results arrive in date order on the same clock as the dots that fly to them (opacity only, no layout shift) */
+.st-lasso-panel li button { animation: st-row-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 40ms + 240ms); }
+@keyframes st-row-in { from { opacity: 0; } to { opacity: 1; } }
+.st-lasso .st-fly { stroke: var(--ground); stroke-width: 1; }
+@media (max-width: 699px) {
+  .st-contract { position: static; padding: 6px 12px 14px 44px; right: auto; display: block; }
+  .view[data-view='stream'] .st-prompt { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-lasso-panel li button { animation: none; }
+}
+
+/* ---------- Columns ---------- */
+/* rows arrive by date as they scroll into view: opacity only, no layout shift */
+.cols-main .cw-in { opacity: 0; }
+.cols-main .cw-in.cw-show { opacity: 1; transition: opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1); }
+/* the clock's breaks, on the rail and in the locator */
+.cw-break { fill: none; stroke: var(--ink); stroke-width: 1.1; stroke-linecap: round; }
+/* the pulse that travels a thread once */
+.cw-pulse { stroke: var(--ground); stroke-width: 1.2; }
+/* the locator: a true map of the window, this screen as a crisp box with its years at the corners */
+.cw-loc-head { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding-left: 8px; }
+.cw-loc-head .cw-loc-sub { font-size: 11px; font-style: italic; color: var(--ink-3); line-height: 1.25; margin-top: 2px; font-family: var(--font-text); }
+.cw-loc-yr text { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 3px; stroke-linejoin: round; }
+.cw-mini .vp { pointer-events: all; }
+@media (prefers-reduced-motion: reduce) {
+  .cols-main .cw-in, .cols-main .cw-in.cw-show { opacity: 1; transition: none; }
+}
+html.reduced-motion .cols-main .cw-in { opacity: 1; transition: none; }
+/* guard: another section's global .lg rule (lift_ledger.css) must not pad the lens names */
+.cw-lens .lg { padding: 0; }
+
+/* ---------- Burst 2 ---------- */
+/* headline at 3x body on both reading surfaces (the brief's ratio), scoped to these two views */
+.view[data-view='stream'] .view-head h2, .view[data-view='columns'] .view-head h2 { font-size: calc(var(--text-sm) * 3); letter-spacing: -0.005em; }
+/* Stream: every band named at its end in the right gutter; the hovered band's row carries its name and value */
+.st-ends .st-end path { fill: none; stroke: var(--ink); stroke-width: 0.6; opacity: 0.4; }
+.st-ends .st-end text { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; fill: var(--ink-3); }
+.st-endlab .nm { font-size: 17px; stroke: none; }
+.st-endlab .vl { stroke: none; fill: var(--ink-2); }
+/* Columns: contract line under the head, denominator footer fixed at the foot of the scroller */
+.cw-head .cw-contract { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-3); padding: 2px 0 0; line-height: 1.3; }
+.cw-foot { position: sticky; bottom: 0; left: 0; width: min(100%, 100vw); box-sizing: border-box; z-index: 5; background: var(--ground); border-top: 1px solid var(--rule); padding: 5px 16px; display: flex; flex-wrap: wrap; gap: 2px 18px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-3); line-height: 1.3; }
+.cw-foot b { font-weight: 500; color: var(--ink); }
+.cw-foot span + span::before { content: '\00b7'; margin-right: 18px; }
+@media (max-width: 1100px) and (min-width: 761px) { .cw-head .cw-contract { display: block; } }
+@media (max-width: 760px) {
+  .cw-head .cw-contract { display: block; font-size: 10.5px; }
+  .cw-foot { padding: 4px 10px; gap: 0 12px; }
+  .cw-foot span + span::before { margin-right: 12px; }
+}
+/* Columns head: title, one paragraph and the contract in one column, so the paragraph keeps a reading measure */
+.cw-top .view-head.cw-head { grid-template-columns: minmax(0, 1fr); row-gap: 4px; align-items: start; }
+.cw-top .view-head.cw-head > p:not(.cw-contract) { max-width: 60ch; }
+/* Stream footer at narrower desks: the prompt wraps so the contract keeps its line */
+@media (max-width: 1100px) and (min-width: 700px) { .st-prompt { max-width: 300px; } .st-contract { right: 320px; } }
+
+/* ---------- Burst 3 ---------- */
+/* Stream footer: the contract wraps (three lines at most) instead of ending in an ellipsis */
+.st-contract { -webkit-line-clamp: 3; }
+/* Columns: lens count preset beside the chips */
+.cw-lenses .cw-preset { margin-right: 4px; }
+/* Diffusion on a phone: the plot comes first; the technology chips sit behind a disclosure that names the count */
+.df-techs-tgl { display: none; }
+@media (max-width: 760px) {
+  .view[data-view='diffusion'] .df-curves { display: flex; flex-direction: column; }
+  .view[data-view='diffusion'] .df-curves > .df-h3 { order: 0; }
+  .view[data-view='diffusion'] .df-curves > .df-grid, .view[data-view='diffusion'] .df-curves > .df-race { order: 1; }
+  .view[data-view='diffusion'] .df-curves > .df-pick { order: 2; margin-top: 12px; }
+  .view[data-view='diffusion'] .df-curves > .df-markrow { order: 3; }
+  .view[data-view='diffusion'] .df-curves > .df-table { order: 4; }
+  .df-techgrp .df-techs-lbl { display: none; }
+  .df-techs-tgl { display: inline-flex; }
+  .df-techs-tgl::after { content: '\25BE'; margin-left: 6px; }
+  .df-techgrp.open .df-techs-tgl::after { content: '\25B4'; }
+  .df-techgrp:not(.open) .df-techs, .df-techgrp:not(.open) [data-all], .df-techgrp:not(.open) [data-none] { display: none; }
+}
+/* Stream: the band names at the line ends are the isolate control (the filter row above is the only key) */
+.st-ends .st-end { cursor: pointer; outline: none; }
+.st-ends .st-end:hover text, .st-ends .st-end:focus-visible text { fill: var(--ink); }
+.st-ends .st-end:focus-visible .st-end-hit { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 2; }
+.st-ends .st-end[aria-pressed='true'] text { fill: var(--ink); font-weight: 600; }
+.st-ends .st-end[aria-pressed='true'] path { stroke: var(--accent); opacity: 1; }
+.st-ctl .st-all { margin-left: auto; }
+.st-ctl .st-all[hidden] { display: none; }
+/* Diffusion: red is for the hovered line and the marker only; a contract line in the head and a source footer */
+.df-race svg path.df-curve.hi, .df-card.hi svg path.df-curve { stroke: var(--accent) !important; stroke-width: 2.2; }
+.df-lags svg [data-t].hi .df-seg { stroke: var(--accent); }
+.df-lags svg [data-t].hi text { fill: var(--accent); }
+.view[data-view='diffusion'] .view-head .df-contract { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.45; letter-spacing: 0.02em; color: var(--ink-3); max-width: 70ch; margin: 6px 0 0; }
+.df-foot { position: sticky; bottom: 0; z-index: 5; background: var(--ground); border-top: 1px solid var(--rule); padding: 5px 24px; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 0; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); }
+.df-foot > span + span::before { content: '\00b7'; margin: 0 8px; }
+.df-foot a { color: inherit; }
+@media (max-width: 760px) {
+  .view[data-view='diffusion'] .view-head .df-contract { display: block; }
+  .view[data-view='diffusion'] .view-head p:not(.df-contract) { display: block; font-size: 13.5px; }
+  .view[data-view='diffusion'] .view-head h2 { font-size: 40px; }
+  .df-foot { padding: 5px 12px; gap: 2px 14px; }
+  .df-foot > span + span::before { content: none; }
+  .df-foot > span:nth-child(2), .df-foot > span:nth-child(4) { display: none; }
+}
+
+/* ---------- Burst 4: Correlated Atlas ---------- */
+/* the key line reads the same way in the three views */
+.view-head .atlas-key { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.45; letter-spacing: 0.02em; color: var(--ink-3); max-width: 82ch; margin: 6px 0 0; grid-column: 1 / -1; }
+/* locator strip upper right: whole span, scale breaks with their years, the window in red; it jumps with the window */
+.atlas-loc-host { position: absolute; top: 0; right: 0; pointer-events: none; }
+.view[data-view='stream'] .view-head .atlas-loc-host { right: -236px; } /* phone only: the desktop head places it in its grid */
+.cw-top .atlas-loc-host { top: 10px; right: 16px; }
+/* Stream: the head is absolute, so the key line sits under the control row, above the age labels */
+.view[data-view='stream'] .st-key { position: absolute; left: 16px; right: 16px; top: 136px; z-index: 3; margin: 0; max-width: none; font-size: 10.5px; line-height: 13px; pointer-events: none; }
+.atlas-loc { display: block; overflow: visible; }
+.atlas-loc .al-base { stroke: var(--ink-3); stroke-width: 0.8; }
+.atlas-loc .al-brk { fill: none; stroke: var(--ink); stroke-width: 0.9; }
+.atlas-loc .al-yr { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0; fill: var(--ink-3); }
+.atlas-loc .al-win { fill: var(--accent); fill-opacity: 0.18; stroke: var(--accent); stroke-width: 1; shape-rendering: crispEdges; }
+@media (max-width: 760px) {
+  .atlas-loc-host { position: static; margin-top: 6px; grid-column: 1 / -1; display: block; width: 100%; }
+  .view[data-view='stream'] .view-head .atlas-loc-host { position: absolute; top: 156px; left: 0; right: -100px; margin: 0; width: auto; }
+  .view-head .atlas-key { display: block; }
+  .view[data-view='stream'] .st-key { top: 116px; left: 10px; right: 10px; display: block; }
+}
+/* a 20px source band closes each frame */
+.st-contract, .cw-foot, .df-foot { height: 20px; line-height: 20px; padding-top: 0; padding-bottom: 0; white-space: nowrap; overflow: hidden; display: block; -webkit-line-clamp: unset; font-size: 10.5px; letter-spacing: 0.04em; }
+.st-contract { left: 0; right: 0; bottom: 0; padding: 0 16px; border-top: 1px solid var(--rule); background: var(--ground); z-index: 3; }
+.cw-foot { padding: 0 16px; gap: 0; }
+.cw-foot span + span::before { margin: 0 8px; }
+.df-foot { padding: 0 24px; gap: 0; flex-wrap: nowrap; }
+.df-foot > span { white-space: nowrap; }
+.view[data-view='stream'] .st-contract { position: absolute; }
+@media (max-width: 1100px) { .st-contract > span:nth-child(n + 3), .cw-foot > span:nth-child(2), .df-foot > span:nth-child(4) { display: none; } }
+/* between the phone and 1100 the Columns and Diffusion source bands wrap to a second line rather than run past the edge; each clause stays whole */
+@media (max-width: 1100px) and (min-width: 761px) {
+  .cw-foot, .df-foot { height: auto; min-height: 20px; white-space: normal; display: flex; flex-wrap: wrap; gap: 0 14px; }
+  .cw-foot > span, .df-foot > span { white-space: nowrap; }
+  .cw-foot span + span::before, .df-foot > span + span::before { content: none; margin: 0; }
+}
+@media (max-width: 760px) {
+  .st-contract { position: static; padding: 0 12px; margin: 0; }
+  .st-contract > span:nth-child(n + 2), .cw-foot > span:nth-child(n + 2) { display: none; }
+  .cw-foot { padding: 0 10px; }
+  .df-foot { padding: 0 12px; gap: 0; letter-spacing: 0; font-size: 10.5px; }
+  .df-foot > span + span::before { content: '\00b7'; margin: 0 6px; }
+}
+/* the prompt now sits at the end of the control row, not over the source band */
+.st-ctl .st-prompt { position: static; margin-left: auto; text-align: right; }
+/* direct labels at lane ends: mono, medium weight */
+.st-ends .st-end text { font-size: 10.5px; font-weight: 500; letter-spacing: 0.05em; fill: var(--ink-2); }
+.df-race svg g[data-t] text { font-weight: 500; }
+/* Columns first view: the lens rules grow left to right over 3s, ease-out cubic; names arrive as each rule reaches its end */
+@keyframes cwGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes cwFade { from { opacity: 0; } to { opacity: 1; } }
+.cw-lens.cw-grow .bar { transform-origin: left center; animation: cwGrow 3s cubic-bezier(0.33, 1, 0.68, 1) both; }
+.cw-lens.cw-grow .row, .cw-lens.cw-grow .sub { animation: cwFade 300ms linear both; animation-delay: calc(2.7s + var(--i, 0) * 100ms); }
+/* Diffusion race, Grow and focus: the soonest line takes the accent, the rest pale, labels to 60 percent, 400ms linear */
+.df-race svg path.df-curve, .df-race svg g[data-t] { transition: stroke 400ms linear, opacity 400ms linear, stroke-opacity 400ms linear; }
+.df-race svg.df-focus path.df-curve:not(.df-lead-t):not(.hi) { stroke: var(--ink-3); stroke-opacity: 0.45; }
+.df-race svg.df-focus path.df-curve.df-lead-t { stroke: var(--accent); stroke-width: 2.2; }
+.df-race svg.df-focus g[data-t]:not(.df-lead-t):not(.hi) { opacity: 0.6; }
+.df-race svg.df-focus g[data-t].df-lead-t text { fill: var(--accent); }
+.df-race svg .df-finding { font-family: var(--font-serif); fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 4px; stroke-linejoin: round; }
+@media (prefers-reduced-motion: reduce) {
+  .cw-lens.cw-grow .bar, .cw-lens.cw-grow .row, .cw-lens.cw-grow .sub { animation: none; }
+  .df-race svg path.df-curve, .df-race svg g[data-t] { transition: none; }
+}
+/* Diffusion: the head spans the view so its locator reaches the upper right; the text keeps its measure */
+.view[data-view='diffusion'] .view-head { max-width: none; }
+.view[data-view='diffusion'] .view-head > h2, .view[data-view='diffusion'] .view-head > p { max-width: 78ch; }
+.view[data-view='diffusion'] .view-head .atlas-loc-host { top: 4px; }
+
+/* ---------- Critique 4: no mono label under 10.5px, 13px leading ---------- */
+.view-head .atlas-key, .cw-head .cw-contract, .view[data-view='diffusion'] .view-head .df-contract { font-size: 10.5px; line-height: 13px; }
+.st-contract, .cw-foot, .df-foot { font-size: 10.5px; letter-spacing: 0.02em; }
+.st-ends .st-end text { font-size: 10.5px; letter-spacing: 0.04em; }
+.st-endlab .vl { font-size: 10.5px; }
+.cw-loc-yr text { font-size: 10.5px; }
+/* SVG presentation attributes yield to CSS: any mono text these views still size under the floor is raised here */
+.view[data-view='stream'] svg text[font-size='8'], .view[data-view='stream'] svg text[font-size='8.5'], .view[data-view='stream'] svg text[font-size='9'], .view[data-view='stream'] svg text[font-size='9.5'], .view[data-view='stream'] svg text[font-size='10'],
+.view[data-view='columns'] svg text[font-size='8'], .view[data-view='columns'] svg text[font-size='8.5'], .view[data-view='columns'] svg text[font-size='9'], .view[data-view='columns'] svg text[font-size='9.5'], .view[data-view='columns'] svg text[font-size='10'],
+.view[data-view='diffusion'] svg text[font-size='8'], .view[data-view='diffusion'] svg text[font-size='8.5'], .view[data-view='diffusion'] svg text[font-size='9'], .view[data-view='diffusion'] svg text[font-size='9.5'], .view[data-view='diffusion'] svg text[font-size='10'] { font-size: 10.5px; }
+.view[data-view='diffusion'] .pt-tk { font-size: 10.5px; }
+@media (max-width: 760px) { .df-foot { font-size: 10.5px; } }
+@media (max-width: 760px) { .df-foot .df-src-k { display: none; } }
+
+/* ---------- Stream format: one 12-column head, 24px rhythm, one left edge ---------- */
+@media (min-width: 761px) {
+  .view[data-view='stream'] .view-head { left: 16px; right: 16px; top: 12px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: 28px auto; column-gap: 16px; row-gap: 12px; align-items: start; }
+  .view[data-view='stream'] .view-head .sc { grid-column: 1 / 6; grid-row: 1; align-self: end; margin: 0; }
+  .view[data-view='stream'] .view-head h2 { grid-column: 1 / 6; grid-row: 2; }
+  .view[data-view='stream'] .view-head p { grid-column: 7 / 12; grid-row: 2; padding: 10px 0 0; max-width: none; } /* the dek starts on the title's cap line */
+  .view[data-view='stream'] .view-head .atlas-loc-host { position: static; grid-column: 7 / 12; grid-row: 1; justify-self: end; align-self: end; width: auto; margin: 0; }
+  .view[data-view='stream'] .st-ctl.hp-bar { top: 118px; left: 16px; right: 16px; }
+  .view[data-view='stream'] .st-key { top: 172px; }
+}
+
+/* ---------- Connections (Stream and Columns): red record, ink links, 1px leaders, the rest paled ---------- */
+.cx-layer .cx-leader { fill: none; stroke: var(--ink); stroke-width: 1; stroke-opacity: 0.55; }
+.cx-layer .cx-hit { fill: transparent; cursor: pointer; }
+.cx-layer .cx-dot { fill: var(--ink); stroke: var(--ground); stroke-width: 1.5; }
+.cx-layer .cx-mark.focus .cx-dot { fill: var(--accent); }
+.cx-layer .cx-mark.focus .cx-hit { fill: none; stroke: var(--accent); stroke-width: 1; }
+.cx-layer .cx-selmark circle:first-child { fill: none; stroke: var(--ink); stroke-width: 1.5; } /* the picked record is the reader's mark: ink; red stays for focus and hover */
+.cx-layer .cx-selmark circle:last-child { fill: var(--ink); }
+.hp-act.cx-draw[aria-pressed='true'], .hp-act.cw-cx[aria-pressed='true'] { background: var(--ink); color: var(--ground); border-color: var(--ink); } /* a mode on is ink, not an annotation */
+.cx-layer .cx-focus-lab { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 3px; stroke-linejoin: round; }
+.cx-ix { position: absolute; right: 16px; width: 268px; z-index: 4; background: var(--ground); border-left: 1px solid var(--rule-strong); padding: 0 0 0 12px; overflow: auto; font-size: 12.5px; line-height: 1.3; color: var(--ink); }
+.cx-ix .cx-h { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule-strong); padding: 2px 0 5px; }
+.cx-ix .cx-h .sc { color: var(--ink-3); }
+.cx-ix .cx-exit { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); border: 0; background: none; min-height: 24px; padding: 0 4px; cursor: pointer; }
+.cx-ix .cx-exit:hover, .cx-ix .cx-exit:focus-visible { color: var(--accent); outline: none; }
+.cx-ix .cx-cue { margin: 10px 0 0; font-family: var(--font-display); font-size: 17px; color: var(--ink-2); }
+.cx-ix .cx-sel { padding: 8px 0 6px; border-bottom: 1px solid var(--rule); display: grid; gap: 2px; }
+.cx-ix .cx-sel b { font-family: var(--font-display); font-weight: 400; font-size: 17px; line-height: 1.15; color: var(--ink); }
+.cx-ix .cx-sel span { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-3); }
+.cx-ix .cx-g { list-style: none; margin: 0; padding: 0 0 12px; }
+.cx-ix .cx-grp { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); padding: 10px 0 3px; border-bottom: 1px solid var(--rule-strong); }
+.cx-ix .cx-grp b { font-weight: 500; color: var(--ink); }
+.cx-ix li button { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; align-items: baseline; width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--rule); background: none; padding: 5px 0; font-size: 12.5px; line-height: 1.3; color: var(--ink); cursor: pointer; }
+.cx-ix li button:hover, .cx-ix li button:focus-visible { background: var(--ground-2); outline: none; }
+.cx-ix li button .y { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3); }
+.cx-ix li button .cx-why { grid-column: 1 / -1; display: block; font-family: var(--font-mono); font-size: 10.5px; line-height: 13px; letter-spacing: 0.02em; color: var(--ink-3); padding: 1px 0 2px; }
+.cx-ix li button.cx-all .tt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.cx-layer .cx-mark:focus { outline: none; }
+.cx-layer .cx-mark:focus-visible .cx-hit { fill: none; stroke: var(--accent); stroke-width: 1; }
+/* Columns: an off chip keeps its swatch colour and drops its name to ink-3, legible on the ground; lens buttons at least 24px square */
+.view[data-view='columns'] .hp-chip.off { opacity: 1; color: var(--ink-3); border-color: var(--rule); }
+.view[data-view='columns'] .hp-chip.off i { background: var(--c, var(--ink)); box-shadow: none; }
+.view[data-view='columns'] .cw-preset button { min-width: 24px; min-height: 24px; }
+/* phones: the drawer's Where list is the index, and one button draws the window around the record's links on Stream */
+.cx-brush { display: none; }
+.view.cx-on .st-ends, .view.cx-on .st-rg-name, .view.cx-on .st-rail-span { display: none; } /* the index owns the gutter while connections are on */
+@media (max-width: 760px) { .cx-ix { display: none; } .cw-cx { display: none; } .cx-brush { display: inline-block; margin: 6px 0 2px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: var(--ground); border: 1px solid var(--rule-strong); padding: 5px 10px; min-height: 24px; cursor: pointer; } }
+
+/* a11y pass 3: the keyboard pick list in the Connections index is clipped until it holds focus; the pointer path is the plot */
+.cx-ix .cx-picks { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.cx-ix .cx-picks:focus-within { position: static; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; white-space: normal; }
+
+/* phones with the mode on: the connections list is the drawer's first block, ruled like the index but in flow */
+#db .cx-fold.cx-ix { display: block; position: static; width: auto; height: auto; border-left: 0; border-bottom: 1px solid var(--rule-strong); padding: 0 0 10px; margin: 0 0 12px; overflow: visible; }
+#db .cx-fold .cx-sel { display: none; } /* the drawer head already names the record */
+
+/* Stream where-strip: one Tab stop, the dots take focus in turn; the ring is the red annotation stroke, never a colour alone */
+.view[data-view='stream'] .st-region:focus { outline: none; }
+.view[data-view='stream'] .st-region:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+.view[data-view='stream'] .st-region circle:focus { outline: none; }
+.view[data-view='stream'] .st-region circle:focus-visible { r: 5px; stroke: var(--accent); stroke-width: 2px; opacity: 1; }
+/* phones: the drawer kicker's type word rode on the type colour (Product, #9cc3e6, 1.7:1 on the ground); the swatch keeps the colour, the word reads in ink-2 */
+@media (max-width: 760px) { #dk .ki[style*='color'] { color: var(--ink-2) !important; } }
+
+/* Stream band note: the band's own reading on hover, a ruled light card on the ground; pinned by a click */
+.view[data-view='stream'] .st-note { position: absolute; left: 0; top: 0; max-width: 320px; background: var(--ground); border: 1px solid var(--rule-strong); padding: 6px 9px 7px; pointer-events: none; display: grid; gap: 3px; z-index: 6; }
+.view[data-view='stream'] .st-note[hidden] { display: none; }
+.view[data-view='stream'] .st-note .h, .view[data-view='stream'] .st-note .f { font-family: var(--font-mono); font-size: 10.5px; line-height: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+.view[data-view='stream'] .st-note .h i { width: 8px; height: 8px; display: inline-block; flex: none; }
+.view[data-view='stream'] .st-note b { font-weight: 400; font-size: 13px; line-height: 1.25; color: var(--ink); }
+/* Connections: the one control that opens the drawer */
+.cx-ix .cx-open { justify-self: start; margin-top: 4px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); background: none; border: 1px solid var(--rule-strong); padding: 3px 8px; min-height: 24px; cursor: pointer; }
+.cx-ix .cx-open:hover, .cx-ix .cx-open:focus-visible { border-color: var(--ink); color: var(--ink); outline: none; }
+
+/* desktop: the plot wrapper is no box at all */
+.view[data-view='stream'] .st-plot { display: contents; }
+/* Stream on phones: the head, the toolbar and the key take their own flow above the plot (title, controls 8px below, nothing overlapping);
+   the toolbar is one row that scrolls sideways; the view opens on the present with a sticky line offering the earlier centuries */
+@media (max-width: 760px) {
+  .view[data-view='stream'], .view[data-view='stream'].scroll-y { display: flex; flex-direction: column; overflow: hidden; } /* the plot box scrolls, not the view, so the head stays */
+  .view[data-view='stream'] > * { flex: none; } /* the column flex only orders; the head, toolbar and key keep their height */
+  .view[data-view='stream'] .view-head { position: static; order: 1; display: block; padding: 10px 12px 0; margin: 0; }
+  .view[data-view='stream'] .view-head p { display: block; margin: 6px 0 0; max-width: none; font-size: 12.5px; line-height: 1.4; overflow: visible; white-space: normal; }
+  .view[data-view='stream'] .view-head .atlas-loc-host { position: static; display: block; width: 100%; margin: 10px 0 0; right: auto; }
+  .view[data-view='stream'] .st-ctl.hp-bar { position: static !important; order: 2; display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; margin: 8px 0 0; padding: 0 12px 6px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .view[data-view='stream'] .st-ctl.hp-bar::-webkit-scrollbar { display: none; }
+  .view[data-view='stream'] .st-ctl .hp-grp, .view[data-view='stream'] .st-ctl .toggle, .view[data-view='stream'] .st-ctl .hp-act { flex: none; white-space: nowrap; }
+  .view[data-view='stream'] .st-ctl .st-prompt { display: none; }
+  .view[data-view='stream'] .st-key.atlas-key { position: static; order: 3; margin: 6px 0 0; padding: 0 12px; }
+  .view[data-view='stream'] .st-plot { order: 4; flex: 1 1 auto; min-height: 0; position: relative; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; margin-top: 4px; border-top: 1px solid var(--rule); }
+  .view[data-view='stream'] .st-plot > svg { display: block; }
+  .view[data-view='stream'] .st-earlier { position: sticky; top: 0; z-index: 5; display: block; width: 100%; margin: 0; padding: 5px 12px; min-height: 28px; text-align: left; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); background: var(--ground); border: 0; border-bottom: 1px solid var(--rule-strong); cursor: pointer; }
+  .view[data-view='stream'] .st-plot { display: block; }
+  .view[data-view='stream'] .st-earlier[hidden] { display: none; }
+  .view[data-view='stream'] .st-contract { position: static; order: 6; }
+}
+.view[data-view='stream'] .st-note .g { font-family: var(--font-mono); font-size: 10.5px; line-height: 13px; letter-spacing: 0.02em; color: var(--ink-3); }
+
+/* critique 9: the widths between the phone and 1440 */
+@media (max-width: 1439px) and (min-width: 761px) {
+  .cw-top { grid-template-columns: 1fr; } /* Columns: the head keeps its width and the controls take their own row rather than squeezing it to a sliver */
+  .cw-ctl { justify-content: flex-start; }
+}
+.df-table { padding-bottom: 32px; } /* the sticky footer never sits on the last row */
+
+/* Vision 4 S7: the toolbar is one Chart options button; the controls live in a popover under it, unchanged in state and hash */
+.hp-popbtn[aria-expanded='true'] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.hp-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 8; display: grid; gap: 10px; padding: 12px 14px 14px; background: var(--ground); border: 1px solid var(--rule-strong); min-width: 280px; max-width: min(560px, calc(100vw - 32px)); }
+.hp-pop[hidden] { display: none; }
+.hp-pop .hp-grp { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.hp-pop .sc { display: inline-block; min-width: 72px; }
+.st-ctl.hp-bar { position: absolute; }
+.view[data-view='stream'] .st-ctl .hp-pop { left: 0; }
+.view[data-view='columns'] .cw-ctl { position: relative; }
+.view[data-view='columns'] .cw-ctl .hp-pop { left: auto; right: 0; }
+.view[data-view='columns'] .cw-ctl .hp-pop .sc, .view[data-view='columns'] .cw-ctl .hp-pop .cw-kbd { display: inline-block; }
+.view[data-view='columns'] .cw-ctl .hp-pop .cw-kbd { grid-column: 1 / -1; min-width: 0; }
+/* the encoding line is one line under the chart, above the source band */
+.view[data-view='stream'] .st-key.atlas-key { top: auto; bottom: 22px; left: 16px; right: 16px; height: 18px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; }
+@media (max-width: 760px) {
+  .view[data-view='stream'] .st-key.atlas-key { position: static; order: 5; height: auto; line-height: 1.35; white-space: normal; margin: 6px 0 0; padding: 0 12px 6px; }
+  .view[data-view='stream'] .st-plot { order: 4; }
+  .hp-pop { position: static; max-width: none; min-width: 0; margin-top: 8px; width: 100%; }
+  .view[data-view='stream'] .st-ctl.hp-bar { flex-wrap: wrap; overflow: visible; }
+}
+.view[data-view='columns'] .cw-ctl .hp-pop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; width: 440px; }
+.view[data-view='columns'] .cw-ctl .hp-pop[hidden] { display: none; }
+.view[data-view='columns'] .cw-top { z-index: 7; } /* its popover overlays the lens row and the sticky column heads */
+
+/* ---------- Vision 4 hero: the Stream as the Histomap poster on warm paper ---------- */
+.view[data-view='stream'] { --paper: #FAF8F3; background: var(--paper); }
+.view[data-view='stream'] .st-contract, .view[data-view='stream'] .st-note, .view[data-view='stream'] .hp-pop { background: var(--paper); }
+.view[data-view='stream'] .st-cart h2 { font-family: var(--font-display); font-weight: 400; line-height: 1.05; margin: 0; }
+.view[data-view='stream'] .st-cart .st-span { color: var(--ink-3); }
+.view[data-view='stream'] .st-cart .st-span::before { content: '\00b7'; margin: 0 0.3em; }
+.view[data-view='stream'] .st-cart p { margin: 6px 0 0; font-family: var(--font-text); color: var(--ink-2); font-size: 15px; line-height: 1.35; }
+.view[data-view='stream'] .st-ctl .st-range, .view[data-view='stream'] .st-famwrap { display: inline-flex; align-items: center; gap: 6px; }
+.view[data-view='stream'] .st-ctl input[type='number'] { width: 64px; height: 28px; box-sizing: border-box; padding: 0 6px; font: 11.5px/1 var(--font-mono); color: var(--ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 0; -moz-appearance: textfield; appearance: textfield; }
+.view[data-view='stream'] .st-ctl input[type='number']::-webkit-inner-spin-button, .view[data-view='stream'] .st-ctl input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.view[data-view='stream'] .st-ctl select { height: 28px; padding: 0 6px; font: 11.5px/1 var(--font-mono); color: var(--ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 0; max-width: 220px; }
+.view[data-view='stream'] .st-ctl .st-back[hidden], .view[data-view='stream'] .st-ctl .st-all[hidden] { display: none; }
+.view[data-view='stream'] .st-ctl .st-back { color: var(--ink); border-color: var(--ink); }
+.view[data-view='stream'] .st-name:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.view[data-view='stream'] .st-era-note { fill: var(--ink-2); }
+@media (min-width: 761px) {
+  .view[data-view='stream'] .view-head.st-cart { position: absolute; left: 16px; right: 16px; top: 12px; display: block; padding: 0; margin: 0; }
+  .view[data-view='stream'] .st-cart h2 { font-size: 30px; max-width: 640px; grid-column: auto; }
+  .view[data-view='stream'] .st-cart p { max-width: 520px; padding: 0; }
+  .view[data-view='stream'] .view-head.st-cart .atlas-loc-host { position: absolute; top: 48px; right: 0; left: auto; width: auto; margin: 0; }
+  .view[data-view='stream'] .st-ctl.hp-bar { top: 12px; left: auto; right: 16px; width: auto; justify-content: flex-end; gap: 10px; }
+  .view[data-view='stream'] .st-ctl .hp-pop { left: auto; right: 0; }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .view[data-view='stream'] .st-cart h2 { font-size: 24px; max-width: 420px; }
+  .view[data-view='stream'] .st-cart p { max-width: 400px; font-size: 13.5px; }
+  .view[data-view='stream'] .view-head.st-cart .atlas-loc-host { display: none; }
+}
+@media (max-width: 760px) {
+  .view[data-view='stream'] .st-cart h2 { font-size: 22px; }
+  .view[data-view='stream'] .st-cart p { font-size: 13px; }
+  .view[data-view='stream'] .st-ctl.hp-bar { flex-wrap: wrap; gap: 8px 10px; }
+}
+@media (min-width: 761px) { .view[data-view='stream'] .view-head.st-cart .atlas-loc-host { display: none; } } /* the page's own locator runs along the foot; the head keeps the era notes clear */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .view[data-view='stream'] .st-ctl.hp-bar { top: 68px; left: 16px; right: 16px; justify-content: flex-start; }
+  .view[data-view='stream'] .st-ctl .hp-pop { left: 0; right: auto; }
+  .view[data-view='stream'] .st-cart p { font-size: 13px; }
+}
+@media (min-width: 761px) { .view[data-view='stream'] .view-head.st-cart p { display: block; } } /* the cartouche keeps its one-line meaning at every desktop width */
+@media (max-width: 760px) {
+  /* phone: the three controls in one row */
+  .view[data-view='stream'] .st-ctl.hp-bar { flex-wrap: nowrap; gap: 6px; align-items: center; }
+  .view[data-view='stream'] .st-ctl .st-range { flex: none; }
+  .view[data-view='stream'] .st-ctl input[type='number'] { width: 58px; padding: 0 4px; }
+  .view[data-view='stream'] .st-famwrap { flex: 1 1 80px; min-width: 0; }
+  .view[data-view='stream'] .st-ctl select { width: 100%; max-width: none; min-width: 0; padding: 0 2px; }
+  .view[data-view='stream'] .st-ctl .hp-popbtn { flex: none; padding-left: 8px; padding-right: 8px; }
+  .view[data-view='stream'] .st-ctl .hp-pop { position: absolute; left: 0; right: 0; top: calc(100% + 6px); width: auto; z-index: 9; }
+}

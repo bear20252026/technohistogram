@@ -4,8 +4,8 @@ A single-page, interactive spiral timeline of technology: 4,828 records from 3.3
 
 ![The spiral timeline of the Technology Histomap](./assets/og-spiral.png)
 
-- **Live:** <https://bear20252026.github.io/technohistogram/>
-- **Source site:** <https://technohistogram.pplx.app/>
+- **Live / source:** <https://technohistogram.pplx.app/>
+- **Archive:** this repository; GitHub Pages is disabled
 - **Mirrored:** 2026-11-22
 - **Page build:** `126be355b3`
 - **Data version:** `2a98e5e0fd`, 4,828 records
@@ -13,6 +13,8 @@ A single-page, interactive spiral timeline of technology: 4,828 records from 3.3
 ## What is here
 
 This is a complete static mirror of the site's published front end, not a reimplementation. It includes the arrival sequence, the spiral intro, all 39 view modules, the full JSON data set and the 1,883 record images under `img/moments/`.
+
+GitHub Pages has been retired. The repository stays as a source and asset archive; the live site is the original Perplexity deployment linked above.
 
 ```
 index.html               entry point; import map, first-paint styles and prefetch
